@@ -274,18 +274,18 @@ export const PosSurah: React.FC<PosSurahProps> = ({
         {activeGame === 'none' && (
           <>
             {/* Surah Header Card */}
-            <div className="glass-panel p-8 md:p-12 rounded-3xl border-3 border-amber-500/50 mb-8 relative overflow-hidden">
+            <div className="stone-plaque p-8 md:p-12 rounded-3xl mb-8 relative overflow-hidden border-2 border-emerald-400/50 shadow-2xl">
               <div className="flex flex-col md:flex-row items-center justify-between gap-6">
                 <div className="flex flex-col items-center md:items-start text-center md:text-left">
-                  <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-xl bg-amber-950/80 border border-amber-500/50 text-amber-300 text-lg font-bold mb-3">
+                  <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-xl bg-emerald-950/90 border-2 border-emerald-400/70 text-emerald-300 text-lg font-black mb-3 shadow-md">
                     <Star className="w-5 h-5 fill-amber-400 text-amber-400" />
-                    Surah ke-{surah.id} ({surah.tempatTurun})
+                    Pos ke-{surah.id} ({surah.tempatTurun})
                   </div>
 
-                  <h2 className="text-4xl md:text-5xl font-black text-white font-display mb-1">
+                  <h2 className="text-4xl md:text-6xl font-black gold-title-3d font-display mb-1">
                     Surah {surah.namaLatin}
                   </h2>
-                  <p className="text-2xl text-amber-300 font-bold">
+                  <p className="text-2xl text-amber-200 font-bold">
                     Artinya: "{surah.arti}"
                   </p>
                 </div>
@@ -294,7 +294,7 @@ export const PosSurah: React.FC<PosSurahProps> = ({
                 <div className="text-center md:text-right">
                   <span
                     dir="rtl"
-                    className="font-quran text-6xl md:text-8xl text-amber-200 font-bold drop-shadow-md"
+                    className="font-quran text-6xl md:text-8xl text-amber-200 font-bold drop-shadow-lg"
                   >
                     {surah.namaArab}
                   </span>
@@ -302,16 +302,16 @@ export const PosSurah: React.FC<PosSurahProps> = ({
               </div>
 
               {/* Quick Action Tabs */}
-              <div className="flex flex-wrap items-center justify-between gap-4 mt-8 pt-6 border-t border-stone-800">
+              <div className="flex flex-wrap items-center justify-between gap-4 mt-8 pt-6 border-t border-slate-700">
                 <div className="flex items-center gap-4">
                   <button
                     onClick={() => setActiveTab('bacaan')}
                     className={`
-                      touch-btn px-6 py-3 rounded-2xl text-xl font-extrabold border-2 transition-all cursor-pointer
+                      touch-btn px-6 py-3 rounded-2xl text-xl font-black border-2 transition-all cursor-pointer shadow-md
                       ${
                         activeTab === 'bacaan'
-                          ? 'bg-emerald-600 border-emerald-400 text-white shadow-card-glow'
-                          : 'bg-stone-900 border-stone-700 text-stone-300 hover:border-stone-500'
+                          ? 'bg-gradient-to-r from-emerald-500 to-emerald-700 border-emerald-300 text-white shadow-card-glow'
+                          : 'bg-slate-900/90 border-slate-700 text-stone-300 hover:border-emerald-400'
                       }
                     `}
                   >
@@ -321,11 +321,11 @@ export const PosSurah: React.FC<PosSurahProps> = ({
                   <button
                     onClick={() => setActiveTab('kisah')}
                     className={`
-                      touch-btn px-6 py-3 rounded-2xl text-xl font-extrabold border-2 transition-all cursor-pointer
+                      touch-btn px-6 py-3 rounded-2xl text-xl font-black border-2 transition-all cursor-pointer shadow-md
                       ${
                         activeTab === 'kisah'
-                          ? 'bg-emerald-600 border-emerald-400 text-white shadow-card-glow'
-                          : 'bg-stone-900 border-stone-700 text-stone-300 hover:border-stone-500'
+                          ? 'bg-gradient-to-r from-emerald-500 to-emerald-700 border-emerald-300 text-white shadow-card-glow'
+                          : 'bg-slate-900/90 border-slate-700 text-stone-300 hover:border-emerald-400'
                       }
                     `}
                   >
@@ -345,17 +345,17 @@ export const PosSurah: React.FC<PosSurahProps> = ({
             </div>
 
             {/* Mini-Games Launch Section (All 7 Mini-Games) */}
-            <div className="mb-10 p-8 rounded-3xl glass-oasis border-3 border-emerald-400/60 shadow-xl">
-              <div className="flex items-center gap-3 text-emerald-200 mb-6">
-                <Sparkles className="w-8 h-8 text-yellow-300" />
-                <h3 className="text-3xl font-black font-display">
-                  Pilih Tantangan Mini-Game Pos
+            <div className="mb-10 p-8 rounded-3xl glass-panel border-3 border-emerald-400/60 shadow-2xl">
+              <div className="flex items-center gap-3 text-emerald-300 mb-6">
+                <Sparkles className="w-8 h-8 text-yellow-400 animate-spin" />
+                <h3 className="text-3xl font-black font-display text-amber-200">
+                  Tantangan Mini-Game Petualangan
                 </h3>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {/* 1. Sambung Ayat */}
-                <div className="flex flex-col justify-between p-6 rounded-3xl bg-stone-900/90 border-2 border-emerald-500/60 shadow-md">
+                <div className="flex flex-col justify-between p-6 rounded-3xl bg-slate-900/90 border-2 border-emerald-500/70 shadow-lg hover:border-emerald-400 transition-all">
                   <div>
                     <div className="flex items-center gap-3 text-emerald-300 mb-2">
                       <Layers className="w-7 h-7" />
@@ -371,7 +371,7 @@ export const PosSurah: React.FC<PosSurahProps> = ({
                 </div>
 
                 {/* 2. Susun Ayat */}
-                <div className="flex flex-col justify-between p-6 rounded-3xl bg-stone-900/90 border-2 border-amber-500/60 shadow-md">
+                <div className="flex flex-col justify-between p-6 rounded-3xl bg-slate-900/90 border-2 border-amber-500/70 shadow-lg hover:border-amber-400 transition-all">
                   <div>
                     <div className="flex items-center gap-3 text-amber-300 mb-2">
                       <Puzzle className="w-7 h-7" />
@@ -387,7 +387,7 @@ export const PosSurah: React.FC<PosSurahProps> = ({
                 </div>
 
                 {/* 3. Pemburu Tajwid (Fase 6) */}
-                <div className="flex flex-col justify-between p-6 rounded-3xl bg-stone-900/90 border-2 border-cyan-500/60 shadow-md">
+                <div className="flex flex-col justify-between p-6 rounded-3xl bg-slate-900/90 border-2 border-cyan-500/70 shadow-lg hover:border-cyan-400 transition-all">
                   <div>
                     <div className="flex items-center gap-3 text-cyan-300 mb-2">
                       <Search className="w-7 h-7" />
@@ -403,7 +403,7 @@ export const PosSurah: React.FC<PosSurahProps> = ({
                 </div>
 
                 {/* 4. Tebak Surah */}
-                <div className="flex flex-col justify-between p-6 rounded-3xl bg-stone-900/90 border-2 border-yellow-500/60 shadow-md">
+                <div className="flex flex-col justify-between p-6 rounded-3xl bg-slate-900/90 border-2 border-yellow-500/70 shadow-lg hover:border-yellow-400 transition-all">
                   <div>
                     <div className="flex items-center gap-3 text-yellow-300 mb-2">
                       <HelpCircle className="w-7 h-7" />
@@ -419,7 +419,7 @@ export const PosSurah: React.FC<PosSurahProps> = ({
                 </div>
 
                 {/* 5. Kereta Surah */}
-                <div className="flex flex-col justify-between p-6 rounded-3xl bg-stone-900/90 border-2 border-teal-500/60 shadow-md">
+                <div className="flex flex-col justify-between p-6 rounded-3xl bg-slate-900/90 border-2 border-teal-500/70 shadow-lg hover:border-teal-400 transition-all">
                   <div>
                     <div className="flex items-center gap-3 text-teal-300 mb-2">
                       <TrainTrack className="w-7 h-7" />

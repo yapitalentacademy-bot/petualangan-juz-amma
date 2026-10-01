@@ -58,30 +58,30 @@ export const Peta: React.FC<PetaProps> = ({
       {/* Map Content Container */}
       <main className="flex-1 p-6 md:p-10 max-w-7xl mx-auto w-full">
         {/* Progress & Focus Surah Banner */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4 p-6 mb-8 rounded-3xl glass-oasis border border-emerald-400/40 shadow-xl">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4 p-6 mb-8 rounded-3xl stone-plaque border-2 border-emerald-400/50 shadow-2xl">
           <div className="flex items-center gap-4">
-            <div className="p-3 bg-emerald-500 text-slate-950 rounded-2xl shadow-md">
-              <Sparkles className="w-8 h-8" />
+            <div className="p-3.5 bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 rounded-2xl shadow-lg">
+              <Sparkles className="w-8 h-8 animate-spin" />
             </div>
             <div>
-              <h2 className="text-2xl font-black text-emerald-200">
-                Peta Petualangan 37 Pos Juz 'Amma
+              <h2 className="text-2xl md:text-3xl font-black text-amber-200 font-display">
+                Peta 37 Pos Ekspedisi Juz 'Amma
               </h2>
-              <p className="text-base text-emerald-100/90 font-medium">
-                Selesaikan setiap pos untuk membuka pos berikutnya dan raih lencana kelas!
+              <p className="text-base text-emerald-100/90 font-bold">
+                Jelajahi setiap pos pulau untuk mengumpulkan bintang emas dan membuka surah berikutnya!
               </p>
             </div>
           </div>
 
           <div className="flex items-center gap-4">
             {/* Stars Count */}
-            <div className="flex items-center gap-2 bg-amber-950/90 border border-amber-500/60 px-5 py-2.5 rounded-2xl shadow-sm">
+            <div className="flex items-center gap-2 bg-gradient-to-r from-amber-950/90 to-amber-900/90 border-2 border-amber-400/80 px-5 py-2.5 rounded-2xl shadow-md">
               <Star className="w-6 h-6 text-yellow-400 fill-yellow-400" />
               <span className="text-xl font-black text-amber-200">{totalStars} Bintang</span>
             </div>
 
             {/* Badges Count */}
-            <div className="flex items-center gap-2 bg-emerald-950/90 border border-emerald-500/60 px-5 py-2.5 rounded-2xl shadow-sm">
+            <div className="flex items-center gap-2 bg-gradient-to-r from-emerald-950/90 to-emerald-900/90 border-2 border-emerald-400/80 px-5 py-2.5 rounded-2xl shadow-md">
               <Award className="w-6 h-6 text-emerald-400" />
               <span className="text-xl font-black text-emerald-200">{badges.length} Lencana</span>
             </div>
@@ -111,17 +111,17 @@ export const Peta: React.FC<PetaProps> = ({
                   ${
                     isUnlocked
                       ? isFocus
-                        ? 'bg-gradient-to-b from-amber-950 to-emerald-950 border-amber-300 ring-4 ring-amber-400/80 shadow-gold-glow scale-105'
-                        : 'bg-gradient-to-b from-stone-900/90 to-emerald-950/80 border-amber-500/70 hover:border-amber-400 shadow-card-glow active:scale-95'
-                      : 'bg-stone-950/80 border-stone-800 text-stone-600 opacity-60 filter grayscale cursor-not-allowed'
+                        ? 'bg-gradient-to-b from-amber-900/95 via-emerald-950/95 to-slate-950/95 border-amber-300 ring-4 ring-amber-400/80 shadow-gold-glow scale-105'
+                        : 'bg-gradient-to-b from-slate-900/95 via-emerald-950/90 to-slate-950/95 border-emerald-500/80 hover:border-amber-400 shadow-card-glow active:scale-95'
+                      : 'bg-slate-950/90 border-slate-800 text-slate-600 opacity-60 filter grayscale cursor-not-allowed'
                   }
                 `}
               >
                 {/* Focus Surah Crown Badge */}
                 {isFocus && (
                   <div className="absolute -top-3.5 inset-x-0 flex justify-center">
-                    <span className="bg-amber-400 text-slate-950 font-black text-xs px-3 py-0.5 rounded-full shadow-md uppercase tracking-wider">
-                      ★ Fokus Minggu Ini
+                    <span className="bg-gradient-to-r from-amber-400 to-yellow-300 text-slate-950 font-black text-xs px-3.5 py-1 rounded-full shadow-lg uppercase tracking-wider border border-amber-200">
+                      ★ Fokus Pos Ini
                     </span>
                   </div>
                 )}
@@ -131,18 +131,18 @@ export const Peta: React.FC<PetaProps> = ({
                   <span
                     className={`
                       w-10 h-10 rounded-xl flex items-center justify-center font-black text-lg
-                      ${isUnlocked ? 'bg-amber-500 text-slate-950 shadow-md' : 'bg-stone-800 text-stone-500'}
+                      ${isUnlocked ? 'bg-gradient-to-br from-amber-400 to-amber-600 text-slate-950 shadow-md border border-amber-300' : 'bg-slate-800 text-slate-500'}
                     `}
                   >
                     {surah.urutanPos}
                   </span>
 
                   {isUnlocked ? (
-                    <span className="text-xs font-bold px-2 py-1 bg-emerald-950 text-emerald-400 border border-emerald-700/60 rounded-lg">
+                    <span className="text-xs font-black px-2.5 py-1 bg-emerald-950 text-emerald-300 border border-emerald-500/70 rounded-lg shadow-sm">
                       {surah.jumlahAyat} Ayat
                     </span>
                   ) : (
-                    <Lock className="w-6 h-6 text-stone-600" />
+                    <Lock className="w-6 h-6 text-slate-600" />
                   )}
                 </div>
 
@@ -152,7 +152,7 @@ export const Peta: React.FC<PetaProps> = ({
                     dir="rtl"
                     className={`
                       font-quran text-3xl font-bold mb-1
-                      ${isUnlocked ? 'text-amber-200' : 'text-stone-600'}
+                      ${isUnlocked ? 'text-amber-200 drop-shadow' : 'text-slate-600'}
                     `}
                   >
                     {surah.namaArab}
@@ -161,13 +161,13 @@ export const Peta: React.FC<PetaProps> = ({
                   <span
                     className={`
                       text-xl font-black font-sans leading-tight
-                      ${isUnlocked ? 'text-white' : 'text-stone-500'}
+                      ${isUnlocked ? 'text-white' : 'text-slate-500'}
                     `}
                   >
                     {surah.namaLatin}
                   </span>
 
-                  <span className="text-xs text-stone-400 font-medium truncate max-w-[140px] mt-0.5">
+                  <span className="text-xs text-emerald-300/80 font-bold truncate max-w-[140px] mt-0.5">
                     {surah.arti}
                   </span>
                 </div>
@@ -183,8 +183,8 @@ export const Peta: React.FC<PetaProps> = ({
                           w-6 h-6
                           ${
                             isEarned
-                              ? 'text-yellow-400 fill-yellow-400 drop-shadow'
-                              : 'text-stone-800'
+                              ? 'text-yellow-400 fill-yellow-400 drop-shadow-md'
+                              : 'text-slate-800'
                           }
                         `}
                       />

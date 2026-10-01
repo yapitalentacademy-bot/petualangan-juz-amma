@@ -63,24 +63,24 @@ export const Beranda: React.FC<BerandaProps> = ({
       <div className="absolute bottom-10 right-10 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
 
       {/* Top Header */}
-      <div className="w-full flex flex-wrap items-center justify-between gap-4 z-10">
-        <div className="flex items-center gap-4 bg-stone-900/80 px-6 py-3 rounded-2xl border border-stone-800">
-          <Sparkles className="w-6 h-6 text-amber-400" />
-          <span className="text-xl font-bold text-amber-200">
-            Juz 'Amma Touch Adventure • Smart TV Edition
+      <div className="w-full flex flex-wrap items-center justify-between gap-4 z-10 max-w-7xl">
+        <div className="flex items-center gap-3 bg-slate-950/80 px-6 py-3 rounded-2xl border-2 border-emerald-500/60 shadow-lg backdrop-blur-md">
+          <Sparkles className="w-6 h-6 text-amber-400 animate-pulse" />
+          <span className="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-yellow-300 to-emerald-300 font-display">
+            Treasure Edition • Petualangan Smart TV
           </span>
         </div>
 
         {/* Badges, Stars & Controls */}
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2 bg-amber-950/80 border border-amber-500/50 px-4 py-2 rounded-xl text-amber-300 font-bold">
-            <Star className="w-5 h-5 fill-amber-400 text-amber-400" />
-            <span>{totalStars} Bintang</span>
+        <div className="flex items-center gap-3 md:gap-4">
+          <div className="flex items-center gap-2 bg-gradient-to-r from-amber-950/90 to-amber-900/90 border-2 border-amber-400/70 px-5 py-2.5 rounded-2xl text-amber-300 font-extrabold shadow-lg">
+            <Star className="w-6 h-6 fill-amber-400 text-amber-400 animate-bounce" />
+            <span className="text-xl">{totalStars} Bintang</span>
           </div>
 
-          <div className="flex items-center gap-2 bg-emerald-950/80 border border-emerald-500/50 px-4 py-2 rounded-xl text-emerald-300 font-bold">
-            <Award className="w-5 h-5" />
-            <span>{badges.length} Lencana</span>
+          <div className="flex items-center gap-2 bg-gradient-to-r from-emerald-950/90 to-emerald-900/90 border-2 border-emerald-400/70 px-5 py-2.5 rounded-2xl text-emerald-300 font-extrabold shadow-lg">
+            <Award className="w-6 h-6 text-emerald-400" />
+            <span className="text-xl">{badges.length} Lencana</span>
           </div>
 
           {/* Fullscreen Button */}
@@ -89,7 +89,7 @@ export const Beranda: React.FC<BerandaProps> = ({
               sfx.playClick();
               toggleFullscreen();
             }}
-            className="touch-btn flex items-center gap-2 px-4 py-2.5 bg-stone-900/80 hover:bg-stone-800 text-amber-300 hover:text-amber-200 border border-amber-500/50 rounded-2xl text-lg font-bold cursor-pointer"
+            className="touch-btn flex items-center gap-2 px-4 py-2.5 bg-slate-900/90 hover:bg-slate-800 text-amber-300 hover:text-amber-200 border-2 border-amber-400/60 rounded-2xl text-lg font-black cursor-pointer shadow-md"
             title={isFullscreen ? 'Keluar Layar Penuh (ESC)' : 'Mode Layar Penuh (Fullscreen)'}
           >
             {isFullscreen ? (
@@ -111,7 +111,7 @@ export const Beranda: React.FC<BerandaProps> = ({
                 sfx.playClick();
                 onOpenAbout();
               }}
-              className="touch-btn flex items-center gap-2 px-4 py-2.5 bg-stone-900/80 hover:bg-stone-800 text-stone-300 hover:text-cyan-300 border border-stone-700/80 rounded-2xl text-lg font-bold cursor-pointer"
+              className="touch-btn flex items-center gap-2 px-4 py-2.5 bg-slate-900/90 hover:bg-slate-800 text-stone-300 hover:text-cyan-300 border-2 border-stone-600 rounded-2xl text-lg font-black cursor-pointer shadow-md"
             >
               <Info className="w-5 h-5 text-cyan-400" />
               <span>Tentang</span>
@@ -123,36 +123,46 @@ export const Beranda: React.FC<BerandaProps> = ({
               sfx.playClick();
               setShowPinModal(true);
             }}
-            className="touch-btn flex items-center gap-2 px-5 py-2.5 bg-stone-900/80 hover:bg-stone-800 text-stone-300 hover:text-amber-300 border border-stone-700/80 rounded-2xl text-lg font-bold cursor-pointer"
+            className="touch-btn flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-amber-700/80 to-amber-900/90 hover:from-amber-600 hover:to-amber-800 text-amber-100 border-2 border-amber-400/70 rounded-2xl text-lg font-black cursor-pointer shadow-lg"
           >
-            <ShieldCheck className="w-6 h-6 text-amber-400" />
+            <ShieldCheck className="w-6 h-6 text-amber-300" />
             <span>Mode Guru</span>
           </button>
         </div>
       </div>
 
-      {/* Main Hero Banner */}
-      <div className="flex flex-col items-center text-center my-6 z-10 max-w-5xl">
-        <div className="inline-flex items-center gap-2 px-6 py-2 bg-emerald-950/80 border border-emerald-500/60 rounded-full text-emerald-300 font-bold text-lg mb-4">
-          <BookOpen className="w-5 h-5" />
-          37 Pos Petualangan Surah
+      {/* Main Hero Treasure Stone Banner */}
+      <div className="flex flex-col items-center text-center my-4 z-10 max-w-5xl">
+        <div className="relative p-6 md:p-8 rounded-3xl stone-plaque max-w-4xl w-full flex flex-col items-center mb-4">
+          {/* Corner Rivet Screws (Explorer Device Detail) */}
+          <div className="absolute top-3 left-3 w-4 h-4 rounded-full bg-slate-400 border border-slate-600 shadow-inner" />
+          <div className="absolute top-3 right-3 w-4 h-4 rounded-full bg-slate-400 border border-slate-600 shadow-inner" />
+          <div className="absolute bottom-3 left-3 w-4 h-4 rounded-full bg-slate-400 border border-slate-600 shadow-inner" />
+          <div className="absolute bottom-3 right-3 w-4 h-4 rounded-full bg-slate-400 border border-slate-600 shadow-inner" />
+
+          <div className="inline-flex items-center gap-2 px-5 py-1.5 bg-emerald-900/90 border border-emerald-400/80 rounded-full text-emerald-200 font-extrabold text-base mb-2 shadow-inner">
+            <BookOpen className="w-5 h-5 text-emerald-300" />
+            37 Pos Petualangan Harta Karun Al-Qur'an
+          </div>
+
+          <h1 className="text-5xl md:text-7xl font-black gold-title-3d font-display mb-1 drop-shadow-2xl">
+            PETUALANGAN JUZ 'AMMA
+          </h1>
+
+          <p className="text-xl md:text-2xl text-emerald-100/90 font-bold max-w-3xl mt-1">
+            Jelajahi 37 Surah Juz 30 Bersama Teman Sekelas di Layar Sentuh TV
+          </p>
         </div>
-
-        <h1 className="text-5xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-yellow-400 to-amber-500 tracking-tight font-display mb-3 drop-shadow-lg">
-          Petualangan Juz 'Amma
-        </h1>
-
-        <p className="text-2xl md:text-3xl text-stone-200 font-medium max-w-3xl leading-relaxed">
-          Belajar, Menghafal, dan Memahami 37 Surah Juz 30 Bersama Teman Sekelas di Layar Sentuh TV
-        </p>
       </div>
 
       {/* Class and Level Selection Panel */}
-      <div className="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-8 z-10 my-4">
+      <div className="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-8 z-10 my-2">
         {/* Pilih Kelas */}
-        <div className="glass-panel p-8 rounded-3xl flex flex-col justify-between">
-          <div className="flex items-center gap-3 text-amber-300 mb-6">
-            <Users className="w-8 h-8" />
+        <div className="glass-panel p-7 rounded-3xl flex flex-col justify-between border-2 border-amber-500/40">
+          <div className="flex items-center gap-3 text-amber-300 mb-5">
+            <div className="p-2.5 rounded-xl bg-amber-500/20 border border-amber-400/50">
+              <Users className="w-7 h-7 text-amber-400" />
+            </div>
             <h2 className="text-3xl font-extrabold font-display">Pilih Kelas</h2>
           </div>
 
@@ -167,11 +177,11 @@ export const Beranda: React.FC<BerandaProps> = ({
                     onSelectClass(kelas);
                   }}
                   className={`
-                    touch-btn py-5 px-4 rounded-2xl font-black text-2xl border-3 transition-all cursor-pointer
+                    touch-btn py-5 px-4 rounded-2xl font-black text-2xl border-3 transition-all cursor-pointer shadow-md
                     ${
                       isSelected
-                        ? 'bg-gradient-to-br from-amber-500 to-amber-600 text-slate-950 border-amber-300 shadow-gold-glow scale-105'
-                        : 'bg-stone-900/90 text-stone-300 border-stone-700 hover:border-stone-500'
+                        ? 'bg-gradient-to-br from-amber-400 via-amber-500 to-amber-600 text-slate-950 border-amber-200 shadow-gold-glow scale-105 ring-4 ring-amber-400/30'
+                        : 'bg-slate-900/90 text-stone-200 border-slate-700 hover:border-amber-400/70 hover:bg-slate-800'
                     }
                   `}
                 >
@@ -183,10 +193,12 @@ export const Beranda: React.FC<BerandaProps> = ({
         </div>
 
         {/* Pilih Tingkat / Level */}
-        <div className="glass-panel p-8 rounded-3xl flex flex-col justify-between">
-          <div className="flex items-center gap-3 text-emerald-300 mb-6">
-            <Compass className="w-8 h-8" />
-            <h2 className="text-3xl font-extrabold font-display">Tingkat Kesulitan</h2>
+        <div className="glass-panel p-7 rounded-3xl flex flex-col justify-between border-2 border-emerald-500/40">
+          <div className="flex items-center gap-3 text-emerald-300 mb-5">
+            <div className="p-2.5 rounded-xl bg-emerald-500/20 border border-emerald-400/50">
+              <Compass className="w-7 h-7 text-emerald-400" />
+            </div>
+            <h2 className="text-3xl font-extrabold font-display">Tingkat Ekspedisi</h2>
           </div>
 
           <div className="flex flex-col gap-3">
@@ -200,20 +212,20 @@ export const Beranda: React.FC<BerandaProps> = ({
                     onSelectLevel(item.level);
                   }}
                   className={`
-                    touch-btn flex items-center justify-between p-4 px-6 rounded-2xl border-2 transition-all text-left cursor-pointer
+                    touch-btn flex items-center justify-between p-4 px-6 rounded-2xl border-2 transition-all text-left cursor-pointer shadow-md
                     ${
                       isSelected
-                        ? 'bg-emerald-950/90 border-emerald-400 text-emerald-100 ring-2 ring-emerald-500/50 shadow-card-glow'
-                        : 'bg-stone-900/90 border-stone-700 text-stone-300 hover:border-stone-500'
+                        ? 'bg-gradient-to-r from-emerald-950/95 to-emerald-900/95 border-emerald-400 text-emerald-100 ring-4 ring-emerald-500/40 shadow-card-glow'
+                        : 'bg-slate-900/90 border-slate-700 text-stone-300 hover:border-emerald-400/70 hover:bg-slate-800'
                     }
                   `}
                 >
                   <div>
-                    <span className="text-2xl font-black">{item.label}</span>
-                    <p className="text-sm md:text-base text-stone-400 mt-0.5">{item.desc}</p>
+                    <span className="text-2xl font-black text-amber-200">{item.label}</span>
+                    <p className="text-sm md:text-base text-stone-300 mt-0.5">{item.desc}</p>
                   </div>
                   {isSelected && (
-                    <span className="bg-emerald-500 text-slate-950 font-black px-3 py-1 rounded-xl text-sm">
+                    <span className="bg-gradient-to-r from-emerald-400 to-emerald-500 text-slate-950 font-black px-4 py-1.5 rounded-xl text-sm shadow-md">
                       Aktif
                     </span>
                   )}

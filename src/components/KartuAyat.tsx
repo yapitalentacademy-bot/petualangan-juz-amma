@@ -41,10 +41,10 @@ export const KartuAyat: React.FC<KartuAyatProps> = ({
 
   const statusStyles = {
     default: selected
-      ? 'border-emerald-400 bg-emerald-950/40 ring-4 ring-emerald-500/40 shadow-card-glow'
-      : 'border-amber-700/40 bg-stone-900/90 hover:border-amber-500/60 shadow-lg',
-    correct: 'border-emerald-500 bg-emerald-950/70 ring-4 ring-emerald-400/80 shadow-card-glow',
-    wrong: 'border-rose-500 bg-rose-950/70 ring-4 ring-rose-400/80 animate-shake',
+      ? 'border-emerald-400 bg-emerald-950/90 ring-4 ring-emerald-400/80 shadow-card-glow'
+      : 'border-emerald-500/40 bg-slate-900/90 hover:border-amber-400/80 shadow-xl',
+    correct: 'border-emerald-400 bg-emerald-950/95 ring-4 ring-emerald-300 shadow-card-glow',
+    wrong: 'border-rose-500 bg-rose-950/95 ring-4 ring-rose-400 animate-shake',
   };
 
   return (
@@ -58,12 +58,12 @@ export const KartuAyat: React.FC<KartuAyatProps> = ({
       `}
     >
       {/* Top row: Ayat Number Badge + Audio Play Button */}
-      <div className="flex items-center justify-between gap-4 mb-6 border-b border-stone-800/80 pb-4">
+      <div className="flex items-center justify-between gap-4 mb-6 border-b border-slate-700/80 pb-4">
         <div className="flex items-center gap-3">
-          <div className="flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-600 to-amber-800 text-slate-950 font-black text-2xl shadow-md">
+          <div className="flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-400 to-amber-600 text-slate-950 font-black text-2xl shadow-md border border-amber-200">
             {ayat.nomor}
           </div>
-          <span className="text-xl font-bold text-amber-200/90">
+          <span className="text-xl font-black text-amber-200">
             Ayat ke-{ayat.nomor}
           </span>
         </div>
