@@ -132,24 +132,24 @@ export const Beranda: React.FC<BerandaProps> = ({
       </div>
 
       {/* Main Hero Treasure Stone Banner */}
-      <div className="flex flex-col items-center text-center my-2 z-10 max-w-5xl">
-        <div className="relative flex flex-col items-center">
-          {/* Main 3D Plaque Logo Image */}
-          <div className="relative group transition-transform duration-300 hover:scale-[1.02]">
+      <div className="flex flex-col items-center text-center my-3 z-10 max-w-5xl w-full">
+        <div className="relative flex flex-col items-center w-full max-w-4xl">
+          {/* Main 3D Plaque Logo Image with Premium Border */}
+          <div className="relative group transition-transform duration-300 hover:scale-[1.01] rounded-3xl overflow-hidden border-4 border-emerald-400/70 shadow-[0_20px_50px_rgba(0,0,0,0.85)] bg-slate-950">
             <img
               src="/images/logo-treasure-petualangan.png"
               alt="Petualangan Juz 'Amma Logo"
-              className="w-full max-w-[580px] md:max-w-[680px] h-auto object-contain drop-shadow-[0_15px_30px_rgba(0,0,0,0.8)] filter"
+              className="w-full h-auto max-h-[360px] md:max-h-[420px] object-cover filter brightness-105"
             />
           </div>
 
           {/* Subtitle Badge */}
-          <div className="inline-flex items-center gap-2 px-6 py-2 bg-slate-950/85 border-2 border-amber-400/80 rounded-full text-amber-200 font-extrabold text-lg md:text-xl -mt-4 shadow-xl backdrop-blur-md">
+          <div className="inline-flex items-center gap-2 px-6 py-2.5 bg-slate-950/90 border-2 border-amber-400/90 rounded-full text-amber-200 font-extrabold text-lg md:text-xl -mt-5 shadow-2xl backdrop-blur-md z-20">
             <BookOpen className="w-6 h-6 text-emerald-400" />
             <span>37 Pos Petualangan Harta Karun Al-Qur'an</span>
           </div>
 
-          <p className="text-xl md:text-2xl text-emerald-100 font-bold max-w-3xl mt-3 drop-shadow-md">
+          <p className="text-xl md:text-2xl text-emerald-100 font-black max-w-3xl mt-2 drop-shadow-md">
             Jelajahi 37 Surah Juz 30 Bersama Teman Sekelas di Layar Sentuh TV
           </p>
         </div>
