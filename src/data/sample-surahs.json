@@ -1,0 +1,392 @@
+{
+  "105": {
+    "id": 105,
+    "namaLatin": "Al-Fil",
+    "namaArab": "الفيل",
+    "arti": "Gajah",
+    "jumlahAyat": 5,
+    "tempatTurun": "Makkiyah",
+    "level": 4,
+    "ringkasanKisah": "Pasukan gajah yang dipimpin Abrahah ingin menghancurkan Ka'bah, namun Allah mengirimkan burung Ababil yang melempari mereka dengan batu panas dari tanah liat terbakar hingga mereka hancur seperti daun-daun yang dimakan ulat.",
+    "pesanAkhlak": "Kekuasaan dan kesombongan manusia tidak ada artinya di hadapan keagungan Allah SWT. Selalu rendah hati dan memohon perlindungan Allah.",
+    "ayat": [
+      {
+        "nomor": 1,
+        "arab": "أَلَمْ تَرَ كَيْفَ فَعَلَ رَبُّكَ بِأَصْحَابِ الْفِيلِ",
+        "kata": ["أَلَمْ", "تَرَ", "كَيْفَ", "فَعَلَ", "رَبُّكَ", "بِأَصْحَابِ", "الْفِيلِ"],
+        "latin": "Alam tara kaifa fa'ala rabbuka bi'as-haabil-fiil",
+        "terjemah": "Tidakkah engkau (Muhammad) perhatikan bagaimana Tuhanmu telah bertindak terhadap pasukan bergajah?",
+        "audio": "105001.mp3",
+        "tajwid": [
+          { "hukum": "ikhfa", "indeksHuruf": [1, 2], "label": "Ikhfa Syafawi" },
+          { "hukum": "mad_thabii", "indeksHuruf": [25, 26, 32, 33], "label": "Mad Thabi'i" }
+        ]
+      },
+      {
+        "nomor": 2,
+        "arab": "أَلَمْ يَجْعَلْ كَيْدَهُمْ فِي تَضْلِيلٍ",
+        "kata": ["أَلَمْ", "يَجْعَلْ", "كَيْدَهُمْ", "فِي", "تَضْلِيلٍ"],
+        "latin": "Alam yaj'al kaidahum fii tadhliil",
+        "terjemah": "Bukankah Dia telah menjadikan tipu daya mereka itu sia-sia?",
+        "audio": "105002.mp3",
+        "tajwid": [
+          { "hukum": "qalqalah", "indeksHuruf": [6, 7], "label": "Qalqalah Sughra" },
+          { "hukum": "mad_thabii", "indeksHuruf": [19, 20, 28, 29], "label": "Mad Thabi'i" }
+        ]
+      },
+      {
+        "nomor": 3,
+        "arab": "وَأَرْسَلَ عَلَيْهِمْ طَيْرًا أَبَابِيلَ",
+        "kata": ["وَأَرْسَلَ", "عَلَيْهِمْ", "طَيْرًا", "أَبَابِيلَ"],
+        "latin": "Wa arsala 'alaihim thairan abaabiil",
+        "terjemah": "dan Dia mengirimkan kepada mereka burung yang berbondong-bondong,",
+        "audio": "105003.mp3",
+        "tajwid": [
+          { "hukum": "mad_thabii", "indeksHuruf": [24, 25, 29, 30], "label": "Mad Thabi'i" }
+        ]
+      },
+      {
+        "nomor": 4,
+        "arab": "تَرْمِيهِمْ بِحِجَارَةٍ مِنْ سِجِّيلٍ",
+        "kata": ["تَرْمِيهِمْ", "بِحِجَارَةٍ", "مِنْ", "سِجِّيلٍ"],
+        "latin": "Tarmiihim bihijaaratim min sijjiil",
+        "terjemah": "yang melempari mereka dengan batu dari tanah liat yang dibakar,",
+        "audio": "105004.mp3",
+        "tajwid": [
+          { "hukum": "ikhfa", "indeksHuruf": [8, 9, 24, 25], "label": "Ikhfa" },
+          { "hukum": "idgham", "indeksHuruf": [18, 19, 20], "label": "Idgham Bighunnah" }
+        ]
+      },
+      {
+        "nomor": 5,
+        "arab": "فَجَعَلَهُمْ كَعَصْفٍ مَأْكُولٍ",
+        "kata": ["فَجَعَلَهُمْ", "كَعَصْفٍ", "مَأْكُولٍ"],
+        "latin": "Faja'alahum ka'ashfim ma'kuul",
+        "terjemah": "sehingga mereka dijadikan-Nya seperti daun-daun yang dimakan (ulat).",
+        "audio": "105005.mp3",
+        "tajwid": [
+          { "hukum": "idgham", "indeksHuruf": [16, 17, 18], "label": "Idgham Bighunnah" },
+          { "hukum": "mad_thabii", "indeksHuruf": [24, 25], "label": "Mad 'Aridh Lissukun" }
+        ]
+      }
+    ]
+  },
+  "106": {
+    "id": 106,
+    "namaLatin": "Quraisy",
+    "namaArab": "قريش",
+    "arti": "Suku Quraisy",
+    "jumlahAyat": 4,
+    "tempatTurun": "Makkiyah",
+    "level": 4,
+    "ringkasanKisah": "Menceritakan nikmat keamanan dan kemakmuran yang Allah anugerahkan kepada suku Quraisy dalam perjalanan dagang musim dingin ke Yaman dan musim panas ke Syam.",
+    "pesanAkhlak": "Mensyukuri segala nikmat rezeki dan keamanan dengan beribadah hanya kepada Allah Tuhan semesta alam.",
+    "ayat": [
+      {
+        "nomor": 1,
+        "arab": "لِإِيلَافِ قُرَيْشٍ",
+        "kata": ["لِإِيلَافِ", "قُرَيْشٍ"],
+        "latin": "Li-iilaafi quraisy",
+        "terjemah": "Karena kebiasaan orang-orang Quraisy,",
+        "audio": "106001.mp3",
+        "tajwid": [{ "hukum": "mad_thabii", "indeksHuruf": [2, 3, 6, 7], "label": "Mad Thabi'i" }]
+      },
+      {
+        "nomor": 2,
+        "arab": "إِيلَافِهِمْ رِحْلَةَ الشِّتَاءِ وَالصَّيْفِ",
+        "kata": ["إِيلَافِهِمْ", "رِحْلَةَ", "الشِّتَاءِ", "وَالصَّيْفِ"],
+        "latin": "Iilaafihim rihlatasy-syitaa'i wash-shaif",
+        "terjemah": "(yaitu) kebiasaan mereka bepergian pada musim dingin dan musim panas.",
+        "audio": "106002.mp3",
+        "tajwid": [{ "hukum": "mad_thabii", "indeksHuruf": [1, 2, 5, 6, 20, 21], "label": "Mad Wajib Muttashil" }]
+      },
+      {
+        "nomor": 3,
+        "arab": "فَلْيَعْبُدُوا رَبَّ هَذَا الْبَيْتِ",
+        "kata": ["فَلْيَعْبُدُوا", "رَبَّ", "هَذَا", "الْبَيْتِ"],
+        "latin": "Fal-ya'buduu rabba haadzal-baiit",
+        "terjemah": "Maka hendaklah mereka menyembah Tuhan (pemilik) rumah ini (Ka'bah),",
+        "audio": "106003.mp3",
+        "tajwid": [{ "hukum": "mad_thabii", "indeksHuruf": [9, 10, 17, 18], "label": "Mad Thabi'i" }]
+      },
+      {
+        "nomor": 4,
+        "arab": "الَّذِي أَطْعَمَهُمْ مِنْ جُوعٍ وَآمَنَهُمْ مِنْ خَوْفٍ",
+        "kata": ["الَّذِي", "أَطْعَمَهُمْ", "مِنْ", "جُوعٍ", "وَآمَنَهُمْ", "مِنْ", "خَوْفٍ"],
+        "latin": "Alladzii ath'amahum min juu'iw wa aamanahum min khauf",
+        "terjemah": "yang telah memberi makanan kepada mereka untuk menghilangkan lapar dan mengamankan mereka dari rasa ketakutan.",
+        "audio": "106004.mp3",
+        "tajwid": [
+          { "hukum": "qalqalah", "indeksHuruf": [8, 9], "label": "Qalqalah Sughra" },
+          { "hukum": "ikhfa", "indeksHuruf": [19, 20], "label": "Ikhfa" },
+          { "hukum": "idgham", "indeksHuruf": [25, 26, 27], "label": "Idgham Bighunnah" }
+        ]
+      }
+    ]
+  },
+  "107": {
+    "id": 107,
+    "namaLatin": "Al-Ma'un",
+    "namaArab": "الماعون",
+    "arti": "Barang-barang Berguna",
+    "jumlahAyat": 7,
+    "tempatTurun": "Makkiyah",
+    "level": 4,
+    "ringkasanKisah": "Menjelaskan ciri-ciri pendusta agama: menghardik anak yatim, tidak mengajak memberi makan orang miskin, lalai dalam shalat, riya', dan enggan memberi bantuan barang yang berguna.",
+    "pesanAkhlak": "Menyayangi anak yatim, peduli orang miskin, khusyuk dan ikhlas dalam sholat, serta gemar tolong-menolong.",
+    "ayat": [
+      {
+        "nomor": 1,
+        "arab": "أَرَأَيْتَ الَّذِي يُكَذِّبُ بِالدِّينِ",
+        "kata": ["أَرَأَيْتَ", "الَّذِي", "يُكَذِّبُ", "بِالدِّينِ"],
+        "latin": "Ara'aital-ladzii yukadz-dzibu bid-diin",
+        "terjemah": "Tahukah kamu (orang) yang mendustakan agama?",
+        "audio": "107001.mp3",
+        "tajwid": [{ "hukum": "mad_thabii", "indeksHuruf": [11, 12, 28, 29], "label": "Mad Thabi'i" }]
+      },
+      {
+        "nomor": 2,
+        "arab": "فَذَلِكَ الَّذِي يَدُعُّ الْيَتِيمَ",
+        "kata": ["فَذَلِكَ", "الَّذِي", "يَدُعُّ", "الْيَتِيمَ"],
+        "latin": "Fadzaalikal-ladzii yadu'-'ul-yatiim",
+        "terjemah": "Maka itulah orang yang menghardik anak yatim,",
+        "audio": "107002.mp3",
+        "tajwid": [{ "hukum": "mad_thabii", "indeksHuruf": [3, 4, 11, 12, 23, 24], "label": "Mad Thabi'i" }]
+      },
+      {
+        "nomor": 3,
+        "arab": "وَلَا يَحُضُّ عَلَى طَعَامِ الْمِسْكِينِ",
+        "kata": ["وَلَا", "يَحُضُّ", "عَلَى", "طَعَامِ", "الْمِسْكِينِ"],
+        "latin": "Wa laa yahudh-dhu 'alaa tha'aamil-miskiin",
+        "terjemah": "dan tidak mendorong memberi makan orang miskin.",
+        "audio": "107003.mp3",
+        "tajwid": [{ "hukum": "mad_thabii", "indeksHuruf": [2, 3, 14, 15, 20, 21, 31, 32], "label": "Mad Thabi'i" }]
+      },
+      {
+        "nomor": 4,
+        "arab": "فَوَيْلٌ لِلْمُصَلِّينَ",
+        "kata": ["فَوَيْلٌ", "لِلْمُصَلِّينَ"],
+        "latin": "Fawailul-lil-mushalliin",
+        "terjemah": "Maka celakalah orang yang shalat,",
+        "audio": "107004.mp3",
+        "tajwid": [{ "hukum": "idgham", "indeksHuruf": [6, 7], "label": "Idgham Bilaghunnah" }]
+      },
+      {
+        "nomor": 5,
+        "arab": "الَّذِينَ هُمْ عَنْ صَلَاتِهِمْ سَاهُونَ",
+        "kata": ["الَّذِينَ", "هُمْ", "عَنْ", "صَلَاتِهِمْ", "سَاهُونَ"],
+        "latin": "Alladziina hum 'an shalaatihim saahuun",
+        "terjemah": "(yaitu) orang-orang yang lalai terhadap shalatnya,",
+        "audio": "107005.mp3",
+        "tajwid": [
+          { "hukum": "ikhfa", "indeksHuruf": [14, 15], "label": "Ikhfa Haqiqi" },
+          { "hukum": "mad_thabii", "indeksHuruf": [4, 5, 21, 22, 29, 30, 32, 33], "label": "Mad Thabi'i" }
+        ]
+      },
+      {
+        "nomor": 6,
+        "arab": "الَّذِينَ هُمْ يُرَاءُونَ",
+        "kata": ["الَّذِينَ", "هُمْ", "يُرَاءُونَ"],
+        "latin": "Alladziina hum yuraa'uun",
+        "terjemah": "yang berbuat riya,",
+        "audio": "107006.mp3",
+        "tajwid": [{ "hukum": "mad_thabii", "indeksHuruf": [4, 5, 17, 18, 19, 20], "label": "Mad Wajib Muttashil" }]
+      },
+      {
+        "nomor": 7,
+        "arab": "وَيَمْنَعُونَ الْمَاعُونَ",
+        "kata": ["وَيَمْنَعُونَ", "الْمَاعُونَ"],
+        "latin": "Wa yamna'uunal-maa'uun",
+        "terjemah": "dan enggan (memberikan) bantuan.",
+        "audio": "107007.mp3",
+        "tajwid": [{ "hukum": "mad_thabii", "indeksHuruf": [8, 9, 16, 17, 19, 20], "label": "Mad Thabi'i" }]
+      }
+    ]
+  },
+  "108": {
+    "id": 108,
+    "namaLatin": "Al-Kautsar",
+    "namaArab": "الكوثر",
+    "arti": "Nikmat yang Berlimpah",
+    "jumlahAyat": 3,
+    "tempatTurun": "Makkiyah",
+    "level": 4,
+    "ringkasanKisah": "Surah penghibur untuk Nabi Muhammad SAW atas ejekan kaum kafir Quraisy, memberitahukan bahwa Nabi telah dianugerahi telaga Al-Kautsar dan nikmat berlimpah.",
+    "pesanAkhlak": "Selalu bersyukur atas karunia Allah dengan mendirikan shalat dan berqurban, serta bersabar menghadapi celaan.",
+    "ayat": [
+      {
+        "nomor": 1,
+        "arab": "إِنَّا أَعْطَيْنَاكَ الْكَوْثَرَ",
+        "kata": ["إِنَّا", "أَعْطَيْنَاكَ", "الْكَوْثَرَ"],
+        "latin": "Innaa a'thainaakal-kautsar",
+        "terjemah": "Sungguh, Kami telah memberimu (Muhammad) nikmat yang banyak.",
+        "audio": "108001.mp3",
+        "tajwid": [
+          { "hukum": "ghunnah", "indeksHuruf": [1, 2], "label": "Ghunnah" },
+          { "hukum": "mad_thabii", "indeksHuruf": [3, 4, 13, 14], "label": "Mad Jaiz Munfashil" }
+        ]
+      },
+      {
+        "nomor": 2,
+        "arab": "فَصَلِّ لِرَبِّكَ وَانْحَرْ",
+        "kata": ["فَصَلِّ", "لِرَبِّكَ", "وَانْحَرْ"],
+        "latin": "Fa shalli lirabbika wan-har",
+        "terjemah": "Maka laksanakanlah shalat karena Tuhanmu, dan berkurbanlah.",
+        "audio": "108002.mp3",
+        "tajwid": [{ "hukum": "ikhfa", "indeksHuruf": [18, 19], "label": "Idzhar Halqi" }]
+      },
+      {
+        "nomor": 3,
+        "arab": "إِنَّ شَانِئَكَ هُوَ الْأَبْتَرُ",
+        "kata": ["إِنَّ", "شَانِئَكَ", "هُوَ", "الْأَبْتَرُ"],
+        "latin": "Inna syaani'aka huwal-abtar",
+        "terjemah": "Sungguh, orang-orang yang membencimu dialah yang terputus (dari rahmat Allah).",
+        "audio": "108003.mp3",
+        "tajwid": [
+          { "hukum": "ghunnah", "indeksHuruf": [1, 2], "label": "Ghunnah" },
+          { "hukum": "qalqalah", "indeksHuruf": [19, 20], "label": "Qalqalah Sughra" }
+        ]
+      }
+    ]
+  },
+  "112": {
+    "id": 112,
+    "namaLatin": "Al-Ikhlas",
+    "namaArab": "الإخلاص",
+    "arti": "Memurnikan Keesaan Allah",
+    "jumlahAyat": 4,
+    "tempatTurun": "Makkiyah",
+    "level": 4,
+    "ringkasanKisah": "Diturunkan sebagai jawaban tegas kepada kaum musyrikin yang menanyakan sifat dan silsilah Tuhan, menegaskan bahwa Allah adalah Esa, tempat bergantung, tidak beranak dan tidak diperanakkan.",
+    "pesanAkhlak": "Memurnikan aqidah dan tauhid hanya kepada Allah SWT, menjauhi segala bentuk syirik.",
+    "ayat": [
+      {
+        "nomor": 1,
+        "arab": "قُلْ هُوَ اللَّهُ أَحَدٌ",
+        "kata": ["قُلْ", "هُوَ", "اللَّهُ", "أَحَدٌ"],
+        "latin": "Qul huwal-laahu ahad",
+        "terjemah": "Katakanlah (Muhammad), \"Dialah Allah, Yang Maha Esa.\"",
+        "audio": "112001.mp3",
+        "tajwid": [{ "hukum": "qalqalah", "indeksHuruf": [18, 19], "label": "Qalqalah Kubra" }]
+      },
+      {
+        "nomor": 2,
+        "arab": "اللَّهُ الصَّمَدُ",
+        "kata": ["اللَّهُ", "الصَّمَدُ"],
+        "latin": "Allaahush-shamad",
+        "terjemah": "Allah tempat meminta segala sesuatu.",
+        "audio": "112002.mp3",
+        "tajwid": [{ "hukum": "qalqalah", "indeksHuruf": [13, 14], "label": "Qalqalah Kubra" }]
+      },
+      {
+        "nomor": 3,
+        "arab": "لَمْ يَلِدْ وَلَمْ يُولَدْ",
+        "kata": ["لَمْ", "يَلِدْ", "وَلَمْ", "يُولَدْ"],
+        "latin": "Lam yalid wa lam yuulad",
+        "terjemah": "(Allah) tidak beranak dan tidak pula diperanakkan,",
+        "audio": "112003.mp3",
+        "tajwid": [
+          { "hukum": "qalqalah", "indeksHuruf": [7, 8, 19, 20], "label": "Qalqalah Sughra & Kubra" },
+          { "hukum": "mad_thabii", "indeksHuruf": [16, 17], "label": "Mad Thabi'i" }
+        ]
+      },
+      {
+        "nomor": 4,
+        "arab": "وَلَمْ يَكُنْ لَهُ كُفُوًا أَحَدٌ",
+        "kata": ["وَلَمْ", "يَكُنْ", "لَهُ", "كُفُوًا", "أَحَدٌ"],
+        "latin": "Wa lam yakul-lahuu kufuwan ahad",
+        "terjemah": "dan tidak ada sesuatu yang setara dengan Dia.",
+        "audio": "112004.mp3",
+        "tajwid": [
+          { "hukum": "idgham", "indeksHuruf": [11, 12, 13], "label": "Idgham Bilaghunnah" },
+          { "hukum": "qalqalah", "indeksHuruf": [27, 28], "label": "Qalqalah Kubra" }
+        ]
+      }
+    ]
+  },
+  "114": {
+    "id": 114,
+    "namaLatin": "An-Nas",
+    "namaArab": "الناس",
+    "arti": "Manusia",
+    "jumlahAyat": 6,
+    "tempatTurun": "Makkiyah",
+    "level": 4,
+    "ringkasanKisah": "Surah perlindungan (Al-Mu'awwidzatain) yang mengajarkan manusia untuk senantiasa memohon perlindungan kepada Allah dari bisikan jahat setan yang bersembunyi baik dari golongan jin maupun manusia.",
+    "pesanAkhlak": "Selalu berdoa memohon perlindungan dari bisikan jahat, rasa was-was, dan pengaruh buruk di sekitar kita.",
+    "ayat": [
+      {
+        "nomor": 1,
+        "arab": "قُلْ أَعُوذُ بِرَبِّ النَّاسِ",
+        "kata": ["قُلْ", "أَعُوذُ", "بِرَبِّ", "النَّاسِ"],
+        "latin": "Qul a'uudzu birabbin-naas",
+        "terjemah": "Katakanlah, \"Aku berlindung kepada Tuhannya manusia,\"",
+        "audio": "114001.mp3",
+        "tajwid": [
+          { "hukum": "mad_thabii", "indeksHuruf": [6, 7, 20, 21], "label": "Mad Thabi'i" },
+          { "hukum": "ghunnah", "indeksHuruf": [18, 19], "label": "Ghunnah" }
+        ]
+      },
+      {
+        "nomor": 2,
+        "arab": "مَلِكِ النَّاسِ",
+        "kata": ["مَلِكِ", "النَّاسِ"],
+        "latin": "Malikin-naas",
+        "terjemah": "\"Raja manusia,\"",
+        "audio": "114002.mp3",
+        "tajwid": [
+          { "hukum": "ghunnah", "indeksHuruf": [8, 9], "label": "Ghunnah" },
+          { "hukum": "mad_thabii", "indeksHuruf": [10, 11], "label": "Mad 'Aridh Lissukun" }
+        ]
+      },
+      {
+        "nomor": 3,
+        "arab": "إِلَهِ النَّاسِ",
+        "kata": ["إِلَهِ", "النَّاسِ"],
+        "latin": "Ilaahin-naas",
+        "terjemah": "\"Sembahan manusia,\"",
+        "audio": "114003.mp3",
+        "tajwid": [
+          { "hukum": "ghunnah", "indeksHuruf": [8, 9], "label": "Ghunnah" },
+          { "hukum": "mad_thabii", "indeksHuruf": [10, 11], "label": "Mad 'Aridh Lissukun" }
+        ]
+      },
+      {
+        "nomor": 4,
+        "arab": "مِنْ شَرِّ الْوَسْوَاسِ الْخَنَّاسِ",
+        "kata": ["مِنْ", "شَرِّ", "الْوَسْوَاسِ", "الْخَنَّاسِ"],
+        "latin": "Min syarril-waswaasil-khannaas",
+        "terjemah": "\"dari kejahatan (bisikan) setan yang bersembunyi,\"",
+        "audio": "114004.mp3",
+        "tajwid": [
+          { "hukum": "ikhfa", "indeksHuruf": [1, 2, 3], "label": "Ikhfa Haqiqi" },
+          { "hukum": "ghunnah", "indeksHuruf": [25, 26], "label": "Ghunnah" }
+        ]
+      },
+      {
+        "nomor": 5,
+        "arab": "الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ",
+        "kata": ["الَّذِي", "يُوَسْوِسُ", "فِي", "صُدُورِ", "النَّاسِ"],
+        "latin": "Alladzii yuwaswisu fii shuduurin-naas",
+        "terjemah": "\"yang membisikkan (kejahatan) ke dalam dada manusia,\"",
+        "audio": "114005.mp3",
+        "tajwid": [
+          { "hukum": "mad_thabii", "indeksHuruf": [4, 5, 17, 18, 23, 24], "label": "Mad Thabi'i" },
+          { "hukum": "ghunnah", "indeksHuruf": [30, 31], "label": "Ghunnah" }
+        ]
+      },
+      {
+        "nomor": 6,
+        "arab": "مِنَ الْجِنَّةِ وَالنَّاسِ",
+        "kata": ["مِنَ", "الْجِنَّةِ", "وَالنَّاسِ"],
+        "latin": "Minal-jinnati wan-naas",
+        "terjemah": "\"dari (golongan) jin dan manusia.\"",
+        "audio": "114006.mp3",
+        "tajwid": [
+          { "hukum": "ghunnah", "indeksHuruf": [9, 10, 18, 19], "label": "Ghunnah" },
+          { "hukum": "mad_thabii", "indeksHuruf": [20, 21], "label": "Mad 'Aridh Lissukun" }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "Petualangan Juz 'Amma",
+  "short_name": "JuzAmmaGame",
+  "description": "Game Edukasi Al-Qur'an Juz 30 Layar Sentuh Smart TV untuk Siswa SD",
+  "start_url": "/",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "#1a1412",
+  "theme_color": "#12100e",
+  "icons": [
+    {
+      "src": "/icons/mosque.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["education", "games"]
+}

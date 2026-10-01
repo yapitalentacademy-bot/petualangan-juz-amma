@@ -1,0 +1,269 @@
+import React, { useState, useEffect, useRef } from 'react';
+import { MiniGameProps, TebakSurahQuestion } from '../../types/game';
+import { generateTebakSurahQuestions, calculateStars } from '../../lib/gameLogic';
+import { quranAudio, sfx } from '../../lib/audioPlayer';
+import { HelpCircle, CheckCircle2, XCircle, ArrowRight, Volume2, Sparkles } from 'lucide-react';
+import { TombolBesar } from '../../components/TombolBesar';
+
+export const TebakSurahGame: React.FC<MiniGameProps> = ({
+  surahId,
+  level,
+  onFinish,
+  onExit,
+}) => {
+  const [questions, setQuestions] = useState<TebakSurahQuestion[]>([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [selectedChoiceIdx, setSelectedChoiceIdx] = useState<number | null>(null);
+  const [answeredState, setAnsweredState] = useState<'idle' | 'correct' | 'wrong'>('idle');
+  const [isFirstTry, setIsFirstTry] = useState(true);
+  const [score, setScore] = useState(0);
+  const [correctCount, setCorrectCount] = useState(0);
+  const [wrongCount, setWrongCount] = useState(0);
+
+  useEffect(() => {
+    const generated = generateTebakSurahQuestions(surahId, level);
+    setQuestions(generated);
+    setCurrentIndex(0);
+    setScore(0);
+    setCorrectCount(0);
+    setWrongCount(0);
+  }, [surahId, level]);
+
+  const currentQ = questions[currentIndex];
+
+  useEffect(() => {
+    if (currentQ) {
+      setSelectedChoiceIdx(null);
+      setAnsweredState('idle');
+      setIsFirstTry(true);
+
+      // If opening verse audio is present, play it
+      if (currentQ.audioAyat) {
+        const timer = setTimeout(() => {
+          quranAudio.playAyat(currentQ.audioAyat!.surahId, currentQ.audioAyat!.ayatNomor);
+        }, 300);
+        return () => {
+          clearTimeout(timer);
+          quranAudio.stop();
+        };
+      }
+    }
+  }, [currentIndex, currentQ?.id]);
+
+  const isTransitioning = useRef(false);
+
+  const handleSelectChoice = (index: number) => {
+    if (answeredState === 'correct' || isTransitioning.current) return;
+    setSelectedChoiceIdx(index);
+    const chosen = currentQ.pilihan[index];
+
+    if (chosen.isCorrect) {
+      sfx.playCorrect();
+      setAnsweredState('correct');
+      const scoreDelta = isFirstTry ? 15 : 10;
+      setScore((prev) => prev + scoreDelta);
+      if (isFirstTry) {
+        setCorrectCount((prev) => prev + 1);
+      }
+
+      isTransitioning.current = true;
+      setTimeout(() => {
+        isTransitioning.current = false;
+        handleNextQuestion();
+      }, 2000);
+    } else {
+      sfx.playWrong();
+      setAnsweredState('wrong');
+      if (isFirstTry) {
+        setWrongCount((prev) => prev + 1);
+        setIsFirstTry(false);
+      }
+    }
+  };
+
+  const handleNextQuestion = () => {
+    if (currentIndex + 1 < questions.length) {
+      setCurrentIndex((prev) => prev + 1);
+    } else {
+      finishGame();
+    }
+  };
+
+  const finishGame = () => {
+    const totalSoal = questions.length;
+    const maxSkor = totalSoal * 15;
+    const akurasi = totalSoal > 0 ? Math.round((correctCount / totalSoal) * 100) : 100;
+    const stars = calculateStars(akurasi);
+
+    onFinish({
+      skor: score,
+      maxSkor,
+      benar: correctCount,
+      salah: wrongCount,
+      totalSoal,
+      stars,
+      akurasi,
+    });
+  };
+
+  if (!currentQ) {
+    return (
+      <div className="flex flex-col items-center justify-center p-12 glass-panel rounded-3xl text-center">
+        <p className="text-2xl text-stone-300 mb-6">Mempersiapkan soal Tebak Surah...</p>
+        {onExit && (
+          <TombolBesar variant="ghost" onClick={onExit}>
+            Kembali
+          </TombolBesar>
+        )}
+      </div>
+    );
+  }
+
+  const variantLabels = {
+    arti: 'Tebak dari Arti Nama',
+    jumlah_ayat: 'Tebak dari Jumlah Ayat',
+    ayat_pertama: 'Tebak dari Ayat Pembuka',
+  };
+
+  return (
+    <div className="flex flex-col max-w-5xl mx-auto w-full gap-8">
+      {/* Top Header */}
+      <div className="flex items-center justify-between p-6 rounded-3xl glass-panel border-2 border-amber-500/40">
+        <div className="flex items-center gap-4">
+          <div className="flex items-center justify-center w-14 h-14 rounded-2xl bg-amber-500 text-slate-950 font-black text-2xl shadow-md">
+            {currentIndex + 1}
+          </div>
+          <div>
+            <span className="text-stone-400 font-bold text-sm block">Tebak Nama Surah</span>
+            <span className="text-2xl font-black text-amber-200">
+              Soal {currentIndex + 1} dari {questions.length}
+            </span>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 bg-stone-900/90 px-6 py-3 rounded-2xl border border-stone-700 shadow-inner">
+            <Sparkles className="w-6 h-6 text-yellow-400" />
+            <span className="text-stone-400 font-bold text-lg">Skor:</span>
+            <span className="text-3xl font-black text-yellow-300">{score}</span>
+          </div>
+
+          {onExit && (
+            <button
+              onClick={onExit}
+              className="touch-btn px-5 py-3 rounded-2xl bg-stone-900/80 hover:bg-stone-800 text-stone-400 hover:text-stone-200 font-bold text-lg border border-stone-800 cursor-pointer"
+            >
+              Keluar
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* Clue Prompt Card */}
+      <div className="glass-panel p-8 md:p-12 rounded-3xl border-3 border-amber-500/60 shadow-xl text-center">
+        <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-amber-950 border border-amber-500/50 text-amber-300 font-bold text-lg mb-6">
+          <HelpCircle className="w-5 h-5" />
+          <span>{variantLabels[currentQ.varian]}</span>
+        </div>
+
+        <h3 className="text-3xl md:text-4xl font-extrabold text-white leading-relaxed mb-4">
+          {currentQ.petunjuk}
+        </h3>
+
+        {/* Optional Arabic Text for First Verse variant */}
+        {currentQ.petunjukArab && (
+          <div
+            dir="rtl"
+            className="font-quran text-amber-200 text-4xl md:text-5xl my-6 leading-loose"
+          >
+            {currentQ.petunjukArab}
+          </div>
+        )}
+
+        {currentQ.audioAyat && (
+          <div className="flex justify-center mt-4">
+            <button
+              onClick={() => {
+                sfx.playClick();
+                quranAudio.playAyat(currentQ.audioAyat!.surahId, currentQ.audioAyat!.ayatNomor);
+              }}
+              className="touch-btn flex items-center gap-3 px-6 py-3 bg-emerald-700 hover:bg-emerald-600 text-white rounded-2xl text-xl font-bold shadow-md cursor-pointer"
+            >
+              <Volume2 className="w-7 h-7" />
+              <span>Putar Ulang Audio Ayat</span>
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* 4 Choices Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {currentQ.pilihan.map((choice, idx) => {
+          const isSelected = selectedChoiceIdx === idx;
+          const isCorrect = choice.isCorrect;
+
+          let cardStyle = 'bg-stone-900/90 border-stone-700 hover:border-amber-400';
+          if (isSelected && answeredState === 'correct') {
+            cardStyle = 'bg-emerald-950/90 border-emerald-400 ring-4 ring-emerald-400 shadow-card-glow';
+          } else if (isSelected && answeredState === 'wrong') {
+            cardStyle = 'bg-rose-950/90 border-rose-500 ring-4 ring-rose-500 animate-shake';
+          } else if (answeredState === 'wrong' && isCorrect) {
+            cardStyle = 'bg-emerald-950/60 border-emerald-500/80 border-dashed';
+          }
+
+          return (
+            <div
+              key={idx}
+              onClick={() => handleSelectChoice(idx)}
+              className={`
+                touch-btn relative flex items-center justify-between p-8 rounded-3xl border-4 min-h-[140px]
+                transition-all duration-100 cursor-pointer select-none
+                ${cardStyle}
+              `}
+            >
+              <div className="flex items-center gap-5">
+                <span className="w-12 h-12 rounded-2xl bg-amber-500 text-slate-950 font-black text-2xl flex items-center justify-center">
+                  {String.fromCharCode(65 + idx)}
+                </span>
+                <div className="flex flex-col text-left">
+                  <span className="text-3xl font-black text-white font-display">
+                    Surah {choice.namaLatin}
+                  </span>
+                  <span className="text-lg text-stone-400 font-medium">
+                    "{choice.arti}"
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-4">
+                <span dir="rtl" className="font-quran text-4xl text-amber-200 font-bold">
+                  {choice.namaArab}
+                </span>
+
+                {isSelected && answeredState === 'correct' && (
+                  <CheckCircle2 className="w-9 h-9 text-emerald-400 animate-bounce" />
+                )}
+                {isSelected && answeredState === 'wrong' && (
+                  <XCircle className="w-9 h-9 text-rose-400" />
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {answeredState === 'correct' && (
+        <div className="flex justify-end mt-2">
+          <TombolBesar
+            variant="oasis"
+            size="normal"
+            icon={<ArrowRight className="w-7 h-7" />}
+            onClick={handleNextQuestion}
+          >
+            Lanjut Soal Berikutnya
+          </TombolBesar>
+        </div>
+      )}
+    </div>
+  );
+};
