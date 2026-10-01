@@ -23,6 +23,9 @@ export const SambungAyatGame: React.FC<MiniGameProps> = ({
   const [wrongCount, setWrongCount] = useState(0);
   const [showHint, setShowHint] = useState(false);
 
+  // Helper to clean quotes
+  const cleanQuotes = (text: string) => text.replace(/^["'\s]+|["'\s]+$/g, '');
+
   // Load questions on mount or surah change
   useEffect(() => {
     const generated = generateSambungAyatQuestions(surahId, level);
@@ -204,14 +207,14 @@ export const SambungAyatGame: React.FC<MiniGameProps> = ({
         {/* Big Arabic Text (Prompt) */}
         <div
           dir="rtl"
-          className="font-quran text-amber-100 text-tv-arabic text-right leading-loose py-4 drop-shadow"
+          className="font-quran text-amber-100 text-tv-arabic text-center leading-relaxed py-4 drop-shadow"
         >
           {currentQ.promptAyat.arab}
         </div>
 
         {/* Latin & Translation */}
         {(shouldDisplayLatin || shouldDisplayTerjemah) && (
-          <div className="mt-4 pt-4 border-t border-stone-800/80 flex flex-col gap-2">
+          <div className="mt-4 pt-4 border-t border-stone-800/80 flex flex-col gap-2 text-center">
             {shouldDisplayLatin && (
               <p className="text-tv-latin font-bold text-emerald-300 italic">
                 {currentQ.promptAyat.latin}
@@ -219,7 +222,7 @@ export const SambungAyatGame: React.FC<MiniGameProps> = ({
             )}
             {shouldDisplayTerjemah && (
               <p className="text-tv-sub text-stone-300">
-                "{currentQ.promptAyat.terjemah}"
+                "{cleanQuotes(currentQ.promptAyat.terjemah)}"
               </p>
             )}
           </div>
@@ -269,13 +272,13 @@ export const SambungAyatGame: React.FC<MiniGameProps> = ({
               key={idx}
               onClick={() => handleSelectChoice(idx)}
               className={`
-                touch-btn relative flex flex-col justify-between p-8 rounded-3xl border-4 min-h-[220px]
+                touch-btn relative flex flex-col justify-between p-6 md:p-8 rounded-3xl border-4 min-h-[280px]
                 transition-all duration-100 backdrop-blur-md cursor-pointer select-none
                 ${cardStyle}
               `}
             >
               {/* Top Choice Indicator */}
-              <div className="flex items-center justify-between mb-4 border-b border-stone-800 pb-2">
+              <div className="flex items-center justify-between mb-3 border-b border-stone-800 pb-2">
                 <div className="flex items-center gap-2">
                   <span className="w-10 h-10 rounded-xl bg-amber-500 text-slate-950 font-black text-xl flex items-center justify-center">
                     {String.fromCharCode(65 + idx)}
@@ -286,15 +289,15 @@ export const SambungAyatGame: React.FC<MiniGameProps> = ({
                 </div>
 
                 {isSelected && answeredState === 'correct' && (
-                  <div className="flex items-center gap-1.5 text-emerald-300 font-extrabold text-lg animate-bounce">
-                    <CheckCircle2 className="w-7 h-7 fill-emerald-400 text-slate-950" />
+                  <div className="flex items-center gap-1.5 text-emerald-300 font-extrabold text-base animate-bounce">
+                    <CheckCircle2 className="w-6 h-6 fill-emerald-400 text-slate-950" />
                     <span>Benar! (+{isFirstTry ? '15' : '10'})</span>
                   </div>
                 )}
 
                 {isSelected && answeredState === 'wrong' && (
-                  <div className="flex items-center gap-1.5 text-rose-400 font-extrabold text-lg">
-                    <XCircle className="w-7 h-7" />
+                  <div className="flex items-center gap-1.5 text-rose-400 font-extrabold text-base">
+                    <XCircle className="w-6 h-6" />
                     <span>Coba Lagi</span>
                   </div>
                 )}
@@ -303,22 +306,22 @@ export const SambungAyatGame: React.FC<MiniGameProps> = ({
               {/* Arabic Choice Text */}
               <div
                 dir="rtl"
-                className="font-quran text-amber-100 text-3xl md:text-4xl text-right leading-loose py-2"
+                className="font-quran text-amber-100 text-3xl md:text-5xl text-center leading-relaxed py-4 flex-1 flex items-center justify-center"
               >
                 {choice.arab}
               </div>
 
               {/* Latin & Translation */}
               {(shouldDisplayLatin || shouldDisplayTerjemah) && (
-                <div className="mt-4 pt-3 border-t border-stone-800/80 flex flex-col gap-1.5">
+                <div className="mt-3 pt-3 border-t border-stone-800/80 flex flex-col gap-1 text-center">
                   {shouldDisplayLatin && (
-                    <p className="text-lg font-bold text-emerald-300/90 italic truncate">
+                    <p className="text-base md:text-lg font-bold text-emerald-300 italic leading-snug">
                       {choice.latin}
                     </p>
                   )}
                   {shouldDisplayTerjemah && (
-                    <p className="text-base text-stone-300 line-clamp-2">
-                      "{choice.terjemah}"
+                    <p className="text-sm md:text-base text-stone-300 leading-relaxed">
+                      "{cleanQuotes(choice.terjemah)}"
                     </p>
                   )}
                 </div>

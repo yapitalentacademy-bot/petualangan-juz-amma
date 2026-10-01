@@ -320,7 +320,7 @@
         "arab": "قُلْ أَعُوذُ بِرَبِّ النَّاسِ",
         "kata": ["قُلْ", "أَعُوذُ", "بِرَبِّ", "النَّاسِ"],
         "latin": "Qul a'uudzu birabbin-naas",
-        "terjemah": "Katakanlah, \"Aku berlindung kepada Tuhannya manusia,\"",
+        "terjemah": "Katakanlah, Aku berlindung kepada Tuhannya manusia,",
         "audio": "114001.mp3",
         "tajwid": [
           { "hukum": "mad_thabii", "indeksHuruf": [6, 7, 20, 21], "label": "Mad Thabi'i" },
@@ -332,7 +332,7 @@
         "arab": "مَلِكِ النَّاسِ",
         "kata": ["مَلِكِ", "النَّاسِ"],
         "latin": "Malikin-naas",
-        "terjemah": "\"Raja manusia,\"",
+        "terjemah": "Raja manusia,",
         "audio": "114002.mp3",
         "tajwid": [
           { "hukum": "ghunnah", "indeksHuruf": [8, 9], "label": "Ghunnah" },
@@ -344,7 +344,7 @@
         "arab": "إِلَهِ النَّاسِ",
         "kata": ["إِلَهِ", "النَّاسِ"],
         "latin": "Ilaahin-naas",
-        "terjemah": "\"Sembahan manusia,\"",
+        "terjemah": "Sembahan manusia,",
         "audio": "114003.mp3",
         "tajwid": [
           { "hukum": "ghunnah", "indeksHuruf": [8, 9], "label": "Ghunnah" },
@@ -356,7 +356,7 @@
         "arab": "مِنْ شَرِّ الْوَسْوَاسِ الْخَنَّاسِ",
         "kata": ["مِنْ", "شَرِّ", "الْوَسْوَاسِ", "الْخَنَّاسِ"],
         "latin": "Min syarril-waswaasil-khannaas",
-        "terjemah": "\"dari kejahatan (bisikan) setan yang bersembunyi,\"",
+        "terjemah": "dari kejahatan (bisikan) setan yang bersembunyi,",
         "audio": "114004.mp3",
         "tajwid": [
           { "hukum": "ikhfa", "indeksHuruf": [1, 2, 3], "label": "Ikhfa Haqiqi" },
@@ -368,7 +368,7 @@
         "arab": "الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ",
         "kata": ["الَّذِي", "يُوَسْوِسُ", "فِي", "صُدُورِ", "النَّاسِ"],
         "latin": "Alladzii yuwaswisu fii shuduurin-naas",
-        "terjemah": "\"yang membisikkan (kejahatan) ke dalam dada manusia,\"",
+        "terjemah": "yang membisikkan (kejahatan) ke dalam dada manusia,",
         "audio": "114005.mp3",
         "tajwid": [
           { "hukum": "mad_thabii", "indeksHuruf": [4, 5, 17, 18, 23, 24], "label": "Mad Thabi'i" },
@@ -380,7 +380,7 @@
         "arab": "مِنَ الْجِنَّةِ وَالنَّاسِ",
         "kata": ["مِنَ", "الْجِنَّةِ", "وَالنَّاسِ"],
         "latin": "Minal-jinnati wan-naas",
-        "terjemah": "\"dari (golongan) jin dan manusia.\"",
+        "terjemah": "dari (golongan) jin dan manusia.",
         "audio": "114006.mp3",
         "tajwid": [
           { "hukum": "ghunnah", "indeksHuruf": [9, 10, 18, 19], "label": "Ghunnah" },

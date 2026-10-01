@@ -28,6 +28,8 @@ export const KartuAyat: React.FC<KartuAyatProps> = ({
   highlightWords = [],
   className = '',
 }) => {
+  const cleanQuotes = (text: string) => text.replace(/^["'\s]+|["'\s]+$/g, '');
+
   const handleClick = () => {
     if (audioOnClick) {
       quranAudio.playAyat(surahNumber, ayat.nomor);
@@ -74,13 +76,13 @@ export const KartuAyat: React.FC<KartuAyatProps> = ({
         />
       </div>
 
-      {/* Arabic Verse Container (RTL, 72-96px scaled) */}
+      {/* Arabic Verse Container (RTL) */}
       <div
         dir="rtl"
         className="font-quran text-amber-100 text-tv-arabic tracking-wide leading-loose py-4 text-right"
       >
         {ayat.kata && ayat.kata.length > 0 ? (
-          <div className="flex flex-wrap flex-row-reverse gap-x-4 gap-y-2 justify-start items-center">
+          <div className="flex flex-wrap gap-x-4 gap-y-2 justify-start items-center">
             {ayat.kata.map((word, idx) => {
               const isHighlighted = highlightWords.includes(idx);
               return (
@@ -111,7 +113,7 @@ export const KartuAyat: React.FC<KartuAyatProps> = ({
           )}
           {showTerjemah && (
             <p className="text-tv-sub text-stone-300 font-medium leading-relaxed">
-              "{ayat.terjemah}"
+              "{cleanQuotes(ayat.terjemah)}"
             </p>
           )}
         </div>
