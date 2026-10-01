@@ -132,24 +132,24 @@ export const Beranda: React.FC<BerandaProps> = ({
       </div>
 
       {/* Main Hero Treasure Stone Banner */}
-      <div className="flex flex-col items-center text-center my-4 z-10 max-w-5xl">
-        <div className="relative p-6 md:p-8 rounded-3xl stone-plaque max-w-4xl w-full flex flex-col items-center mb-4">
-          {/* Corner Rivet Screws (Explorer Device Detail) */}
-          <div className="absolute top-3 left-3 w-4 h-4 rounded-full bg-slate-400 border border-slate-600 shadow-inner" />
-          <div className="absolute top-3 right-3 w-4 h-4 rounded-full bg-slate-400 border border-slate-600 shadow-inner" />
-          <div className="absolute bottom-3 left-3 w-4 h-4 rounded-full bg-slate-400 border border-slate-600 shadow-inner" />
-          <div className="absolute bottom-3 right-3 w-4 h-4 rounded-full bg-slate-400 border border-slate-600 shadow-inner" />
-
-          <div className="inline-flex items-center gap-2 px-5 py-1.5 bg-emerald-900/90 border border-emerald-400/80 rounded-full text-emerald-200 font-extrabold text-base mb-2 shadow-inner">
-            <BookOpen className="w-5 h-5 text-emerald-300" />
-            37 Pos Petualangan Harta Karun Al-Qur'an
+      <div className="flex flex-col items-center text-center my-2 z-10 max-w-5xl">
+        <div className="relative flex flex-col items-center">
+          {/* Main 3D Plaque Logo Image */}
+          <div className="relative group transition-transform duration-300 hover:scale-[1.02]">
+            <img
+              src="/images/logo-treasure-petualangan.png"
+              alt="Petualangan Juz 'Amma Logo"
+              className="w-full max-w-[580px] md:max-w-[680px] h-auto object-contain drop-shadow-[0_15px_30px_rgba(0,0,0,0.8)] filter"
+            />
           </div>
 
-          <h1 className="text-5xl md:text-7xl font-black gold-title-3d font-display mb-1 drop-shadow-2xl">
-            PETUALANGAN JUZ 'AMMA
-          </h1>
+          {/* Subtitle Badge */}
+          <div className="inline-flex items-center gap-2 px-6 py-2 bg-slate-950/85 border-2 border-amber-400/80 rounded-full text-amber-200 font-extrabold text-lg md:text-xl -mt-4 shadow-xl backdrop-blur-md">
+            <BookOpen className="w-6 h-6 text-emerald-400" />
+            <span>37 Pos Petualangan Harta Karun Al-Qur'an</span>
+          </div>
 
-          <p className="text-xl md:text-2xl text-emerald-100/90 font-bold max-w-3xl mt-1">
+          <p className="text-xl md:text-2xl text-emerald-100 font-bold max-w-3xl mt-3 drop-shadow-md">
             Jelajahi 37 Surah Juz 30 Bersama Teman Sekelas di Layar Sentuh TV
           </p>
         </div>
