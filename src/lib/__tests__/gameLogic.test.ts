@@ -113,7 +113,19 @@ describe('Logika Mini-Game Petualangan Juz Amma', () => {
       expect(questions.some((q) => q.varian === 'arti')).toBe(true);
       expect(questions.some((q) => q.varian === 'jumlah_ayat')).toBe(true);
       expect(questions.some((q) => q.varian === 'ayat_pertama')).toBe(true);
-      expect(questions[0].pilihan.some((p) => p.isCorrect)).toBe(true);
+    });
+
+    it('memastikan setiap soal untuk semua surah (termasuk Al-Ikhlas 112 & An-Nas 114) SELALU memiliki jawaban yang benar di dalam pilihan', () => {
+      [105, 106, 107, 108, 112, 114].forEach((sId) => {
+        const questions = generateTebakSurahQuestions(sId, 6);
+        expect(questions.length).toBeGreaterThan(0);
+        questions.forEach((q) => {
+          expect(q.pilihan.length).toBe(4);
+          const correctChoices = q.pilihan.filter((p) => p.isCorrect);
+          expect(correctChoices.length).toBe(1);
+          expect(correctChoices[0].surahId).toBe(q.surahBenarId);
+        });
+      });
     });
   });
 

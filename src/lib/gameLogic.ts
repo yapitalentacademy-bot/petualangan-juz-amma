@@ -247,6 +247,40 @@ export function checkSusunAyatAnswer(
 }
 
 /**
+ * Helper untuk membuat 4 pilihan jawaban Tebak Surah
+ * Menjamin 1 jawaban benar (isCorrect: true) + 3 pengecoh acak (isCorrect: false)
+ */
+function buildTebakSurahChoices(targetSurahId: number, numChoices: number = 4) {
+  const target =
+    allSurahsList.find((s) => s.id === targetSurahId) ||
+    surahsRecord[String(targetSurahId)];
+  if (!target) return [];
+
+  const correctChoice = {
+    surahId: target.id,
+    namaLatin: target.namaLatin,
+    namaArab: target.namaArab,
+    arti: target.arti,
+    isCorrect: true,
+  };
+
+  // Ambil kandidat pengecoh dari surah-surah lain
+  const otherSurahs = allSurahsList
+    .filter((s) => s.id !== targetSurahId)
+    .sort(() => 0.5 - Math.random());
+
+  const distractors = otherSurahs.slice(0, numChoices - 1).map((s) => ({
+    surahId: s.id,
+    namaLatin: s.namaLatin,
+    namaArab: s.namaArab,
+    arti: s.arti,
+    isCorrect: false,
+  }));
+
+  return [correctChoice, ...distractors].sort(() => 0.5 - Math.random());
+}
+
+/**
  * Generator Soal Tebak Surah
  * 3 Varian: Arti nama, Jumlah ayat & tempat turun, Ayat pertama / audio
  */
@@ -254,54 +288,35 @@ export function generateTebakSurahQuestions(
   surahId: number,
   level: KelasLevel
 ): TebakSurahQuestion[] {
-  const surah = surahsRecord[String(surahId)];
+  const surah =
+    surahsRecord[String(surahId)] ||
+    allSurahsList.find((s) => s.id === surahId);
   if (!surah) return [];
 
-  const sampleList = Object.values(surahsRecord);
   const questions: TebakSurahQuestion[] = [];
 
   // Varian 1: Dari Arti Nama
-  const choices1 = sampleList.map((s) => ({
-    surahId: s.id,
-    namaLatin: s.namaLatin,
-    namaArab: s.namaArab,
-    arti: s.arti,
-    isCorrect: s.id === surah.id,
-  }));
   questions.push({
     id: `ts_${surah.id}_arti`,
     varian: 'arti',
     petunjuk: `Surah yang memiliki arti nama "${surah.arti}" adalah...`,
     surahBenarId: surah.id,
-    pilihan: choices1.slice(0, 4).sort(() => 0.5 - Math.random()),
+    pilihan: buildTebakSurahChoices(surah.id, 4),
   });
 
   // Varian 2: Dari Jumlah Ayat & Golongan Surah
-  const choices2 = sampleList.map((s) => ({
-    surahId: s.id,
-    namaLatin: s.namaLatin,
-    namaArab: s.namaArab,
-    arti: s.arti,
-    isCorrect: s.id === surah.id,
-  }));
   questions.push({
     id: `ts_${surah.id}_jml`,
     varian: 'jumlah_ayat',
     petunjuk: `Surah golongan ${surah.tempatTurun} yang terdiri dari ${surah.jumlahAyat} ayat adalah...`,
     surahBenarId: surah.id,
-    pilihan: choices2.slice(0, 4).sort(() => 0.5 - Math.random()),
+    pilihan: buildTebakSurahChoices(surah.id, 4),
   });
 
   // Varian 3: Dari Ayat Pertama
-  const firstAyat = surah.ayat[0];
+  const firstAyat =
+    'ayat' in surah && surah.ayat && surah.ayat[0] ? surah.ayat[0] : null;
   if (firstAyat) {
-    const choices3 = sampleList.map((s) => ({
-      surahId: s.id,
-      namaLatin: s.namaLatin,
-      namaArab: s.namaArab,
-      arti: s.arti,
-      isCorrect: s.id === surah.id,
-    }));
     questions.push({
       id: `ts_${surah.id}_ayat1`,
       varian: 'ayat_pertama',
@@ -312,29 +327,20 @@ export function generateTebakSurahQuestions(
         ayatNomor: 1,
       },
       surahBenarId: surah.id,
-      pilihan: choices3.slice(0, 4).sort(() => 0.5 - Math.random()),
+      pilihan: buildTebakSurahChoices(surah.id, 4),
     });
   }
 
-  // Jika level 5 atau 6, tambahkan soal surah tetangga sebagai variasi
+  // Jika level 5 atau 6, tambahkan soal surah tetangga sebagai variasi tantangan
   if (level >= 5) {
-    const otherSurah = sampleList.find((s) => s.id !== surah.id);
+    const otherSurah = allSurahsList.find((s) => s.id !== surah.id);
     if (otherSurah) {
       questions.push({
         id: `ts_${otherSurah.id}_arti`,
         varian: 'arti',
         petunjuk: `Surah yang berarti "${otherSurah.arti}" (${otherSurah.jumlahAyat} ayat) adalah...`,
         surahBenarId: otherSurah.id,
-        pilihan: sampleList
-          .map((s) => ({
-            surahId: s.id,
-            namaLatin: s.namaLatin,
-            namaArab: s.namaArab,
-            arti: s.arti,
-            isCorrect: s.id === otherSurah.id,
-          }))
-          .slice(0, 4)
-          .sort(() => 0.5 - Math.random()),
+        pilihan: buildTebakSurahChoices(otherSurah.id, 4),
       });
     }
   }
