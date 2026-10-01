@@ -257,11 +257,11 @@ export const SambungAyatGame: React.FC<MiniGameProps> = ({
           const isSelected = selectedChoiceIdx === idx;
           const isCorrect = choice.isCorrect;
 
-          let cardStyle = 'bg-stone-900/90 border-stone-700 hover:border-amber-400/80';
+          let cardStyle = 'bg-slate-900/90 border-slate-700 hover:border-amber-400 hover:bg-slate-800 shadow-xl';
           if (isSelected && answeredState === 'correct') {
-            cardStyle = 'bg-emerald-950/90 border-emerald-400 ring-4 ring-emerald-400/80 shadow-card-glow';
+            cardStyle = 'bg-gradient-to-r from-emerald-950/95 to-emerald-900/95 border-emerald-400 ring-4 ring-emerald-400/80 shadow-card-glow';
           } else if (isSelected && answeredState === 'wrong') {
-            cardStyle = 'bg-rose-950/90 border-rose-500 ring-4 ring-rose-500/80 animate-shake';
+            cardStyle = 'bg-gradient-to-r from-rose-950/95 to-rose-900/95 border-rose-500 ring-4 ring-rose-500/80 animate-shake';
           } else if (answeredState === 'wrong' && isCorrect) {
             // Tunjukkan jawaban benar ketika salah
             cardStyle = 'bg-emerald-950/60 border-emerald-500/80 border-dashed';
@@ -278,12 +278,12 @@ export const SambungAyatGame: React.FC<MiniGameProps> = ({
               `}
             >
               {/* Top Choice Indicator */}
-              <div className="flex items-center justify-between mb-3 border-b border-stone-800 pb-2">
+              <div className="flex items-center justify-between mb-3 border-b border-slate-700/80 pb-2">
                 <div className="flex items-center gap-2">
-                  <span className="w-10 h-10 rounded-xl bg-amber-500 text-slate-950 font-black text-xl flex items-center justify-center">
+                  <span className="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-400 to-amber-600 text-slate-950 font-black text-2xl font-display flex items-center justify-center shadow-md border border-amber-200">
                     {String.fromCharCode(65 + idx)}
                   </span>
-                  <span className="text-lg font-bold text-amber-200">
+                  <span className="text-xl font-black text-amber-200 font-display">
                     Pilihan {String.fromCharCode(65 + idx)}
                   </span>
                 </div>

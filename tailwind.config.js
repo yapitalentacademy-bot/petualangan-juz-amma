@@ -55,13 +55,17 @@ export default {
       fontFamily: {
         arabic: ['"Scheherazade New"', '"Amiri"', 'serif'],
         sans: ['"Nunito"', '"Fredoka"', 'system-ui', 'sans-serif'],
-        display: ['"Fredoka"', '"Nunito"', 'sans-serif'],
+        display: ['"Lilita One"', '"Fredoka"', '"Nunito"', 'sans-serif'],
+        game: ['"Lilita One"', '"Fredoka"', 'sans-serif'],
       },
       boxShadow: {
-        'touch': '0 8px 0 0 rgba(0, 0, 0, 0.25)',
-        'touch-active': '0 2px 0 0 rgba(0, 0, 0, 0.25)',
-        'card-glow': '0 12px 32px -4px rgba(16, 185, 129, 0.25)',
-        'gold-glow': '0 12px 32px -4px rgba(234, 179, 8, 0.35)',
+        'touch': '0 8px 0 0 rgba(0, 0, 0, 0.45)',
+        'touch-active': '0 2px 0 0 rgba(0, 0, 0, 0.45)',
+        'btn-gold': '0 8px 0 0 #78350f, 0 14px 20px rgba(0, 0, 0, 0.4)',
+        'btn-emerald': '0 8px 0 0 #064e3b, 0 14px 20px rgba(0, 0, 0, 0.4)',
+        'btn-sky': '0 8px 0 0 #0c4a6e, 0 14px 20px rgba(0, 0, 0, 0.4)',
+        'card-glow': '0 12px 32px -4px rgba(16, 185, 129, 0.35)',
+        'gold-glow': '0 12px 32px -4px rgba(245, 158, 11, 0.45)',
       }
     },
   },

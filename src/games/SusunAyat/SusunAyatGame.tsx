@@ -346,7 +346,7 @@ export const SusunAyatGame: React.FC<MiniGameProps> = ({
             <button
               key={wordItem.id}
               onClick={() => handleSelectWord(wordItem)}
-              className="touch-btn font-quran text-3xl md:text-4xl px-8 py-5 rounded-2xl bg-gradient-to-b from-stone-800 to-stone-900 hover:from-amber-900 hover:to-amber-950 text-amber-100 border-3 border-amber-600/70 hover:border-amber-400 shadow-touch active:translate-y-1 cursor-pointer transition-all"
+              className="touch-btn font-quran text-3xl md:text-5xl px-8 py-5 rounded-3xl bg-gradient-to-b from-slate-800 via-slate-900 to-slate-950 hover:from-amber-900/90 hover:to-amber-950 text-amber-100 border-2 border-amber-400/80 border-b-[8px] border-b-amber-950 shadow-btn-gold active:border-b-[2px] active:translate-y-1.5 cursor-pointer transition-all duration-75"
             >
               {wordItem.teks}
             </button>

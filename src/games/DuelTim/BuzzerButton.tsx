@@ -28,15 +28,15 @@ export const BuzzerButton: React.FC<BuzzerButtonProps> = ({
 
   const baseColors = isTeamA
     ? {
-        idle: 'from-emerald-600 to-emerald-800 border-emerald-400 shadow-card-glow hover:from-emerald-500 hover:to-emerald-700',
-        active: 'from-emerald-400 to-emerald-600 border-yellow-300 ring-8 ring-yellow-400/80 shadow-2xl scale-105 animate-pulse',
-        bgGlow: 'bg-emerald-500/20',
+        idle: 'from-emerald-400 via-emerald-600 to-emerald-800 border-emerald-200 border-b-[12px] border-b-[#064e3b] shadow-btn-emerald hover:from-emerald-300 hover:to-emerald-700 active:border-b-[4px] active:translate-y-2',
+        active: 'from-emerald-300 via-emerald-500 to-emerald-600 border-yellow-300 ring-8 ring-yellow-400 shadow-2xl scale-105 animate-pulse',
+        bgGlow: 'bg-emerald-500/30',
         textColor: 'text-emerald-300',
       }
     : {
-        idle: 'from-sky-600 to-sky-800 border-sky-400 shadow-card-glow hover:from-sky-500 hover:to-sky-700',
-        active: 'from-sky-400 to-sky-600 border-yellow-300 ring-8 ring-yellow-400/80 shadow-2xl scale-105 animate-pulse',
-        bgGlow: 'bg-sky-500/20',
+        idle: 'from-sky-400 via-sky-600 to-sky-800 border-sky-200 border-b-[12px] border-b-[#0c4a6e] shadow-btn-sky hover:from-sky-300 hover:to-sky-700 active:border-b-[4px] active:translate-y-2',
+        active: 'from-sky-300 via-sky-500 to-sky-600 border-yellow-300 ring-8 ring-yellow-400 shadow-2xl scale-105 animate-pulse',
+        bgGlow: 'bg-sky-500/30',
         textColor: 'text-sky-300',
       };
 
@@ -47,10 +47,10 @@ export const BuzzerButton: React.FC<BuzzerButtonProps> = ({
         disabled={disabled || isLocked}
         className={`
           touch-btn relative flex flex-col items-center justify-center
-          w-[280px] h-[280px] md:w-[320px] md:h-[320px] rounded-full border-8
-          bg-gradient-to-br transition-all duration-75 cursor-pointer select-none
+          w-[280px] h-[280px] md:w-[320px] md:h-[320px] rounded-full border-4
+          bg-gradient-to-b transition-all duration-75 cursor-pointer select-none
           ${isActive ? baseColors.active : baseColors.idle}
-          ${isLocked ? 'opacity-40 grayscale cursor-not-allowed border-stone-600' : ''}
+          ${isLocked ? 'opacity-40 grayscale cursor-not-allowed border-stone-600 border-b-4' : ''}
           ${disabled ? 'opacity-30 cursor-not-allowed' : ''}
         `}
       >
@@ -69,11 +69,11 @@ export const BuzzerButton: React.FC<BuzzerButtonProps> = ({
         </div>
 
         {/* Buzzer Label */}
-        <span className="text-3xl md:text-4xl font-black text-white tracking-wider font-display uppercase drop-shadow-md">
+        <span className="text-3xl md:text-5xl font-black text-white tracking-wider font-display uppercase drop-shadow-md">
           {isActive ? 'MENJAWAB!' : 'BUZZER'}
         </span>
 
-        <span className="text-lg md:text-xl font-extrabold text-stone-100/90 mt-1">
+        <span className="text-lg md:text-2xl font-black text-amber-200 mt-1 font-display drop-shadow">
           {teamName}
         </span>
       </button>

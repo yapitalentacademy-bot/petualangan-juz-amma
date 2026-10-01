@@ -33,16 +33,16 @@ export const PapanSkor: React.FC<PapanSkorProps> = ({
   teamScores,
 }) => {
   return (
-    <div className="flex flex-col items-center justify-center p-8 md:p-12 max-w-4xl mx-auto glass-panel rounded-3xl border-4 border-amber-500/40 shadow-2xl">
+    <div className="flex flex-col items-center justify-center p-8 md:p-12 max-w-4xl mx-auto stone-plaque rounded-3xl border-4 border-emerald-400/60 shadow-2xl">
       {/* Title & Badge */}
       <div className="flex items-center gap-3 text-amber-400 mb-2">
-        <Trophy className="w-12 h-12" />
-        <h2 className="text-4xl md:text-5xl font-extrabold tracking-wide font-display text-center">
+        <Trophy className="w-14 h-14 text-yellow-400 animate-bounce" />
+        <h2 className="text-4xl md:text-6xl font-black tracking-wide font-display text-center gold-title-3d">
           {title}
         </h2>
       </div>
 
-      <p className="text-2xl text-stone-300 font-medium mb-8 text-center max-w-xl">
+      <p className="text-2xl text-emerald-100 font-bold mb-8 text-center max-w-xl">
         {subtitle}
       </p>
 
@@ -64,14 +64,14 @@ export const PapanSkor: React.FC<PapanSkorProps> = ({
                     flex items-center justify-center w-24 h-24 md:w-32 md:h-32 rounded-3xl
                     ${
                       isEarned
-                        ? 'bg-gradient-to-tr from-amber-500 to-yellow-300 shadow-gold-glow border-4 border-yellow-200'
-                        : 'bg-stone-800 border-2 border-stone-700'
+                        ? 'bg-gradient-to-tr from-amber-400 via-yellow-300 to-amber-500 shadow-gold-glow border-4 border-yellow-100 ring-4 ring-amber-400/40'
+                        : 'bg-slate-800 border-2 border-slate-700'
                     }
                   `}
                 >
                   <Star
                     className={`w-14 h-14 md:w-20 md:h-20 ${
-                      isEarned ? 'text-amber-950 fill-amber-950' : 'text-stone-600'
+                      isEarned ? 'text-amber-950 fill-amber-950' : 'text-slate-600'
                     }`}
                   />
                 </div>
@@ -84,13 +84,13 @@ export const PapanSkor: React.FC<PapanSkorProps> = ({
       {/* Duel Team Score Display */}
       {isTeamMode && teamScores && (
         <div className="grid grid-cols-2 gap-8 w-full my-6">
-          <div className="flex flex-col items-center p-6 rounded-3xl bg-emerald-950/80 border-4 border-emerald-500 shadow-lg">
-            <span className="text-2xl font-bold text-emerald-300">{teamScores.teamA.name}</span>
-            <span className="text-6xl font-black text-white mt-2">{teamScores.teamA.score}</span>
+          <div className="flex flex-col items-center p-6 rounded-3xl bg-emerald-950/90 border-4 border-emerald-400 shadow-lg">
+            <span className="text-2xl font-black text-emerald-300 font-display">{teamScores.teamA.name}</span>
+            <span className="text-6xl font-black text-white mt-2 font-display">{teamScores.teamA.score}</span>
           </div>
-          <div className="flex flex-col items-center p-6 rounded-3xl bg-sky-950/80 border-4 border-sky-500 shadow-lg">
-            <span className="text-2xl font-bold text-sky-300">{teamScores.teamB.name}</span>
-            <span className="text-6xl font-black text-white mt-2">{teamScores.teamB.score}</span>
+          <div className="flex flex-col items-center p-6 rounded-3xl bg-sky-950/90 border-4 border-sky-400 shadow-lg">
+            <span className="text-2xl font-black text-sky-300 font-display">{teamScores.teamB.name}</span>
+            <span className="text-6xl font-black text-white mt-2 font-display">{teamScores.teamB.score}</span>
           </div>
         </div>
       )}
@@ -98,15 +98,15 @@ export const PapanSkor: React.FC<PapanSkorProps> = ({
       {/* Score and Accuracy metrics */}
       {!isTeamMode && (
         <div className="grid grid-cols-2 gap-6 w-full max-w-md my-6">
-          <div className="flex flex-col items-center p-5 rounded-2xl bg-stone-900/80 border border-stone-700">
-            <span className="text-lg font-bold text-amber-300">Skor Akhir</span>
-            <span className="text-4xl font-extrabold text-white mt-1">
+          <div className="flex flex-col items-center p-5 rounded-2xl bg-slate-900/90 border-2 border-amber-400/60 shadow-md">
+            <span className="text-lg font-black text-amber-300 font-display">Skor Ekspedisi</span>
+            <span className="text-4xl font-black text-white mt-1 font-display">
               {score} / {maxScore}
             </span>
           </div>
-          <div className="flex flex-col items-center p-5 rounded-2xl bg-stone-900/80 border border-stone-700">
-            <span className="text-lg font-bold text-emerald-300">Akurasi</span>
-            <span className="text-4xl font-extrabold text-white mt-1">
+          <div className="flex flex-col items-center p-5 rounded-2xl bg-slate-900/90 border-2 border-emerald-400/60 shadow-md">
+            <span className="text-lg font-black text-emerald-300 font-display">Akurasi</span>
+            <span className="text-4xl font-black text-white mt-1 font-display">
               {accuracy}%
             </span>
           </div>

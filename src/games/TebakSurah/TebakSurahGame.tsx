@@ -202,11 +202,11 @@ export const TebakSurahGame: React.FC<MiniGameProps> = ({
           const isSelected = selectedChoiceIdx === idx;
           const isCorrect = choice.isCorrect;
 
-          let cardStyle = 'bg-stone-900/90 border-stone-700 hover:border-amber-400';
+          let cardStyle = 'bg-slate-900/90 border-slate-700 hover:border-amber-400 hover:bg-slate-800 shadow-lg';
           if (isSelected && answeredState === 'correct') {
-            cardStyle = 'bg-emerald-950/90 border-emerald-400 ring-4 ring-emerald-400 shadow-card-glow';
+            cardStyle = 'bg-gradient-to-r from-emerald-950/95 to-emerald-900/95 border-emerald-400 ring-4 ring-emerald-400/80 shadow-card-glow';
           } else if (isSelected && answeredState === 'wrong') {
-            cardStyle = 'bg-rose-950/90 border-rose-500 ring-4 ring-rose-500 animate-shake';
+            cardStyle = 'bg-gradient-to-r from-rose-950/95 to-rose-900/95 border-rose-500 ring-4 ring-rose-500/80 animate-shake';
           } else if (answeredState === 'wrong' && isCorrect) {
             cardStyle = 'bg-emerald-950/60 border-emerald-500/80 border-dashed';
           }
@@ -222,29 +222,29 @@ export const TebakSurahGame: React.FC<MiniGameProps> = ({
               `}
             >
               <div className="flex items-center gap-5">
-                <span className="w-12 h-12 rounded-2xl bg-amber-500 text-slate-950 font-black text-2xl flex items-center justify-center">
+                <span className="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-400 to-amber-600 text-slate-950 font-black text-3xl font-display flex items-center justify-center shadow-md border-2 border-amber-200">
                   {String.fromCharCode(65 + idx)}
                 </span>
                 <div className="flex flex-col text-left">
                   <span className="text-3xl font-black text-white font-display">
                     Surah {choice.namaLatin}
                   </span>
-                  <span className="text-lg text-stone-400 font-medium">
+                  <span className="text-lg text-emerald-300 font-bold">
                     "{choice.arti}"
                   </span>
                 </div>
               </div>
 
               <div className="flex items-center gap-4">
-                <span dir="rtl" className="font-quran text-4xl text-amber-200 font-bold">
+                <span dir="rtl" className="font-quran text-4xl text-amber-200 font-bold drop-shadow">
                   {choice.namaArab}
                 </span>
 
                 {isSelected && answeredState === 'correct' && (
-                  <CheckCircle2 className="w-9 h-9 text-emerald-400 animate-bounce" />
+                  <CheckCircle2 className="w-10 h-10 text-emerald-400 animate-bounce" />
                 )}
                 {isSelected && answeredState === 'wrong' && (
-                  <XCircle className="w-9 h-9 text-rose-400" />
+                  <XCircle className="w-10 h-10 text-rose-400" />
                 )}
               </div>
             </div>
