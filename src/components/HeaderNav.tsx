@@ -1,6 +1,7 @@
 import React from 'react';
-import { ArrowLeft, Home, Volume2, VolumeX, Shield } from 'lucide-react';
+import { ArrowLeft, Home, Volume2, VolumeX, Shield, Maximize, Minimize } from 'lucide-react';
 import { sfx } from '../lib/audioPlayer';
+import { useFullscreen } from '../lib/useFullscreen';
 
 interface HeaderNavProps {
   title?: string;
@@ -29,6 +30,8 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
   soundEnabled = true,
   onToggleSound,
 }) => {
+  const { isFullscreen, toggleFullscreen } = useFullscreen();
+
   return (
     <header className="w-full flex items-center justify-between px-6 py-4 md:px-10 md:py-6 glass-panel border-b-2 border-amber-600/30 sticky top-0 z-40">
       {/* Left Action (Kembali ke Peta / Beranda) */}
@@ -75,8 +78,8 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
         )}
       </div>
 
-      {/* Right Action: Class Badge & Audio Toggle & Guru */}
-      <div className="flex items-center gap-4">
+      {/* Right Action: Class Badge & Fullscreen & Audio Toggle & Guru */}
+      <div className="flex items-center gap-3 md:gap-4">
         {classNameLabel && (
           <div className="flex items-center gap-2 bg-emerald-950/80 border border-emerald-500/60 px-5 py-2.5 rounded-2xl shadow-sm">
             <span className="text-emerald-400 font-bold text-lg">Kelas:</span>
@@ -86,6 +89,22 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
             </span>
           </div>
         )}
+
+        {/* Fullscreen Button */}
+        <button
+          onClick={() => {
+            sfx.playClick();
+            toggleFullscreen();
+          }}
+          className="touch-btn p-3.5 bg-stone-900/90 hover:bg-stone-800 text-amber-300 hover:text-amber-200 border border-amber-500/40 rounded-2xl cursor-pointer"
+          title={isFullscreen ? 'Keluar Layar Penuh (ESC)' : 'Mode Layar Penuh (Fullscreen)'}
+        >
+          {isFullscreen ? (
+            <Minimize className="w-7 h-7" />
+          ) : (
+            <Maximize className="w-7 h-7" />
+          )}
+        </button>
 
         {onToggleSound && (
           <button

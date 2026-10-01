@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { TombolBesar } from '../components/TombolBesar';
-import { Compass, Users, Sparkles, ShieldCheck, BookOpen, KeyRound, Star, Award, Info } from 'lucide-react';
+import { Compass, Users, Sparkles, ShieldCheck, BookOpen, KeyRound, Star, Award, Info, Maximize, Minimize } from 'lucide-react';
 import { KelasLevel } from '../types/surah';
 import { sfx } from '../lib/audioPlayer';
+import { useFullscreen } from '../lib/useFullscreen';
 
 interface BerandaProps {
   onStartAdventure: () => void;
@@ -37,6 +38,8 @@ export const Beranda: React.FC<BerandaProps> = ({
     { level: 5, label: 'Kelas 5', desc: "Al-A'la s.d. An-Nas (87–114)" },
     { level: 6, label: 'Kelas 6', desc: "An-Naba' s.d. An-Nas (78–114)" },
   ];
+
+  const { isFullscreen, toggleFullscreen } = useFullscreen();
 
   const handlePinSubmit = () => {
     // Default PIN: 1234 or 0000
@@ -79,6 +82,28 @@ export const Beranda: React.FC<BerandaProps> = ({
             <Award className="w-5 h-5" />
             <span>{badges.length} Lencana</span>
           </div>
+
+          {/* Fullscreen Button */}
+          <button
+            onClick={() => {
+              sfx.playClick();
+              toggleFullscreen();
+            }}
+            className="touch-btn flex items-center gap-2 px-4 py-2.5 bg-stone-900/80 hover:bg-stone-800 text-amber-300 hover:text-amber-200 border border-amber-500/50 rounded-2xl text-lg font-bold cursor-pointer"
+            title={isFullscreen ? 'Keluar Layar Penuh (ESC)' : 'Mode Layar Penuh (Fullscreen)'}
+          >
+            {isFullscreen ? (
+              <>
+                <Minimize className="w-5 h-5" />
+                <span className="hidden sm:inline">Kecilkan</span>
+              </>
+            ) : (
+              <>
+                <Maximize className="w-5 h-5" />
+                <span className="hidden sm:inline">Layar Penuh</span>
+              </>
+            )}
+          </button>
 
           {onOpenAbout && (
             <button
