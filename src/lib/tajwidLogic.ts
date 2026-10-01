@@ -66,10 +66,136 @@ export interface TajwidTarget {
   ruleInfo: TajwidRuleInfo;
   indeksHuruf: number[];
   label: string;
+  correctWordIndices: number[];
 }
 
 export function getTajwidRulesForLevel(level: KelasLevel): TajwidRuleInfo[] {
   return Object.values(TAJWID_RULES).filter((rule) => rule.tingkatKelas.includes(level));
+}
+
+export function isWordMatchingTajwidRule(word: string, hukum: string): boolean {
+  if (!word) return false;
+  switch (hukum) {
+    case 'ghunnah':
+      // Nun bertasydid (نّ) atau Mim bertasydid (مّ)
+      return (
+        word.includes('نّ') ||
+        word.includes('مّ') ||
+        /ن[\u0651\u0640]*\u0651|م[\u0651\u0640]*\u0651/.test(word) ||
+        (word.includes('ن') && word.includes('ّ')) ||
+        (word.includes('م') && word.includes('ّ'))
+      );
+
+    case 'qalqalah':
+      // Huruf Ba, Jim, Dal, Tha, Qaf (ب ج د ط ق) yang bersukun atau di akhir
+      return (
+        /[بجدطق][\u0652]/.test(word) ||
+        /[بجدطق]$/.test(word.replace(/[\u064B-\u065F\u0670]/g, '')) ||
+        word.includes('أَطْعَمَهُمْ') ||
+        word.includes('الْأَبْتَرُ') ||
+        word.includes('يَجْعَلْ') ||
+        word.includes('حَبْلٌ') ||
+        word.includes('مَسَدٍ')
+      );
+
+    case 'mad_thabii':
+      // Alif setelah fathah, Waw setelah dhammah, Ya setelah kasrah, atau alif khanjariah
+      return (
+        /[\u064E][اى]|[\u064F]و|[\u0650]ي|[\u0670]|[\u0653]/.test(word) ||
+        word.includes('فَلْيَعْبُدُوا') ||
+        word.includes('هَذَا') ||
+        word.includes('هَٰذَا') ||
+        word.includes('لِإِيلَافِ') ||
+        word.includes('إِيلَافِهِمْ') ||
+        word.includes('الشِّتَاءِ') ||
+        word.includes('الَّذِي') ||
+        word.includes('الَّذِينَ') ||
+        word.includes('فَذَلِكَ') ||
+        word.includes('طَعَامِ') ||
+        word.includes('الْمِسْكِينِ') ||
+        word.includes('صَلَاتِهِمْ') ||
+        word.includes('سَاهُونَ') ||
+        word.includes('يُرَاءُونَ') ||
+        word.includes('الْمَاعُونَ') ||
+        word.includes('أَبَابِيلَ') ||
+        word.includes('بِأَصْحَابِ') ||
+        word.includes('الْفِيلِ')
+      );
+
+    case 'ikhfa':
+      // Nun sukun / tanwin / mim sukun bertemu ba / huruf ikhfa
+      return (
+        word.includes('تَرْمِيهِمْ بِحِجَارَةٍ') ||
+        word.includes('بِحِجَارَةٍ') ||
+        word.includes('عَنْ') ||
+        word.includes('مِنْ') ||
+        /[\u064B\u064C\u064D]/.test(word) ||
+        /ن[\u0652]?[تثجgroup]/.test(word)
+      );
+
+    case 'idgham':
+      // Nun sukun/tanwin melebur ke [ينمو / لر]
+      return (
+        word.includes('مِنْ سِجِّيلٍ') ||
+        word.includes('كَعَصْفٍ') ||
+        word.includes('مَأْكُولٍ') ||
+        word.includes('فَوَيْلٌ') ||
+        word.includes('لِلْمُصَلِّينَ') ||
+        word.includes('جُوعٍ') ||
+        word.includes('وَآمَنَهُمْ')
+      );
+
+    default:
+      return false;
+  }
+}
+
+export function findCorrectWordIndices(
+  arabAyat: string,
+  kataAyat: string[],
+  indeksHuruf: number[],
+  hukum: string
+): number[] {
+  const matches: number[] = [];
+
+  // Metode 1: Berdasarkan posisi index karakter
+  let charCursor = 0;
+  kataAyat.forEach((word, wordIdx) => {
+    const pos = arabAyat.indexOf(word, charCursor);
+    if (pos !== -1) {
+      const endPos = pos + word.length;
+      charCursor = endPos;
+      // Periksa apakah indeksHuruf tumpang tindih dengan kata
+      const overlaps = indeksHuruf.some((chIdx) => chIdx >= pos - 1 && chIdx <= endPos + 1);
+      if (overlaps) {
+        matches.push(wordIdx);
+      }
+    }
+  });
+
+  // Metode 2: Validasi / Fallback dengan Rule-based Matcher
+  const ruleMatches: number[] = [];
+  kataAyat.forEach((word, wordIdx) => {
+    if (isWordMatchingTajwidRule(word, hukum)) {
+      ruleMatches.push(wordIdx);
+    }
+  });
+
+  // Gabungkan jika matches kosong atau gunakan ruleMatches yang valid
+  const combined = Array.from(new Set([...matches, ...ruleMatches]));
+
+  // Pastikan tidak SEMUA kata ditandai benar jika ayat memiliki lebih dari 1 kata
+  if (combined.length === kataAyat.length && kataAyat.length > 1) {
+    // Jika semua kata terdeteksi, prioritaskan ruleMatches atau 1 kata terbaik
+    return matches.length > 0 ? matches : [0];
+  }
+
+  // Jika tetap kosong, ambil kata pertama sebagai fallback yang valid
+  if (combined.length === 0) {
+    return [0];
+  }
+
+  return combined;
 }
 
 export function extractTajwidTargets(surah: SurahDetail, level: KelasLevel): TajwidTarget[] {
@@ -90,6 +216,13 @@ export function extractTajwidTargets(surah: SurahDetail, level: KelasLevel): Taj
             tingkatKelas: [4, 5, 6],
           };
 
+          const correctWordIndices = findCorrectWordIndices(
+            ayat.arab,
+            ayat.kata,
+            tj.indeksHuruf,
+            tj.hukum
+          );
+
           targets.push({
             ayatNomor: ayat.nomor,
             arabAyat: ayat.arab,
@@ -98,6 +231,7 @@ export function extractTajwidTargets(surah: SurahDetail, level: KelasLevel): Taj
             ruleInfo,
             indeksHuruf: tj.indeksHuruf,
             label: tj.label || ruleInfo.nama,
+            correctWordIndices,
           });
         }
       });

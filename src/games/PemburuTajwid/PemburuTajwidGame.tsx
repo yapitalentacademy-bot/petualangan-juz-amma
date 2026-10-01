@@ -39,6 +39,7 @@ export const PemburuTajwidGame: React.FC<PemburuTajwidGameProps> = ({
   const [targets, setTargets] = useState<TajwidTarget[]>([]);
   const [currentRound, setCurrentRound] = useState(0);
   const [foundIndices, setFoundIndices] = useState<number[]>([]);
+  const [wrongIndices, setWrongIndices] = useState<number[]>([]);
   const [score, setScore] = useState(0);
   const [streak, setStreak] = useState(0);
   const [feedback, setFeedback] = useState<{
@@ -65,30 +66,53 @@ export const PemburuTajwidGame: React.FC<PemburuTajwidGameProps> = ({
   const activeTarget: TajwidTarget | undefined = targets[currentRound];
   const availableRules = getTajwidRulesForLevel(level);
 
-  const handleWordClick = (_word: string, wordIdx: number) => {
+  const handleWordClick = (word: string, wordIdx: number) => {
     if (!activeTarget || foundIndices.includes(wordIdx) || isCompleted) return;
 
-    // Word contains the tajwid target
+    const isCorrect = activeTarget.correctWordIndices.includes(wordIdx);
+
+    if (!isCorrect) {
+      // JAWABAN SALAH (Kata ini tidak mengandung hukum tajwid target)
+      sfx.playWrong();
+      setStreak(0);
+      setWrongIndices((prev) => [...prev, wordIdx]);
+
+      // Hapus efek salah setelah 1.2 detik agar siswa bisa mencoba lagi
+      setTimeout(() => {
+        setWrongIndices((prev) => prev.filter((i) => i !== wordIdx));
+      }, 1200);
+
+      setFeedback({
+        type: 'wrong',
+        message: `Kata "${word}" belum tepat!`,
+        ruleLabel: `Cari kata yang mengandung hukum ${activeTarget.label} (${activeTarget.ruleInfo.penjelasan})`,
+      });
+      return;
+    }
+
+    // JAWABAN BENAR (Kata mengandung hukum tajwid target)
     sfx.playCorrect();
-    setFoundIndices((prev) => [...prev, wordIdx]);
+    const newFound = [...foundIndices, wordIdx];
+    setFoundIndices(newFound);
     const addPts = 25 + streak * 5;
     setScore((prev) => prev + addPts);
     setStreak((prev) => prev + 1);
 
     setFeedback({
       type: 'correct',
-      message: `Hebat! Menemukan ${activeTarget.label}!`,
+      message: `Benar Sekali! Kata "${word}" mengandung ${activeTarget.label}!`,
       ruleLabel: activeTarget.ruleInfo.penjelasan,
     });
 
-    // Advance after a brief delay
+    // Cek apakah semua target kata di ayat ini sudah ditemukan, lalu maju ke ronde berikutnya
     setTimeout(() => {
       if (currentRound + 1 < targets.length) {
         setCurrentRound((prev) => prev + 1);
         setFoundIndices([]);
+        setWrongIndices([]);
         setFeedback({ type: null, message: '' });
       } else {
-        // Finished game
+        // Selesai seluruh target tajwid
         setIsCompleted(true);
         const finalScore = score + addPts;
         let stars: 1 | 2 | 3 = 1;
@@ -106,7 +130,7 @@ export const PemburuTajwidGame: React.FC<PemburuTajwidGameProps> = ({
           salah: 0,
         });
       }
-    }, 1800);
+    }, 1600);
   };
 
   const handleWrongHint = () => {
@@ -221,6 +245,7 @@ export const PemburuTajwidGame: React.FC<PemburuTajwidGameProps> = ({
           >
             {activeTarget.kataAyat.map((kata, idx) => {
               const isFound = foundIndices.includes(idx);
+              const isWrong = wrongIndices.includes(idx);
               return (
                 <button
                   key={idx}
@@ -230,6 +255,8 @@ export const PemburuTajwidGame: React.FC<PemburuTajwidGameProps> = ({
                     ${
                       isFound
                         ? 'bg-emerald-600 border-emerald-300 text-white shadow-card-glow scale-105 animate-pulse'
+                        : isWrong
+                        ? 'bg-rose-950/90 border-rose-500 text-rose-300 animate-shake shadow-lg'
                         : 'bg-stone-900/90 border-stone-700 text-amber-100 hover:border-amber-400 hover:bg-stone-800 active:scale-95'
                     }
                   `}
@@ -238,6 +265,11 @@ export const PemburuTajwidGame: React.FC<PemburuTajwidGameProps> = ({
                   {isFound && (
                     <span className="absolute -top-3 -right-3 p-1.5 rounded-full bg-emerald-400 text-black shadow-md">
                       <CheckCircle className="w-5 h-5" />
+                    </span>
+                  )}
+                  {isWrong && (
+                    <span className="absolute -top-3 -right-3 p-1.5 rounded-full bg-rose-500 text-white shadow-md">
+                      <X className="w-5 h-5" />
                     </span>
                   )}
                 </button>

@@ -28,13 +28,19 @@ describe('Tajwid & Story Logic Tests (Fase 6)', () => {
     expect(ruleHukumsLv6).toContain('idgham');
   });
 
-  it('should extract tajwid targets from surah according to level', () => {
+  it('should extract tajwid targets from surah according to level with precise correctWordIndices', () => {
     expect(surah105).toBeDefined();
     const targetsLv4 = extractTajwidTargets(surah105, 4);
     expect(targetsLv4.length).toBeGreaterThan(0);
     // Lv4 only allows qalqalah & ghunnah
     targetsLv4.forEach((t) => {
       expect(['qalqalah', 'ghunnah']).toContain(t.hukum);
+      expect(t.correctWordIndices).toBeDefined();
+      expect(t.correctWordIndices.length).toBeGreaterThan(0);
+      // Ensure not all words are marked correct if there are distractors
+      if (t.kataAyat.length > 1) {
+        expect(t.correctWordIndices.length).toBeLessThan(t.kataAyat.length);
+      }
     });
 
     const targetsLv6 = extractTajwidTargets(surah105, 6);
