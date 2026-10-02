@@ -13,6 +13,7 @@ import { PemburuTajwidGame } from '../games/PemburuTajwid/PemburuTajwidGame';
 import { KisahSurahScreen } from '../games/KisahSurah/KisahSurahScreen';
 import { BintangDelapan } from '../components/ornaments/BintangDelapan';
 import { LenteraFanus } from '../components/ornaments/LenteraFanus';
+import { LatarParallax, WilayahType } from '../components/LatarParallax';
 import sampleSurahsData from '../data/sample-surahs.json';
 import { SurahDetail, KelasLevel } from '../types/surah';
 import { GameResult } from '../types/game';
@@ -137,8 +138,12 @@ export const PosSurah: React.FC<PosSurahProps> = ({
     }
   };
 
+  const surahWilayah: WilayahType =
+    surah.id >= 93 ? 'lembah-fajar' : surah.id >= 87 ? 'gurun-senja' : 'pegunungan-bintang';
+
   return (
-    <div className="min-h-screen bg-[var(--pasir-terang)] text-[var(--malam)] flex flex-col">
+    <LatarParallax wilayah={surahWilayah} isBuram={activeGame !== 'none'} className="min-h-screen">
+      <div className="min-h-screen text-[var(--malam)] flex flex-col bg-white/20 backdrop-blur-[1px]">
       <HeaderNav
         title={`Pos Surah: ${surah.namaLatin}`}
         subtitle={`${surah.arti} • ${surah.tempatTurun} • ${surah.jumlahAyat} Ayat`}
@@ -569,6 +574,7 @@ export const PosSurah: React.FC<PosSurahProps> = ({
           </>
         )}
       </main>
-    </div>
+      </div>
+    </LatarParallax>
   );
 };

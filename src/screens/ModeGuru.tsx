@@ -347,6 +347,32 @@ export const ModeGuru: React.FC<ModeGuruProps> = ({
                     {progress.pengaturan.nurTanpaWajah ? 'AKTIF' : 'NONAKTIF'}
                   </span>
                 </button>
+
+                {/* Switch: Sembunyikan Siluet Hewan (DESIGN.md Bagian Pemandangan Alam) */}
+                <button
+                  onClick={() => {
+                    sfx.playClick();
+                    onToggleSetting('sembunyikanHewan');
+                  }}
+                  className="flex items-center justify-between p-4 bg-[var(--pasir-terang)] rounded-2xl border border-[var(--pasir)] cursor-pointer hover:border-[var(--emas)] transition-all"
+                >
+                  <div className="flex items-center gap-3 text-[var(--malam)]">
+                    <Sparkles className="w-6 h-6 text-[#1E6F8C]" />
+                    <div className="text-left">
+                      <span className="text-lg font-bold block">Sembunyikan Siluet Hewan</span>
+                      <span className="text-xs text-[var(--malam)]/70 font-semibold block">Hanya tampilkan lanskap alam tanpa siluet burung/kupu-kupu</span>
+                    </div>
+                  </div>
+                  <span
+                    className={`px-4 py-1.5 rounded-full font-black text-xs ${
+                      progress.pengaturan.sembunyikanHewan
+                        ? 'bg-[var(--zamrud)] text-[var(--gading)]'
+                        : 'bg-[var(--pasir)] text-[var(--malam)]/60'
+                    }`}
+                  >
+                    {progress.pengaturan.sembunyikanHewan ? 'TERSEMBUNYI' : 'TAMPIL'}
+                  </span>
+                </button>
               </div>
             </div>
 

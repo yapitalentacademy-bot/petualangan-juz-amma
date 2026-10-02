@@ -51,6 +51,7 @@ export const App: React.FC = () => {
           onSelectLevel={setLevel}
           onOpenTeacherMode={keModeGuru}
           onOpenAbout={keTentang}
+          sembunyikanHewan={progress.pengaturan.sembunyikanHewan}
         />
       )}
 

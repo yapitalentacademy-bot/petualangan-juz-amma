@@ -63,5 +63,6 @@ export interface KelasProgress {
     kecepatanAudio: number;
     qariTerpilih: string;
     nurTanpaWajah?: boolean;
+    sembunyikanHewan?: boolean;
   };
 }

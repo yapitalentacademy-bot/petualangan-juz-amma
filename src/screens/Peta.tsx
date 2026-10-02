@@ -6,6 +6,7 @@ import { Lock, Flag, Sparkles } from 'lucide-react';
 import { sfx } from '../lib/audioPlayer';
 import { BintangDelapan } from '../components/ornaments/BintangDelapan';
 import { LenteraFanus } from '../components/ornaments/LenteraFanus';
+import { LatarParallax, WilayahType } from '../components/LatarParallax';
 
 interface PetaProps {
   unlockedSurahIds: number[];
@@ -56,6 +57,17 @@ export const Peta: React.FC<PetaProps> = ({
     return { nama: 'Puncak Bintang', kelas: 'Kelas 6', warna: '#1E6F8C', bgClass: 'bg-[#F0F8FA] border-[#1E6F8C]' };
   };
 
+  // Tentukan wilayah parallax dinamis
+  const getActiveParallaxWilayah = (): WilayahType => {
+    if (activeTabWilayah === 'senja' || (activeTabWilayah === 'semua' && levelLabel === 5)) {
+      return 'gurun-senja';
+    }
+    if (activeTabWilayah === 'puncak' || (activeTabWilayah === 'semua' && levelLabel === 6)) {
+      return 'pegunungan-bintang';
+    }
+    return 'lembah-fajar';
+  };
+
   const displayedSurahs = surahsOrdered.filter((s) => {
     if (activeTabWilayah === 'oase') return s.id >= 93 && s.id <= 114;
     if (activeTabWilayah === 'senja') return s.id >= 87 && s.id <= 92;
@@ -64,7 +76,8 @@ export const Peta: React.FC<PetaProps> = ({
   });
 
   return (
-    <div className="min-h-screen bg-[#F6EBD9] flex flex-col bg-pola-girih text-[#14233C]">
+    <LatarParallax wilayah={getActiveParallaxWilayah()} className="min-h-screen">
+      <div className="min-h-screen flex flex-col text-[#14233C] bg-white/30 backdrop-blur-[2px]">
       <HeaderNav
         title="Peta Kafilah 37 Pos Juz 'Amma"
         subtitle="Jalur Ekspedisi dari An-Nas (114) s.d. An-Naba' (78)"
@@ -280,7 +293,8 @@ export const Peta: React.FC<PetaProps> = ({
           })}
         </div>
       </main>
-    </div>
+      </div>
+    </LatarParallax>
   );
 };
 

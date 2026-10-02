@@ -57,6 +57,7 @@ export const defaultClassData: KelasProgress = {
     kecepatanAudio: 1.0,
     qariTerpilih: 'misyari',
     nurTanpaWajah: false,
+    sembunyikanHewan: false,
   },
 };
 

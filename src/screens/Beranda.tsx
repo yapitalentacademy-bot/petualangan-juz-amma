@@ -7,6 +7,7 @@ import { useFullscreen } from '../lib/useFullscreen';
 import { BintangDelapan } from '../components/ornaments/BintangDelapan';
 import { LenteraFanus } from '../components/ornaments/LenteraFanus';
 import { MaskotNur } from '../components/ornaments/MaskotNur';
+import { LatarParallax } from '../components/LatarParallax';
 
 interface BerandaProps {
   onStartAdventure: () => void;
@@ -19,6 +20,7 @@ interface BerandaProps {
   onSelectLevel: (level: KelasLevel) => void;
   onOpenTeacherMode: () => void;
   onOpenAbout?: () => void;
+  sembunyikanHewan?: boolean;
 }
 
 export const Beranda: React.FC<BerandaProps> = ({
@@ -32,6 +34,7 @@ export const Beranda: React.FC<BerandaProps> = ({
   onSelectLevel,
   onOpenTeacherMode,
   onOpenAbout,
+  sembunyikanHewan = false,
 }) => {
   const [showPinModal, setShowPinModal] = useState(false);
   const [pinInput, setPinInput] = useState('');
@@ -91,14 +94,8 @@ export const Beranda: React.FC<BerandaProps> = ({
   };
 
   return (
-    <div className="min-h-screen bg-[#F6EBD9] text-[#14233C] flex flex-col items-center justify-between p-6 md:p-10 relative overflow-hidden bg-pola-girih">
-      {/* Siluet Bukit Pasir Fajar & Pohon Kurma SVG di Latar Belakang */}
-      <div className="absolute inset-0 pointer-events-none opacity-40">
-        <svg viewBox="0 0 1440 600" className="w-full h-full object-cover" preserveAspectRatio="none">
-          <path d="M0,450 C320,380 480,520 800,430 C1120,340 1280,480 1440,410 L1440,600 L0,600 Z" fill="#E8D2A6" />
-          <path d="M0,500 C400,460 700,560 1100,490 C1300,460 1400,520 1440,510 L1440,600 L0,600 Z" fill="#DFC797" />
-        </svg>
-      </div>
+    <LatarParallax wilayah="lembah-fajar" sembunyikanHewan={sembunyikanHewan} className="min-h-screen">
+      <div className="min-h-screen text-[#14233C] flex flex-col items-center justify-between p-6 md:p-10 relative overflow-hidden bg-white/20 backdrop-blur-[2px]">
 
       {/* Top Header: Badge, Stars & Tools */}
       <header className="w-full flex flex-wrap items-center justify-between gap-4 z-10 max-w-6xl">
@@ -358,7 +355,8 @@ export const Beranda: React.FC<BerandaProps> = ({
           </div>
         </div>
       )}
-    </div>
+      </div>
+    </LatarParallax>
   );
 };
 
