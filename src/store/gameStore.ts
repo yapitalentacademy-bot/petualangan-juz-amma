@@ -101,6 +101,29 @@ export function useGameStore() {
     });
   };
 
+  const unlockAllSurahs = () => {
+    const allIds = Array.from({ length: 37 }, (_, i) => 78 + i); // 78 to 114
+    setProgress((prev) => ({
+      ...prev,
+      posTerbuka: allIds,
+    }));
+  };
+
+  const unlockLevelSurahs = (level: KelasLevel) => {
+    let ids: number[] = [];
+    if (level === 4) {
+      ids = Array.from({ length: 22 }, (_, i) => 93 + i); // 93 to 114
+    } else if (level === 5) {
+      ids = Array.from({ length: 28 }, (_, i) => 87 + i); // 87 to 114
+    } else {
+      ids = Array.from({ length: 37 }, (_, i) => 78 + i); // 78 to 114
+    }
+    setProgress((prev) => ({
+      ...prev,
+      posTerbuka: ids,
+    }));
+  };
+
   const toggleSetting = (key: keyof KelasProgress['pengaturan']) => {
     setProgress((prev) => ({
       ...prev,
@@ -113,9 +136,7 @@ export function useGameStore() {
 
   return {
     currentScreen,
-    setCurrentScreen,
     selectedSurahId,
-    setSelectedSurahId,
     focusSurahId,
     setFocusSurahId,
     progress,
@@ -123,7 +144,11 @@ export function useGameStore() {
     setLevel,
     updateStars,
     manualToggleUnlock,
+    unlockAllSurahs,
+    unlockLevelSurahs,
     toggleSetting,
+    setCurrentScreen,
+    setSelectedSurahId,
     bukaPosSurah: (id: number) => {
       setSelectedSurahId(id);
       setCurrentScreen('POS_SURAH');

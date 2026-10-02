@@ -34,6 +34,8 @@ interface ModeGuruProps {
   onSetLevel: (level: KelasLevel) => void;
   onToggleSetting: (key: keyof KelasProgress['pengaturan']) => void;
   onManualToggleUnlock: (surahId: number) => void;
+  onUnlockAllSurahs?: () => void;
+  onUnlockLevelSurahs?: (level: KelasLevel) => void;
   onResetProgress: () => void;
 }
 
@@ -48,6 +50,8 @@ export const ModeGuru: React.FC<ModeGuruProps> = ({
   onSetLevel,
   onToggleSetting,
   onManualToggleUnlock,
+  onUnlockAllSurahs,
+  onUnlockLevelSurahs,
   onResetProgress,
 }) => {
   const [activeTab, setActiveTab] = useState<TabType>('pengaturan');
@@ -435,12 +439,45 @@ export const ModeGuru: React.FC<ModeGuruProps> = ({
 
             {/* Manual Unlock Table */}
             <div className="bg-[var(--gading)] p-6 md:p-8 rounded-[28px] border-2 border-[var(--emas)]/50 shadow-md">
-              <h3 className="text-2xl font-black text-[var(--zamrud-tua)] font-['Baloo_2'] mb-2">
-                Buka / Kunci Pos Secara Manual (37 Pos)
-              </h3>
-              <p className="text-[var(--malam)]/80 text-sm mb-6 font-semibold">
-                Sentuh gembok pada surah mana pun untuk membuka atau menguncinya bagi kelas ini.
-              </p>
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+                <div>
+                  <h3 className="text-2xl font-black text-[var(--zamrud-tua)] font-['Baloo_2'] mb-1">
+                    Buka / Kunci Pos Secara Manual (37 Pos)
+                  </h3>
+                  <p className="text-[var(--malam)]/80 text-sm font-semibold">
+                    Sentuh gembok pada surah mana pun untuk membuka atau menguncinya bagi kelas ini.
+                  </p>
+                </div>
+
+                {/* Tombol Aksi Cepat */}
+                <div className="flex flex-wrap items-center gap-2">
+                  {onUnlockAllSurahs && (
+                    <button
+                      onClick={() => {
+                        sfx.playCorrect();
+                        onUnlockAllSurahs();
+                      }}
+                      className="px-4 py-2 bg-[#0F7A5C] hover:bg-[#128F6C] text-[#FFFDF7] font-bold text-xs rounded-full shadow-sm flex items-center gap-1.5 cursor-pointer transition-all"
+                    >
+                      <Unlock className="w-4 h-4" />
+                      <span>Buka Semua (37 Pos)</span>
+                    </button>
+                  )}
+
+                  {onUnlockLevelSurahs && (
+                    <button
+                      onClick={() => {
+                        sfx.playClick();
+                        onUnlockLevelSurahs(progress.level);
+                      }}
+                      className="px-4 py-2 bg-[#D4A23A] hover:bg-[#C2902B] text-[#14233C] font-bold text-xs rounded-full shadow-sm flex items-center gap-1.5 cursor-pointer transition-all"
+                    >
+                      <Sparkles className="w-4 h-4" />
+                      <span>Sesuai Kelas {progress.level}</span>
+                    </button>
+                  )}
+                </div>
+              </div>
 
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
                 {surahListData.map((s) => {

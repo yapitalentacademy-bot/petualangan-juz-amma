@@ -18,6 +18,8 @@ export const App: React.FC = () => {
     setLevel,
     updateStars,
     manualToggleUnlock,
+    unlockAllSurahs,
+    unlockLevelSurahs,
     toggleSetting,
     bukaPosSurah,
     kePeta,
@@ -93,6 +95,8 @@ export const App: React.FC = () => {
           onSetLevel={setLevel}
           onSetFocusSurahId={setFocusSurahId}
           onManualToggleUnlock={manualToggleUnlock}
+          onUnlockAllSurahs={unlockAllSurahs}
+          onUnlockLevelSurahs={unlockLevelSurahs}
           onToggleSetting={toggleSetting}
           onResetProgress={handleResetProgress}
         />
