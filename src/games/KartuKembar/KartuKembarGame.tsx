@@ -6,6 +6,7 @@ import { Sparkles, Users, CheckCircle2 } from 'lucide-react';
 
 export const KartuKembarGame: React.FC<MiniGameProps> = ({
   surahId,
+  level = 4,
   mode = 'solo',
   onFinish,
   onExit,
@@ -25,10 +26,10 @@ export const KartuKembarGame: React.FC<MiniGameProps> = ({
 
   useEffect(() => {
     startNewGame();
-  }, [surahId, mode]);
+  }, [surahId, level, mode]);
 
   const startNewGame = () => {
-    const cards = generateKartuKembarDeck([surahId]);
+    const cards = generateKartuKembarDeck([surahId], level);
     setDeck(cards);
     setFlippedCardIds([]);
     setMatchedPairIds([]);

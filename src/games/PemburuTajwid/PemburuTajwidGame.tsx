@@ -56,9 +56,9 @@ export const PemburuTajwidGame: React.FC<PemburuTajwidGameProps> = ({
       // If none found for allowed rules, fallback to all available
       if (extracted.length === 0) {
         const allExtracted = extractTajwidTargets(surah, 6);
-        setTargets(allExtracted);
+        setTargets([...allExtracted].sort(() => 0.5 - Math.random()));
       } else {
-        setTargets(extracted);
+        setTargets([...extracted].sort(() => 0.5 - Math.random()));
       }
     }
   }, [surahId, level]);

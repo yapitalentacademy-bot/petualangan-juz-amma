@@ -5,13 +5,41 @@ import {
   chunkAyatWords,
   generateSambungAyatQuestions,
   checkSusunAyatAnswer,
+  generateSusunAyatQuestions,
   generateTebakSurahQuestions,
   generateKeretaSurahQuestions,
   checkKeretaSurahOrder,
   generateKartuKembarDeck,
+  getSurahsForLevel,
 } from '../gameLogic';
 
 describe('Logika Mini-Game Petualangan Juz Amma', () => {
+  describe('Rentang Surah per Kelas (getSurahsForLevel)', () => {
+    it('Kelas 4: An-Nas (114) s.d. Ad-Dhuha (93) - Total 22 surah', () => {
+      const surahs = getSurahsForLevel(4);
+      expect(surahs.length).toBe(22);
+      expect(surahs.every((s) => s.id >= 93 && s.id <= 114)).toBe(true);
+      expect(surahs.some((s) => s.id === 93)).toBe(true); // Ad-Dhuha
+      expect(surahs.some((s) => s.id === 114)).toBe(true); // An-Nas
+    });
+
+    it("Kelas 5: An-Nas (114) s.d. Al-A'la (87) - Total 28 surah", () => {
+      const surahs = getSurahsForLevel(5);
+      expect(surahs.length).toBe(28);
+      expect(surahs.every((s) => s.id >= 87 && s.id <= 114)).toBe(true);
+      expect(surahs.some((s) => s.id === 87)).toBe(true); // Al-A'la
+      expect(surahs.some((s) => s.id === 114)).toBe(true); // An-Nas
+    });
+
+    it("Kelas 6: An-Nas (114) s.d. An-Naba' (78) - Total 37 surah (Seluruh Juz 30)", () => {
+      const surahs = getSurahsForLevel(6);
+      expect(surahs.length).toBe(37);
+      expect(surahs.every((s) => s.id >= 78 && s.id <= 114)).toBe(true);
+      expect(surahs.some((s) => s.id === 78)).toBe(true); // An-Naba'
+      expect(surahs.some((s) => s.id === 114)).toBe(true); // An-Nas
+    });
+  });
+
   describe('Perhitungan Bintang (calculateStars)', () => {
     it('memberikan 3 bintang untuk akurasi 100%', () => {
       expect(calculateStars(100)).toBe(3);
@@ -34,10 +62,11 @@ describe('Logika Mini-Game Petualangan Juz Amma', () => {
   });
 
   describe('Pengecekan Jawaban Sambung Ayat (checkSambungAyatAnswer)', () => {
-    it('menghasilkan soal sambung ayat yang valid', () => {
+    it('menghasilkan soal sambung ayat yang valid dan teracak', () => {
       const q = generateSambungAyatQuestions(105, 4);
       expect(q.length).toBeGreaterThan(0);
-      expect(q[0].jawabanBenar.nomor).toBe(2);
+      expect(q.every((item) => item.pilihanAyat.length === 3)).toBe(true);
+      expect(q.every((item) => item.pilihanAyat.some((p) => p.isCorrect))).toBe(true);
     });
 
     it('memberikan 15 poin jika benar pada percobaan pertama', () => {
@@ -79,6 +108,12 @@ describe('Logika Mini-Game Petualangan Juz Amma', () => {
       expect(chunks.length).toBe(sampleWords.length);
       expect(chunks[0].teks).toBe('أَلَمْ');
       expect(chunks[chunks.length - 1].teks).toBe('الْفِيلِ');
+    });
+
+    it('menghasilkan soal susun ayat untuk semua ayat', () => {
+      const questions = generateSusunAyatQuestions(105, 4);
+      expect(questions.length).toBe(5);
+      expect(questions.every((q) => q.potonganKata.length > 0)).toBe(true);
     });
   });
 
@@ -130,13 +165,15 @@ describe('Logika Mini-Game Petualangan Juz Amma', () => {
   });
 
   describe('Generator & Validator Kereta Surah (generateKeretaSurahQuestions)', () => {
-    it('menghasilkan 5 gerbong untuk Kelas 4 dan 6 gerbong untuk Kelas 5', () => {
+    it('menghasilkan 5 gerbong untuk Kelas 4 dan 6 gerbong untuk Kelas 5 dari rentang surah kelas', () => {
       const q4 = generateKeretaSurahQuestions(4);
       expect(q4.gerbongAcak.length).toBe(5);
       expect(q4.urutanTarget.length).toBe(5);
+      expect(q4.urutanTarget.every((g) => g.nomorSurah >= 93 && g.nomorSurah <= 114)).toBe(true);
 
       const q5 = generateKeretaSurahQuestions(5);
       expect(q5.gerbongAcak.length).toBe(6);
+      expect(q5.urutanTarget.every((g) => g.nomorSurah >= 87 && g.nomorSurah <= 114)).toBe(true);
     });
 
     it('memvalidasi urutan nomor surah secara akurat', () => {
@@ -148,7 +185,7 @@ describe('Logika Mini-Game Petualangan Juz Amma', () => {
 
   describe('Generator Kartu Kembar Deck (generateKartuKembarDeck)', () => {
     it('menghasilkan 12 kartu (6 pasangan cocok) dalam grid 4x3', () => {
-      const deck = generateKartuKembarDeck([105, 106, 107, 108, 112, 114]);
+      const deck = generateKartuKembarDeck([105, 106, 107, 108, 112, 114], 4);
       expect(deck.length).toBe(12);
 
       // Pastikan setiap pairId muncul tepat 2 kali
@@ -163,3 +200,4 @@ describe('Logika Mini-Game Petualangan Juz Amma', () => {
     });
   });
 });
+

@@ -13,6 +13,22 @@ const surahsRecord = sampleSurahsData as Record<string, SurahDetail>;
 const allSurahsList = surahListData as SurahMeta[];
 
 /**
+ * Filter rentang surah berdasarkan level kelas:
+ * - Kelas 4: An-Nas (114) s.d. Ad-Dhuha (93) (22 surah: nomor 93–114)
+ * - Kelas 5: An-Nas (114) s.d. Al-A'la (87)   (28 surah: nomor 87–114)
+ * - Kelas 6: An-Nas (114) s.d. An-Naba' (78)  (37 surah: nomor 78–114 / full Juz 30)
+ */
+export function getSurahsForLevel(level: KelasLevel): SurahMeta[] {
+  if (level === 4) {
+    return allSurahsList.filter((s) => s.id >= 93 && s.id <= 114);
+  }
+  if (level === 5) {
+    return allSurahsList.filter((s) => s.id >= 87 && s.id <= 114);
+  }
+  return allSurahsList.filter((s) => s.id >= 78 && s.id <= 114);
+}
+
+/**
  * Star calculation according to BRIEF:
  * >= 60%: 1 star
  * >= 80%: 2 stars
@@ -48,6 +64,8 @@ export function checkSambungAyatAnswer(
 
 /**
  * Generator Soal Sambung Ayat
+ * Urutan soal diacak sehingga tidak monoton berurutan.
+ * Pengecoh ayat disaring dari surah-surah sesuai rentang kelas.
  */
 export function generateSambungAyatQuestions(
   surahId: number,
@@ -58,6 +76,8 @@ export function generateSambungAyatQuestions(
 
   const numChoices = level === 4 ? 3 : 4;
   const questions: SambungAyatQuestion[] = [];
+  const levelSurahs = getSurahsForLevel(level);
+  const levelSurahIdSet = new Set(levelSurahs.map((s) => s.id));
 
   const allOtherAyats: {
     surahId: number;
@@ -69,17 +89,38 @@ export function generateSambungAyatQuestions(
   }[] = [];
 
   Object.values(surahsRecord).forEach((s) => {
-    s.ayat.forEach((a) => {
-      allOtherAyats.push({
-        surahId: s.id,
-        nomor: a.nomor,
-        arab: a.arab,
-        latin: a.latin,
-        terjemah: a.terjemah,
-        audio: a.audio,
+    // Utamakan surah-surah yang ada dalam rentang level
+    if (levelSurahIdSet.has(s.id)) {
+      s.ayat.forEach((a) => {
+        allOtherAyats.push({
+          surahId: s.id,
+          nomor: a.nomor,
+          arab: a.arab,
+          latin: a.latin,
+          terjemah: a.terjemah,
+          audio: a.audio,
+        });
+      });
+    }
+  });
+
+  // Jika data sampel level sedikit, sertakan seluruh data sampel sebagai cadangan
+  if (allOtherAyats.length < 10) {
+    Object.values(surahsRecord).forEach((s) => {
+      s.ayat.forEach((a) => {
+        if (!allOtherAyats.some((existing) => existing.surahId === s.id && existing.nomor === a.nomor)) {
+          allOtherAyats.push({
+            surahId: s.id,
+            nomor: a.nomor,
+            arab: a.arab,
+            latin: a.latin,
+            terjemah: a.terjemah,
+            audio: a.audio,
+          });
+        }
       });
     });
-  });
+  }
 
   for (let i = 0; i < surah.ayat.length - 1; i++) {
     const promptAyatData = surah.ayat[i];
@@ -153,7 +194,12 @@ export function generateSambungAyatQuestions(
     });
   }
 
-  return questions;
+  // Acak susunan urutan soal agar tidak selalu berurutan dari ayat 1
+  const randomized = [...questions].sort(() => 0.5 - Math.random());
+  return randomized.map((q, idx) => ({
+    ...q,
+    nomorSoal: idx + 1,
+  }));
 }
 
 /**
@@ -194,6 +240,7 @@ export function chunkAyatWords(
 
 /**
  * Generator Soal Susun Ayat
+ * Urutan ayat diacak agar pemain mendapatkan tantangan ayat secara variatif.
  */
 export function generateSusunAyatQuestions(
   surahId: number,
@@ -202,7 +249,7 @@ export function generateSusunAyatQuestions(
   const surah = surahsRecord[String(surahId)];
   if (!surah) return [];
 
-  return surah.ayat.map((a) => {
+  const list = surah.ayat.map((a) => {
     const chunks = chunkAyatWords(a.kata, level);
     return {
       id: `su_${surah.id}_${a.nomor}`,
@@ -215,6 +262,9 @@ export function generateSusunAyatQuestions(
       potonganKata: chunks,
     };
   });
+
+  // Acak susunan urutan soal ayat
+  return [...list].sort(() => 0.5 - Math.random());
 }
 
 /**
@@ -248,9 +298,13 @@ export function checkSusunAyatAnswer(
 
 /**
  * Helper untuk membuat 4 pilihan jawaban Tebak Surah
- * Menjamin 1 jawaban benar (isCorrect: true) + 3 pengecoh acak (isCorrect: false)
+ * Mengambil kandidat pengecoh dari surah-surah yang sesuai dengan rentang level kelas
  */
-function buildTebakSurahChoices(targetSurahId: number, numChoices: number = 4) {
+function buildTebakSurahChoices(
+  targetSurahId: number,
+  level: KelasLevel = 4,
+  numChoices: number = 4
+) {
   const target =
     allSurahsList.find((s) => s.id === targetSurahId) ||
     surahsRecord[String(targetSurahId)];
@@ -264,10 +318,19 @@ function buildTebakSurahChoices(targetSurahId: number, numChoices: number = 4) {
     isCorrect: true,
   };
 
-  // Ambil kandidat pengecoh dari surah-surah lain
-  const otherSurahs = allSurahsList
+  // Ambil kandidat pengecoh dari rentang level kelas
+  const levelSurahs = getSurahsForLevel(level);
+  let otherSurahs = levelSurahs
     .filter((s) => s.id !== targetSurahId)
     .sort(() => 0.5 - Math.random());
+
+  // Jika surah di rentang kelas kurang dari yang dibutuhkan, fallback ke daftar lengkap
+  if (otherSurahs.length < numChoices - 1) {
+    const backupSurahs = allSurahsList
+      .filter((s) => s.id !== targetSurahId && !otherSurahs.some((os) => os.id === s.id))
+      .sort(() => 0.5 - Math.random());
+    otherSurahs = [...otherSurahs, ...backupSurahs];
+  }
 
   const distractors = otherSurahs.slice(0, numChoices - 1).map((s) => ({
     surahId: s.id,
@@ -282,7 +345,7 @@ function buildTebakSurahChoices(targetSurahId: number, numChoices: number = 4) {
 
 /**
  * Generator Soal Tebak Surah
- * 3 Varian: Arti nama, Jumlah ayat & tempat turun, Ayat pertama / audio
+ * Soal disajikan secara acak dengan rentang surah sesuai kelas.
  */
 export function generateTebakSurahQuestions(
   surahId: number,
@@ -301,7 +364,7 @@ export function generateTebakSurahQuestions(
     varian: 'arti',
     petunjuk: `Surah yang memiliki arti nama "${surah.arti}" adalah...`,
     surahBenarId: surah.id,
-    pilihan: buildTebakSurahChoices(surah.id, 4),
+    pilihan: buildTebakSurahChoices(surah.id, level, 4),
   });
 
   // Varian 2: Dari Jumlah Ayat & Golongan Surah
@@ -310,7 +373,7 @@ export function generateTebakSurahQuestions(
     varian: 'jumlah_ayat',
     petunjuk: `Surah golongan ${surah.tempatTurun} yang terdiri dari ${surah.jumlahAyat} ayat adalah...`,
     surahBenarId: surah.id,
-    pilihan: buildTebakSurahChoices(surah.id, 4),
+    pilihan: buildTebakSurahChoices(surah.id, level, 4),
   });
 
   // Varian 3: Dari Ayat Pertama
@@ -327,38 +390,44 @@ export function generateTebakSurahQuestions(
         ayatNomor: 1,
       },
       surahBenarId: surah.id,
-      pilihan: buildTebakSurahChoices(surah.id, 4),
+      pilihan: buildTebakSurahChoices(surah.id, level, 4),
     });
   }
 
-  // Jika level 5 atau 6, tambahkan soal surah tetangga sebagai variasi tantangan
-  if (level >= 5) {
-    const otherSurah = allSurahsList.find((s) => s.id !== surah.id);
-    if (otherSurah) {
-      questions.push({
-        id: `ts_${otherSurah.id}_arti`,
-        varian: 'arti',
-        petunjuk: `Surah yang berarti "${otherSurah.arti}" (${otherSurah.jumlahAyat} ayat) adalah...`,
-        surahBenarId: otherSurah.id,
-        pilihan: buildTebakSurahChoices(otherSurah.id, 4),
-      });
-    }
-  }
+  // Tambahkan soal tantangan dari surah lain dalam rentang kelas yang dipilih
+  const levelSurahs = getSurahsForLevel(level).filter((s) => s.id !== surah.id);
+  const shuffledOthers = [...levelSurahs].sort(() => 0.5 - Math.random());
 
-  return questions;
+  // Untuk variasi tantangan, ambil 1-2 surah lain dari rentang kelas
+  const extraSurahs = shuffledOthers.slice(0, level >= 5 ? 2 : 1);
+  extraSurahs.forEach((otherSurah) => {
+    questions.push({
+      id: `ts_${otherSurah.id}_arti_${Math.random().toString(36).substring(2, 6)}`,
+      varian: 'arti',
+      petunjuk: `Surah yang berarti "${otherSurah.arti}" (${otherSurah.jumlahAyat} ayat) adalah...`,
+      surahBenarId: otherSurah.id,
+      pilihan: buildTebakSurahChoices(otherSurah.id, level, 4),
+    });
+  });
+
+  // Acak susunan soal tebak surah
+  return [...questions].sort(() => 0.5 - Math.random());
 }
 
 /**
  * Generator Kereta Surah
- * Mengambil 5–8 gerbong surah acak untuk disusun sesuai urutan mushaf
+ * Mengambil 5–8 gerbong surah acak dari rentang level kelas untuk disusun sesuai urutan mushaf
+ * - Kelas 4: 93 s.d. 114 (5 gerbong)
+ * - Kelas 5: 87 s.d. 114 (6 gerbong)
+ * - Kelas 6: 78 s.d. 114 (8 gerbong)
  */
 export function generateKeretaSurahQuestions(
   level: KelasLevel
 ): { gerbongAcak: KeretaSurahItem[]; urutanTarget: KeretaSurahItem[] } {
   const count = level === 4 ? 5 : level === 5 ? 6 : 8;
+  const availableSurahs = getSurahsForLevel(level);
 
-  // Ambil surah-surah yang tersedia (sample dan list)
-  const availableSurahs = allSurahsList.slice(15, 37); // Ad-Dhuha (93) s.d. An-Nas (114)
+  // Ambil surah secara acak dari rentang level
   const shuffledPick = [...availableSurahs].sort(() => 0.5 - Math.random()).slice(0, count);
 
   // Urutkan target sesuai urutan nomor mushaf (nomorSurah kecil ke besar)
@@ -397,12 +466,68 @@ export function checkKeretaSurahOrder(currentOrderIds: number[]): boolean {
 
 /**
  * Generator Kartu Kembar (Memory Match 4x3 = 12 kartu / 6 pasang)
+ * Mengambil 6 surah secara acak dari rentang level kelas.
  */
 export function generateKartuKembarDeck(
-  _surahIds?: number[]
+  surahIds?: number[],
+  level: KelasLevel = 4
 ): KartuKembarCard[] {
+  const levelSurahs = getSurahsForLevel(level);
   const sampleList = Object.values(surahsRecord);
-  const selectedSurahs = sampleList.slice(0, 6); // 6 surah = 6 pasang = 12 kartu
+
+  // Cari surah yang datanya tersedia lengkap di sampleList atau fallback ke levelSurahs
+  const availableSurahsMap = new Map<number, {
+    id: number;
+    namaLatin: string;
+    namaArab: string;
+    arti: string;
+    jumlahAyat: number;
+    tempatTurun: string;
+  }>();
+
+  // Masukkan surah dari list level
+  levelSurahs.forEach((s) => {
+    availableSurahsMap.set(s.id, s);
+  });
+
+  // Timpa dengan data sample jika ada
+  sampleList.forEach((s) => {
+    if (availableSurahsMap.has(s.id) || level >= s.level) {
+      availableSurahsMap.set(s.id, s);
+    }
+  });
+
+  const pool = Array.from(availableSurahsMap.values());
+  const selectedSurahs: typeof pool = [];
+
+  // Jika ada surahIds yang diprioritaskan
+  if (surahIds && surahIds.length > 0) {
+    surahIds.forEach((id) => {
+      const found = pool.find((s) => s.id === id);
+      if (found && !selectedSurahs.some((s) => s.id === found.id)) {
+        selectedSurahs.push(found);
+      }
+    });
+  }
+
+  // Lengkapi hingga 6 surah dengan surah acak dari pool level
+  const remaining = pool
+    .filter((s) => !selectedSurahs.some((sel) => sel.id === s.id))
+    .sort(() => 0.5 - Math.random());
+
+  while (selectedSurahs.length < 6 && remaining.length > 0) {
+    selectedSurahs.push(remaining.pop()!);
+  }
+
+  // Jika masih kurang dari 6 (misal pool level kecil), gunakan fallback dari allSurahsList
+  if (selectedSurahs.length < 6) {
+    const fallback = allSurahsList
+      .filter((s) => !selectedSurahs.some((sel) => sel.id === s.id))
+      .sort(() => 0.5 - Math.random());
+    while (selectedSurahs.length < 6 && fallback.length > 0) {
+      selectedSurahs.push(fallback.pop()!);
+    }
+  }
 
   const cards: KartuKembarCard[] = [];
 
@@ -436,3 +561,4 @@ export function generateKartuKembarDeck(
   // Acak posisi kartu dalam grid 4x3
   return cards.sort(() => 0.5 - Math.random());
 }
+
