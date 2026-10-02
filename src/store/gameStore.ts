@@ -69,10 +69,10 @@ export function useGameStore() {
         },
       };
 
-      // Unlock next pos if stars >= 1
-      const nextSurahId = surahId + 1;
+      // Unlock next pos if stars >= 1 (Urutan anak SD: 114 An-Nas turun ke 78 An-Naba')
+      const nextSurahId = surahId - 1;
       let newPosTerbuka = prev.posTerbuka;
-      if (stars >= 1 && nextSurahId <= 114 && !prev.posTerbuka.includes(nextSurahId)) {
+      if (stars >= 1 && nextSurahId >= 78 && !prev.posTerbuka.includes(nextSurahId)) {
         newPosTerbuka = [...prev.posTerbuka, nextSurahId];
       }
 

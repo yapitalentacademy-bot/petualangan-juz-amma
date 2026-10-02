@@ -33,20 +33,20 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
   const { isFullscreen, toggleFullscreen } = useFullscreen();
 
   return (
-    <header className="w-full flex items-center justify-between px-6 py-4 md:px-10 md:py-6 stone-plaque border-b-2 border-emerald-500/40 sticky top-0 z-40 backdrop-blur-lg">
+    <header className="w-full flex items-center justify-between px-6 py-3.5 md:px-10 md:py-4 bg-[#FFFDF7] border-b-2 border-[#E8D2A6] sticky top-0 z-40 shadow-sm backdrop-blur-md">
       {/* Left Action (Kembali ke Peta / Beranda) */}
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-3">
         {showBackToMap && onBackToMap && (
           <button
             onClick={() => {
               sfx.playClick();
               onBackToMap();
             }}
-            className="touch-btn flex items-center gap-3 px-6 py-3.5 bg-gradient-to-r from-amber-700 to-amber-800 hover:from-amber-600 hover:to-amber-700 text-amber-100 border-2 border-amber-300/80 rounded-2xl text-xl font-black shadow-lg cursor-pointer"
+            className="btn-kafilah flex items-center gap-2 px-5 py-2.5 bg-[#0F7A5C] hover:bg-[#128F6C] text-[#FFFDF7] border-2 border-[#0B4F3E] rounded-full text-base md:text-lg font-black shadow-sm cursor-pointer"
             title="Kembali ke Peta"
           >
-            <ArrowLeft className="w-7 h-7 stroke-[3]" />
-            <span className="hidden sm:inline">Peta 37 Pos</span>
+            <ArrowLeft className="w-5 h-5 stroke-[3]" />
+            <span className="hidden sm:inline font-teks">Peta Pos</span>
           </button>
         )}
 
@@ -56,21 +56,21 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
               sfx.playClick();
               onBackToHome();
             }}
-            className="touch-btn flex items-center gap-3 px-6 py-3.5 bg-slate-900/90 hover:bg-slate-800 text-stone-200 border-2 border-emerald-500/60 rounded-2xl text-xl font-black shadow-lg cursor-pointer"
+            className="btn-kafilah flex items-center gap-2 px-5 py-2.5 bg-[#E8D2A6] hover:bg-[#DFC797] text-[#14233C] border-2 border-[#CBB385] rounded-full text-base md:text-lg font-black shadow-sm cursor-pointer"
             title="Ke Beranda"
           >
-            <Home className="w-7 h-7 text-emerald-400" />
-            <span className="hidden sm:inline">Beranda</span>
+            <Home className="w-5 h-5 text-[#0B4F3E]" />
+            <span className="hidden sm:inline font-teks">Beranda</span>
           </button>
         )}
 
         {title && (
           <div className="flex flex-col ml-2">
-            <h1 className="text-2xl md:text-3xl font-black text-amber-300 font-display drop-shadow">
+            <h1 className="text-xl md:text-2xl font-black text-[#0B4F3E] font-judul leading-tight">
               {title}
             </h1>
             {subtitle && (
-              <span className="text-base md:text-lg text-emerald-100/90 font-bold">
+              <span className="text-xs md:text-sm text-[#14233C]/75 font-teks font-bold">
                 {subtitle}
               </span>
             )}
@@ -79,12 +79,12 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
       </div>
 
       {/* Right Action: Class Badge & Fullscreen & Audio Toggle & Guru */}
-      <div className="flex items-center gap-3 md:gap-4">
+      <div className="flex items-center gap-2.5 md:gap-3">
         {classNameLabel && (
-          <div className="flex items-center gap-2 bg-gradient-to-r from-emerald-950/90 to-emerald-900/90 border-2 border-emerald-400/80 px-5 py-2.5 rounded-2xl shadow-md">
-            <span className="text-emerald-300 font-bold text-lg">Kelas:</span>
-            <span className="text-white font-black text-xl">{classNameLabel}</span>
-            <span className="text-xs bg-emerald-500 text-slate-950 font-black px-2.5 py-0.5 rounded-lg ml-1 shadow-sm">
+          <div className="flex items-center gap-1.5 bg-[#F6EBD9] border-2 border-[#E8D2A6] px-3.5 py-1.5 rounded-full shadow-sm">
+            <span className="text-[#0B4F3E] font-bold text-sm font-teks">Kelas:</span>
+            <span className="text-[#14233C] font-black text-base font-teks">{classNameLabel}</span>
+            <span className="text-xs bg-[#0F7A5C] text-[#FFFDF7] font-black px-2 py-0.5 rounded-full ml-1 font-teks">
               Lv.{levelLabel}
             </span>
           </div>
@@ -96,14 +96,10 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
             sfx.playClick();
             toggleFullscreen();
           }}
-          className="touch-btn p-3.5 bg-slate-900/90 hover:bg-slate-800 text-amber-300 hover:text-amber-200 border-2 border-amber-400/60 rounded-2xl cursor-pointer shadow-md"
+          className="btn-kafilah p-2.5 bg-[#F6EBD9] hover:bg-[#E8D2A6] text-[#0B4F3E] border-2 border-[#E8D2A6] rounded-full cursor-pointer shadow-sm"
           title={isFullscreen ? 'Keluar Layar Penuh (ESC)' : 'Mode Layar Penuh (Fullscreen)'}
         >
-          {isFullscreen ? (
-            <Minimize className="w-7 h-7" />
-          ) : (
-            <Maximize className="w-7 h-7" />
-          )}
+          {isFullscreen ? <Minimize className="w-5 h-5" /> : <Maximize className="w-5 h-5" />}
         </button>
 
         {onToggleSound && (
@@ -112,13 +108,13 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
               onToggleSound();
               sfx.playClick();
             }}
-            className="touch-btn p-3.5 bg-slate-900/90 hover:bg-slate-800 text-stone-300 border-2 border-slate-700 hover:border-emerald-400 rounded-2xl cursor-pointer shadow-md"
+            className="btn-kafilah p-2.5 bg-[#F6EBD9] hover:bg-[#E8D2A6] text-[#0B4F3E] border-2 border-[#E8D2A6] rounded-full cursor-pointer shadow-sm"
             title={soundEnabled ? 'Matikan Efek Suara' : 'Nyalakan Efek Suara'}
           >
             {soundEnabled ? (
-              <Volume2 className="w-7 h-7 text-emerald-400" />
+              <Volume2 className="w-5 h-5 text-[#0F7A5C]" />
             ) : (
-              <VolumeX className="w-7 h-7 text-slate-500" />
+              <VolumeX className="w-5 h-5 text-[#C0603A]" />
             )}
           </button>
         )}
@@ -129,13 +125,14 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
               sfx.playClick();
               onOpenTeacherMode();
             }}
-            className="touch-btn p-3.5 bg-slate-900/80 hover:bg-slate-800 text-stone-400 hover:text-amber-300 border-2 border-slate-700 hover:border-amber-400 rounded-2xl cursor-pointer shadow-md"
+            className="btn-kafilah p-2.5 bg-[#F6EBD9] hover:bg-[#E8D2A6] text-[#D4A23A] border-2 border-[#E8D2A6] rounded-full cursor-pointer shadow-sm"
             title="Mode Guru (PIN)"
           >
-            <Shield className="w-7 h-7" />
+            <Shield className="w-5 h-5 text-[#D4A23A]" />
           </button>
         )}
       </div>
     </header>
   );
 };
+

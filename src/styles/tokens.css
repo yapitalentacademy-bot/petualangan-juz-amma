@@ -1,0 +1,41 @@
+/* ==========================================================================
+   Design Tokens — Tema Kafilah Cahaya (Petualangan Juz 'Amma)
+   Sesuai spesifikasi DESIGN.md
+   ========================================================================== */
+
+:root {
+  /* --- PALET WARNA INTI --- */
+  --pasir-terang: #F6EBD9; /* Latar utama layar */
+  --pasir: #E8D2A6;        /* Latar peta, panel sekunder */
+  --gading: #FFFDF7;       /* Kartu ayat, kotak dialog */
+  --zamrud: #0F7A5C;       /* Warna utama, tombol aksi, Tim Kiri */
+  --zamrud-tua: #0B4F3E;   /* Teks judul, bingkai, bayangan tombol */
+  --emas: #D4A23A;         /* Bintang, lentera, lencana, ornamen */
+  --biru-laut: #1E6F8C;    /* Tim Kanan, oase dan air di peta */
+  --malam: #14233C;        /* Langit malam peta, teks utama */
+  --terakota: #C0603A;     /* Peringatan lembut, jawaban perlu diulang */
+
+  /* Warna Transparansi & Bayangan */
+  --zamrud-bayangan: rgba(11, 79, 62, 0.45);
+  --emas-glow: rgba(212, 162, 58, 0.35);
+  --pasir-transparan: rgba(246, 235, 217, 0.85);
+  --gading-transparan: rgba(255, 253, 247, 0.92);
+
+  /* --- TIPOGRAFI EMPAT PERAN --- */
+  /* 1. Ayat Al-Qur'an (RTL, Harakat Jelas, Tinggi Baris 1.9) */
+  --font-ayat: 'Scheherazade New', 'Amiri', 'Traditional Arabic', serif;
+  
+  /* 2. Nama Surah & Hiasan Arab */
+  --font-arab-hiasan: 'Amiri', 'Reem Kufi', serif;
+  
+  /* 3. Judul Latin Membulat Ramah Anak (Baloo 2) */
+  --font-judul: 'Baloo 2', cursive, sans-serif;
+  
+  /* 4. Teks Isi, Instruksi & Tombol (Nunito) */
+  --font-teks: 'Nunito', system-ui, sans-serif;
+
+  /* Radius Sudut (Sesuai DESIGN.md: 24px kartu, 999px tombol kapsul) */
+  --radius-kartu: 24px;
+  --radius-kapsul: 999px;
+  --radius-sedang: 16px;
+}

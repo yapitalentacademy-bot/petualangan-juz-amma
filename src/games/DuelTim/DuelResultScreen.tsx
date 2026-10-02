@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react';
 import confetti from 'canvas-confetti';
-import { Trophy, Award, RotateCcw, Map, Users } from 'lucide-react';
+import { RotateCcw, Map, Users } from 'lucide-react';
 import { TombolBesar } from '../../components/TombolBesar';
 import { sfx } from '../../lib/audioPlayer';
+import { BintangDelapan } from '../../components/ornaments/BintangDelapan';
+import { LenteraFanus } from '../../components/ornaments/LenteraFanus';
 
 interface DuelResultScreenProps {
   scoreA: number;
@@ -16,8 +18,8 @@ interface DuelResultScreenProps {
 export const DuelResultScreen: React.FC<DuelResultScreenProps> = ({
   scoreA,
   scoreB,
-  teamAName = 'Tim Hijau',
-  teamBName = 'Tim Biru',
+  teamAName = 'Tim Zamrud (Hijau)',
+  teamBName = 'Tim Biru Laut',
   onRestart,
   onExit,
 }) => {
@@ -26,10 +28,10 @@ export const DuelResultScreen: React.FC<DuelResultScreenProps> = ({
     // Fire celebratory confetti
     try {
       confetti({
-        particleCount: 120,
-        spread: 80,
+        particleCount: 100,
+        spread: 70,
         origin: { y: 0.6 },
-        colors: ['#10b981', '#0ea5e9', '#f59e0b', '#ec4899', '#8b5cf6'],
+        colors: ['#0F7A5C', '#1E6F8C', '#D4A23A', '#E8D2A6', '#C0603A'],
       });
     } catch {
       // ignore
@@ -40,49 +42,49 @@ export const DuelResultScreen: React.FC<DuelResultScreenProps> = ({
   const winner = scoreA > scoreB ? teamAName : teamBName;
 
   return (
-    <div className="flex flex-col items-center justify-center p-8 md:p-12 max-w-5xl mx-auto glass-panel rounded-3xl border-4 border-amber-500/50 shadow-2xl my-6">
+    <div className="flex flex-col items-center justify-center p-6 md:p-10 max-w-4xl mx-auto bg-[var(--gading)] rounded-[32px] border-2 border-[var(--emas)] shadow-2xl my-6 font-['Nunito']">
       {/* Title */}
-      <div className="flex items-center gap-4 text-amber-400 mb-2">
-        <Trophy className="w-14 h-14" />
-        <h2 className="text-4xl md:text-6xl font-black font-display tracking-tight text-center">
+      <div className="flex items-center gap-3 text-[var(--zamrud-tua)] mb-2">
+        <LenteraFanus size={48} menyala={true} />
+        <h2 className="text-4xl md:text-5xl font-black font-['Baloo_2'] tracking-tight text-center">
           Ronde Duel Selesai!
         </h2>
       </div>
 
       {/* Appreciative Message */}
-      <p className="text-2xl md:text-3xl text-stone-200 font-bold mb-8 text-center max-w-2xl leading-relaxed">
+      <p className="text-xl md:text-2xl text-[var(--malam)] font-bold mb-6 text-center max-w-2xl leading-relaxed">
         {isDraw
-          ? 'Masya Allah! Kedua tim sama-sama hebat dan kompak!'
-          : `Selamat kepada ${winner}! Usaha dan hafalan kedua tim sangat luar biasa!`}
+          ? 'Masya Allah! Kedua tim sama-sama hebat, kompak, dan bersemangat!'
+          : `Selamat kepada ${winner}! Usaha dan hafalan kedua kafilah sangat luar biasa!`}
       </p>
 
       {/* Teams Scoreboard Comparison */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full my-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full my-4">
         {/* Team A Card */}
         <div
           className={`
-            flex flex-col items-center p-8 rounded-3xl border-4 transition-all
+            flex flex-col items-center p-6 rounded-[28px] border-2 transition-all shadow-md
             ${
               scoreA >= scoreB
-                ? 'bg-emerald-950/90 border-emerald-400 shadow-card-glow ring-4 ring-emerald-500/40'
-                : 'bg-emerald-950/60 border-emerald-600/70'
+                ? 'bg-[var(--pasir-terang)] border-[var(--zamrud)] ring-4 ring-[var(--zamrud)]/20'
+                : 'bg-[var(--pasir-terang)]/60 border-[var(--pasir)]'
             }
           `}
         >
-          <div className="flex items-center gap-3 text-emerald-300 mb-2">
-            <Users className="w-8 h-8" />
-            <h3 className="text-3xl font-black">{teamAName}</h3>
+          <div className="flex items-center gap-2 text-[var(--zamrud-tua)] mb-1">
+            <Users className="w-6 h-6" />
+            <h3 className="text-2xl font-black font-['Baloo_2']">{teamAName}</h3>
           </div>
 
-          <span className="text-7xl md:text-8xl font-black text-white my-4 font-mono">
+          <span className="text-6xl md:text-7xl font-black text-[var(--zamrud-tua)] my-3 font-['Baloo_2']">
             {scoreA}
           </span>
-          <span className="text-xl font-bold text-emerald-300">Poin Terkumpul</span>
+          <span className="text-base font-bold text-[var(--malam)]/70">Poin Terkumpul</span>
 
           {scoreA >= scoreB && (
-            <div className="mt-4 flex items-center gap-2 bg-emerald-500 text-slate-950 px-4 py-1.5 rounded-full font-black text-lg">
-              <Award className="w-6 h-6" />
-              <span>{isDraw ? 'Seri Bersama' : 'Juara Ronde'}</span>
+            <div className="mt-4 flex items-center gap-2 bg-[var(--zamrud)] text-[var(--gading)] px-4 py-1 rounded-full font-black text-sm shadow-sm">
+              <BintangDelapan size={18} fill="#D4A23A" />
+              <span>{isDraw ? 'Seri Bersama' : 'Mahkota Juara'}</span>
             </div>
           )}
         </div>
@@ -90,51 +92,51 @@ export const DuelResultScreen: React.FC<DuelResultScreenProps> = ({
         {/* Team B Card */}
         <div
           className={`
-            flex flex-col items-center p-8 rounded-3xl border-4 transition-all
+            flex flex-col items-center p-6 rounded-[28px] border-2 transition-all shadow-md
             ${
               scoreB >= scoreA
-                ? 'bg-sky-950/90 border-sky-400 shadow-card-glow ring-4 ring-sky-500/40'
-                : 'bg-sky-950/60 border-sky-600/70'
+                ? 'bg-[var(--pasir-terang)] border-[var(--biru-laut)] ring-4 ring-[var(--biru-laut)]/20'
+                : 'bg-[var(--pasir-terang)]/60 border-[var(--pasir)]'
             }
           `}
         >
-          <div className="flex items-center gap-3 text-sky-300 mb-2">
-            <Users className="w-8 h-8" />
-            <h3 className="text-3xl font-black">{teamBName}</h3>
+          <div className="flex items-center gap-2 text-[var(--biru-laut)] mb-1">
+            <Users className="w-6 h-6" />
+            <h3 className="text-2xl font-black font-['Baloo_2']">{teamBName}</h3>
           </div>
 
-          <span className="text-7xl md:text-8xl font-black text-white my-4 font-mono">
+          <span className="text-6xl md:text-7xl font-black text-[var(--biru-laut)] my-3 font-['Baloo_2']">
             {scoreB}
           </span>
-          <span className="text-xl font-bold text-sky-300">Poin Terkumpul</span>
+          <span className="text-base font-bold text-[var(--malam)]/70">Poin Terkumpul</span>
 
           {scoreB >= scoreA && (
-            <div className="mt-4 flex items-center gap-2 bg-sky-500 text-slate-950 px-4 py-1.5 rounded-full font-black text-lg">
-              <Award className="w-6 h-6" />
-              <span>{isDraw ? 'Seri Bersama' : 'Juara Ronde'}</span>
+            <div className="mt-4 flex items-center gap-2 bg-[var(--biru-laut)] text-[var(--gading)] px-4 py-1 rounded-full font-black text-sm shadow-sm">
+              <BintangDelapan size={18} fill="#D4A23A" />
+              <span>{isDraw ? 'Seri Bersama' : 'Mahkota Juara'}</span>
             </div>
           )}
         </div>
       </div>
 
       {/* Action Buttons */}
-      <div className="flex flex-wrap items-center justify-center gap-6 mt-8 w-full">
+      <div className="flex flex-wrap items-center justify-center gap-4 mt-6">
         <TombolBesar
-          variant="ghost"
+          variant="emas"
           size="normal"
-          icon={<Map className="w-8 h-8" />}
-          onClick={onExit}
+          icon={<RotateCcw className="w-6 h-6" />}
+          onClick={onRestart}
         >
-          Kembali ke Pos
+          Tanding Ulang
         </TombolBesar>
 
         <TombolBesar
-          variant="desert"
-          size="large"
-          icon={<RotateCcw className="w-8 h-8" />}
-          onClick={onRestart}
+          variant="zamrud"
+          size="normal"
+          icon={<Map className="w-6 h-6" />}
+          onClick={onExit}
         >
-          Duel Lagi (Ronde Baru)
+          Kembali ke Peta
         </TombolBesar>
       </div>
     </div>

@@ -1,26 +1,19 @@
+@import './styles/tokens.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
-  :root {
-    --treasure-gold: #fbbf24;
-    --treasure-amber: #f59e0b;
-    --jungle-emerald: #10b981;
-    --jungle-deep: #064e3b;
-    --sky-azure: #0284c7;
-    --stone-ancient: #1e293b;
-    --wood-bark: #78350f;
-  }
-
   html, body {
     margin: 0;
     padding: 0;
     width: 100%;
     height: 100%;
     overflow-x: hidden;
-    background-color: #0b1f17;
-    color: #f8fafc;
+    background-color: var(--pasir-terang);
+    color: var(--malam);
+    font-family: var(--font-teks);
     user-select: none;
     -webkit-user-select: none;
     -webkit-touch-callout: none;
@@ -29,75 +22,93 @@
 
   /* Smooth custom scrollbars */
   ::-webkit-scrollbar {
-    width: 12px;
-    height: 12px;
+    width: 10px;
+    height: 10px;
   }
   ::-webkit-scrollbar-track {
-    background: #06241a;
+    background: var(--pasir);
   }
   ::-webkit-scrollbar-thumb {
-    background: #10b981;
+    background: var(--zamrud);
     border-radius: 6px;
-    border: 2px solid #064e3b;
+    border: 2px solid var(--pasir);
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #34d399;
+    background: var(--zamrud-tua);
   }
 }
 
-/* Custom Arabic Typography styles */
-.font-quran {
-  font-family: 'Scheherazade New', 'Amiri', serif;
+/* --- TIPOGRAFI EMPAT PERAN (DESIGN.md) --- */
+.font-ayat {
+  font-family: var(--font-ayat);
   direction: rtl;
   text-align: right;
-  line-height: 2.2;
+  line-height: 1.9;
+  font-feature-settings: "cv01", "cv02";
 }
 
-/* TV Touch button active state (within 100ms feedback) */
-.touch-btn {
-  transition: transform 0.08s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.08s ease;
+.font-arab-hiasan {
+  font-family: var(--font-arab-hiasan);
+  direction: rtl;
+}
+
+.font-judul {
+  font-family: var(--font-judul);
+}
+
+.font-teks {
+  font-family: var(--font-teks);
+}
+
+/* --- TOMBOL SENTUH TV (120ms feedback, turun 4px) --- */
+.btn-kafilah {
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
   touch-action: manipulation;
+  user-select: none;
 }
 
-.touch-btn:active {
-  transform: scale(0.96);
+.btn-kafilah:active {
+  transform: translateY(4px);
 }
 
-/* Treasure Land Jungle Background */
-.bg-oasis-pattern,
-.bg-treasure-theme {
-  background-color: #081d15;
-  background-image: 
-    linear-gradient(to bottom, rgba(7, 24, 18, 0.72) 0%, rgba(11, 35, 27, 0.88) 100%),
-    url('/images/bg-treasure-jungle.jpg');
-  background-size: cover;
-  background-position: center center;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-}
-
-/* Treasure Land Ancient Stone Plaque */
-.stone-plaque {
-  background: 
-    linear-gradient(145deg, rgba(30, 41, 59, 0.95) 0%, rgba(15, 23, 42, 0.98) 100%);
-  border: 4px solid #64748b;
+/* --- KARTU AYAT GADING & BINGKAI MUSHAF EMAS (DESIGN.md) --- */
+.kartu-mushaf {
+  background-color: var(--gading);
+  border-radius: var(--radius-kartu);
+  border: 2px solid var(--emas);
   box-shadow: 
-    0 14px 35px -5px rgba(0, 0, 0, 0.8),
-    inset 0 3px 6px rgba(255, 255, 255, 0.2),
-    inset 0 -6px 12px rgba(0, 0, 0, 0.7),
-    0 0 0 3px #0f172a;
+    0 8px 24px -4px var(--zamrud-bayangan),
+    inset 0 0 0 3px rgba(212, 162, 58, 0.25);
+  position: relative;
 }
 
-/* 3D Golden Treasure Text Title */
-.gold-title-3d {
-  color: #fffbeb;
-  font-family: 'Lilita One', 'Fredoka', sans-serif;
-  background: linear-gradient(180deg, #ffffff 0%, #fef08a 20%, #facc15 45%, #ea580c 85%, #7c2d12 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 4px 0 #451a03) drop-shadow(0 8px 12px rgba(0, 0, 0, 0.8));
-  letter-spacing: 0.05em;
+.kartu-mushaf:hover {
+  box-shadow: 
+    0 12px 28px -4px var(--zamrud-bayangan),
+    0 0 16px var(--emas-glow),
+    inset 0 0 0 4px var(--emas);
 }
+
+/* --- TEKSTUR POLA GIRIH (Opasitas 6-10%) --- */
+.bg-pola-girih {
+  background-image: radial-gradient(var(--emas) 0.75px, transparent 0.75px), radial-gradient(var(--zamrud) 0.75px, var(--pasir-terang) 0.75px);
+  background-size: 28px 28px;
+  background-position: 0 0, 14px 14px;
+}
+
+/* Suasana Wilayah Peta (DESIGN.md) */
+.suasana-pagi {
+  background: linear-gradient(180deg, #FDF7ED 0%, #F6EBD9 50%, #E8D2A6 100%);
+}
+
+.suasana-senja {
+  background: linear-gradient(180deg, #F4DFC0 0%, #E8A87C 50%, #C0603A 100%);
+}
+
+.suasana-malam {
+  background: linear-gradient(180deg, #0B132B 0%, #14233C 60%, #1C2541 100%);
+}
+
 
 .gold-stroke {
   text-shadow:

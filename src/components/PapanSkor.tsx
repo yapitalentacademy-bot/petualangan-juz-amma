@@ -1,6 +1,9 @@
 import React from 'react';
-import { Star, Award, RotateCcw, Map, Trophy } from 'lucide-react';
+import { RotateCcw, Map, Award } from 'lucide-react';
 import { TombolBesar } from './TombolBesar';
+import { BintangDelapan } from './ornaments/BintangDelapan';
+import { LenteraFanus } from './ornaments/LenteraFanus';
+import { MaskotNur } from './ornaments/MaskotNur';
 
 export interface PapanSkorProps {
   score: number;
@@ -24,8 +27,8 @@ export const PapanSkor: React.FC<PapanSkorProps> = ({
   maxScore = 100,
   stars,
   accuracy = 100,
-  title = 'Pos Selesai!',
-  subtitle = 'Masya Allah! Usaha yang sangat luar biasa!',
+  title = 'Pos Tuntas!',
+  subtitle = 'Masya Allah! Usaha dan hafalan yang sangat luar biasa!',
   onRestart,
   onNext,
   onBackToMap,
@@ -33,47 +36,36 @@ export const PapanSkor: React.FC<PapanSkorProps> = ({
   teamScores,
 }) => {
   return (
-    <div className="flex flex-col items-center justify-center p-8 md:p-12 max-w-4xl mx-auto stone-plaque rounded-3xl border-4 border-emerald-400/60 shadow-2xl">
-      {/* Title & Badge */}
-      <div className="flex items-center gap-3 text-amber-400 mb-2">
-        <Trophy className="w-14 h-14 text-yellow-400 animate-bounce" />
-        <h2 className="text-4xl md:text-6xl font-black tracking-wide font-display text-center gold-title-3d">
-          {title}
-        </h2>
+    <div className="flex flex-col items-center justify-center p-8 md:p-12 max-w-3xl mx-auto bg-[#FFFDF7] rounded-[28px] border-4 border-[#D4A23A] shadow-2xl text-[#14233C] relative overflow-hidden">
+      {/* Ornamen Lentera di Atas */}
+      <div className="flex items-center justify-center gap-3 mb-3">
+        <LenteraFanus isLit={stars >= 1} size={54} />
       </div>
 
-      <p className="text-2xl text-emerald-100 font-bold mb-8 text-center max-w-xl">
+      {/* Judul & Subtitle Baloo 2 */}
+      <h2 className="text-3xl md:text-5xl font-black font-judul text-[#0B4F3E] text-center mb-2 tracking-wide">
+        {title}
+      </h2>
+
+      <p className="text-lg md:text-xl text-[#14233C]/85 font-teks font-bold mb-6 text-center max-w-lg">
         {subtitle}
       </p>
 
-      {/* Star Display (1-3 stars with animations) */}
+      {/* Tampilan Bintang Delapan (Khatam) */}
       {!isTeamMode && (
-        <div className="flex items-center justify-center gap-6 my-6">
+        <div className="flex items-center justify-center gap-6 my-4">
           {[1, 2, 3].map((starIndex) => {
             const isEarned = starIndex <= stars;
             return (
               <div
                 key={starIndex}
                 className={`
-                  transition-all duration-500 transform
-                  ${isEarned ? 'scale-110 rotate-3' : 'scale-90 opacity-30 grayscale'}
+                  transition-all duration-300 transform
+                  ${isEarned ? 'scale-110 drop-shadow-md' : 'opacity-35 grayscale'}
                 `}
               >
-                <div
-                  className={`
-                    flex items-center justify-center w-24 h-24 md:w-32 md:h-32 rounded-3xl
-                    ${
-                      isEarned
-                        ? 'bg-gradient-to-tr from-amber-400 via-yellow-300 to-amber-500 shadow-gold-glow border-4 border-yellow-100 ring-4 ring-amber-400/40'
-                        : 'bg-slate-800 border-2 border-slate-700'
-                    }
-                  `}
-                >
-                  <Star
-                    className={`w-14 h-14 md:w-20 md:h-20 ${
-                      isEarned ? 'text-amber-950 fill-amber-950' : 'text-slate-600'
-                    }`}
-                  />
+                <div className="flex items-center justify-center w-20 h-20 md:w-24 md:h-24 rounded-2xl bg-[#F6EBD9] border-2 border-[#E8D2A6] shadow-sm">
+                  <BintangDelapan filled={isEarned} size={56} />
                 </div>
               </div>
             );
@@ -83,43 +75,55 @@ export const PapanSkor: React.FC<PapanSkorProps> = ({
 
       {/* Duel Team Score Display */}
       {isTeamMode && teamScores && (
-        <div className="grid grid-cols-2 gap-8 w-full my-6">
-          <div className="flex flex-col items-center p-6 rounded-3xl bg-emerald-950/90 border-4 border-emerald-400 shadow-lg">
-            <span className="text-2xl font-black text-emerald-300 font-display">{teamScores.teamA.name}</span>
-            <span className="text-6xl font-black text-white mt-2 font-display">{teamScores.teamA.score}</span>
+        <div className="grid grid-cols-2 gap-6 w-full my-6">
+          <div className="flex flex-col items-center p-6 rounded-2xl bg-[#F0FAF6] border-3 border-[#0F7A5C] shadow-sm">
+            <span className="text-xl font-black text-[#0F7A5C] font-judul">{teamScores.teamA.name}</span>
+            <span className="text-5xl font-black text-[#0B4F3E] mt-2 font-judul">{teamScores.teamA.score}</span>
           </div>
-          <div className="flex flex-col items-center p-6 rounded-3xl bg-sky-950/90 border-4 border-sky-400 shadow-lg">
-            <span className="text-2xl font-black text-sky-300 font-display">{teamScores.teamB.name}</span>
-            <span className="text-6xl font-black text-white mt-2 font-display">{teamScores.teamB.score}</span>
+          <div className="flex flex-col items-center p-6 rounded-2xl bg-[#F0F8FA] border-3 border-[#1E6F8C] shadow-sm">
+            <span className="text-xl font-black text-[#1E6F8C] font-judul">{teamScores.teamB.name}</span>
+            <span className="text-5xl font-black text-[#134B5F] mt-2 font-judul">{teamScores.teamB.score}</span>
           </div>
         </div>
       )}
 
-      {/* Score and Accuracy metrics */}
+      {/* Panel Skor & Akurasi (Gulungan Gading & Zamrud) */}
       {!isTeamMode && (
-        <div className="grid grid-cols-2 gap-6 w-full max-w-md my-6">
-          <div className="flex flex-col items-center p-5 rounded-2xl bg-slate-900/90 border-2 border-amber-400/60 shadow-md">
-            <span className="text-lg font-black text-amber-300 font-display">Skor Ekspedisi</span>
-            <span className="text-4xl font-black text-white mt-1 font-display">
-              {score} / {maxScore}
+        <div className="grid grid-cols-2 gap-4 w-full max-w-md my-4">
+          <div className="flex flex-col items-center p-4 rounded-2xl bg-[#F6EBD9] border-2 border-[#E8D2A6]">
+            <span className="text-base font-bold text-[#0B4F3E] font-teks">Poin Nilai</span>
+            <span className="text-3xl md:text-4xl font-black text-[#14233C] mt-1 font-judul">
+              {score} <span className="text-xl text-[var(--malam)]/60 font-normal">/ {maxScore}</span>
             </span>
           </div>
-          <div className="flex flex-col items-center p-5 rounded-2xl bg-slate-900/90 border-2 border-emerald-400/60 shadow-md">
-            <span className="text-lg font-black text-emerald-300 font-display">Akurasi</span>
-            <span className="text-4xl font-black text-white mt-1 font-display">
+          <div className="flex flex-col items-center p-4 rounded-2xl bg-[#F6EBD9] border-2 border-[#E8D2A6]">
+            <span className="text-base font-bold text-[#0F7A5C] font-teks">Akurasi Jawaban</span>
+            <span className="text-3xl md:text-4xl font-black text-[#0F7A5C] mt-1 font-judul">
               {accuracy}%
             </span>
           </div>
         </div>
       )}
 
-      {/* Action Buttons */}
-      <div className="flex flex-wrap items-center justify-center gap-6 mt-8 w-full">
+      {/* Maskot Nur yang Memberi Motivasi */}
+      <div className="flex items-center gap-3 mt-4 mb-6 bg-[#F6EBD9]/80 px-5 py-2.5 rounded-full border border-[#E8D2A6]">
+        <MaskotNur size={42} expression="happy" />
+        <span className="font-teks font-bold text-[#0B4F3E] text-base md:text-lg">
+          {stars >= 3
+            ? 'Alhamdulillah, sempurna! Hafalanmu sangat mantap!'
+            : stars >= 1
+            ? 'Masya Allah, lentera pos ini menyala dengan terang!'
+            : 'Terus semangat mencoba, insya Allah pasti bisa!'}
+        </span>
+      </div>
+
+      {/* Tombol Aksi */}
+      <div className="flex flex-wrap items-center justify-center gap-4 mt-2 w-full">
         {onBackToMap && (
           <TombolBesar
             variant="ghost"
             size="normal"
-            icon={<Map className="w-8 h-8" />}
+            icon={<Map className="w-6 h-6" />}
             onClick={onBackToMap}
           >
             Peta Surah
@@ -128,9 +132,9 @@ export const PapanSkor: React.FC<PapanSkorProps> = ({
 
         {onRestart && (
           <TombolBesar
-            variant="desert"
+            variant="terakota"
             size="normal"
-            icon={<RotateCcw className="w-8 h-8" />}
+            icon={<RotateCcw className="w-6 h-6" />}
             onClick={onRestart}
           >
             Ulangi Pos
@@ -139,9 +143,9 @@ export const PapanSkor: React.FC<PapanSkorProps> = ({
 
         {onNext && (
           <TombolBesar
-            variant="oasis"
-            size="large"
-            icon={<Award className="w-10 h-10" />}
+            variant="zamrud"
+            size="normal"
+            icon={<Award className="w-7 h-7" />}
             onClick={onNext}
           >
             Pos Berikutnya
@@ -151,3 +155,4 @@ export const PapanSkor: React.FC<PapanSkorProps> = ({
     </div>
   );
 };
+

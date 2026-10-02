@@ -22,6 +22,9 @@ import {
 } from 'lucide-react';
 import { sfx } from '../lib/audioPlayer';
 
+import { BintangDelapan } from '../components/ornaments/BintangDelapan';
+import { LenteraFanus } from '../components/ornaments/LenteraFanus';
+
 interface ModeGuruProps {
   progress: KelasProgress;
   focusSurahId: number;
@@ -75,7 +78,7 @@ export const ModeGuru: React.FC<ModeGuruProps> = ({
   const totalStars = Object.values(progress.posSelesai).reduce((acc, curr) => acc + curr.stars, 0);
 
   return (
-    <div className="min-h-screen bg-oasis-pattern flex flex-col">
+    <div className="min-h-screen bg-[var(--pasir-terang)] text-[var(--malam)] flex flex-col font-['Nunito']">
       <HeaderNav
         title="Mode Guru & Manajemen Kelas"
         subtitle={`Kelas ${progress.namaKelas} (Lv.${progress.level}) • Rekap, Kurikulum & Pengaturan`}
@@ -88,19 +91,19 @@ export const ModeGuru: React.FC<ModeGuruProps> = ({
         onToggleSound={() => onToggleSetting('suaraEfek')}
       />
 
-      <main className="flex-1 p-6 md:p-10 max-w-6xl mx-auto w-full pb-20">
+      <main className="flex-1 p-4 md:p-8 max-w-6xl mx-auto w-full pb-20">
         {/* Navigation Tabs */}
-        <div className="flex flex-wrap items-center justify-between gap-3 mb-8 glass-panel p-3 rounded-2xl border border-amber-500/40">
+        <div className="flex flex-wrap items-center justify-between gap-3 mb-8 bg-[var(--gading)] p-3 rounded-2xl border-2 border-[var(--emas)]/40 shadow-sm">
           <div className="flex flex-wrap gap-2">
             <button
               onClick={() => {
                 sfx.playClick();
                 setActiveTab('pengaturan');
               }}
-              className={`touch-btn flex items-center gap-2 px-5 py-3 rounded-xl font-bold text-lg cursor-pointer ${
+              className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-bold text-base cursor-pointer transition-all ${
                 activeTab === 'pengaturan'
-                  ? 'bg-amber-500 text-slate-950 shadow-md'
-                  : 'bg-stone-900 text-stone-300 hover:bg-stone-800'
+                  ? 'bg-[var(--zamrud)] text-[var(--gading)] shadow-md'
+                  : 'bg-[var(--pasir)]/40 text-[var(--malam)] hover:bg-[var(--pasir)]'
               }`}
             >
               <Settings className="w-5 h-5" />
@@ -112,10 +115,10 @@ export const ModeGuru: React.FC<ModeGuruProps> = ({
                 sfx.playClick();
                 setActiveTab('pos_fokus');
               }}
-              className={`touch-btn flex items-center gap-2 px-5 py-3 rounded-xl font-bold text-lg cursor-pointer ${
+              className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-bold text-base cursor-pointer transition-all ${
                 activeTab === 'pos_fokus'
-                  ? 'bg-amber-500 text-slate-950 shadow-md'
-                  : 'bg-stone-900 text-stone-300 hover:bg-stone-800'
+                  ? 'bg-[var(--zamrud)] text-[var(--gading)] shadow-md'
+                  : 'bg-[var(--pasir)]/40 text-[var(--malam)] hover:bg-[var(--pasir)]'
               }`}
             >
               <Layers className="w-5 h-5" />
@@ -127,10 +130,10 @@ export const ModeGuru: React.FC<ModeGuruProps> = ({
                 sfx.playClick();
                 setActiveTab('rekap_csv');
               }}
-              className={`touch-btn flex items-center gap-2 px-5 py-3 rounded-xl font-bold text-lg cursor-pointer ${
+              className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-bold text-base cursor-pointer transition-all ${
                 activeTab === 'rekap_csv'
-                  ? 'bg-amber-500 text-slate-950 shadow-md'
-                  : 'bg-stone-900 text-stone-300 hover:bg-stone-800'
+                  ? 'bg-[var(--zamrud)] text-[var(--gading)] shadow-md'
+                  : 'bg-[var(--pasir)]/40 text-[var(--malam)] hover:bg-[var(--pasir)]'
               }`}
             >
               <FileSpreadsheet className="w-5 h-5" />
@@ -142,10 +145,10 @@ export const ModeGuru: React.FC<ModeGuruProps> = ({
                 sfx.playClick();
                 setActiveTab('lencana');
               }}
-              className={`touch-btn flex items-center gap-2 px-5 py-3 rounded-xl font-bold text-lg cursor-pointer ${
+              className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-bold text-base cursor-pointer transition-all ${
                 activeTab === 'lencana'
-                  ? 'bg-amber-500 text-slate-950 shadow-md'
-                  : 'bg-stone-900 text-stone-300 hover:bg-stone-800'
+                  ? 'bg-[var(--zamrud)] text-[var(--gading)] shadow-md'
+                  : 'bg-[var(--pasir)]/40 text-[var(--malam)] hover:bg-[var(--pasir)]'
               }`}
             >
               <Award className="w-5 h-5" />
@@ -155,7 +158,7 @@ export const ModeGuru: React.FC<ModeGuruProps> = ({
 
           <button
             onClick={handleExportCSV}
-            className="touch-btn flex items-center gap-2 px-5 py-3 bg-emerald-700 hover:bg-emerald-600 text-white rounded-xl font-bold text-base shadow-md cursor-pointer"
+            className="flex items-center gap-2 px-5 py-2.5 bg-[var(--zamrud)] hover:bg-[var(--zamrud-tua)] text-[var(--gading)] rounded-full font-bold text-base shadow-sm cursor-pointer transition-all"
           >
             <Download className="w-5 h-5" />
             <span>Unduh CSV Nilai</span>
@@ -167,16 +170,16 @@ export const ModeGuru: React.FC<ModeGuruProps> = ({
           <div className="flex flex-col gap-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {/* Class Selection & Add */}
-              <div className="glass-panel p-8 rounded-3xl border-2 border-stone-700 flex flex-col gap-6">
+              <div className="bg-[var(--gading)] p-6 md:p-8 rounded-[28px] border-2 border-[var(--emas)]/50 shadow-md flex flex-col gap-6">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3 text-amber-300">
-                    <Shield className="w-8 h-8" />
-                    <h2 className="text-2xl font-black font-display">Pilih Kelas Aktif</h2>
+                  <div className="flex items-center gap-3 text-[var(--zamrud-tua)]">
+                    <Shield className="w-7 h-7 text-[var(--emas)]" />
+                    <h2 className="text-2xl font-black font-['Baloo_2']">Pilih Kelas Aktif</h2>
                   </div>
 
                   <button
                     onClick={() => setShowAddClassInput(!showAddClassInput)}
-                    className="touch-btn flex items-center gap-1.5 px-3 py-1.5 bg-stone-800 text-amber-300 rounded-lg text-sm font-bold border border-amber-500/50"
+                    className="flex items-center gap-1.5 px-3 py-1.5 bg-[var(--pasir)]/60 text-[var(--zamrud-tua)] rounded-full text-sm font-bold border border-[var(--emas)] cursor-pointer hover:bg-[var(--pasir)]"
                   >
                     <Plus className="w-4 h-4" />
                     <span>Tambah Kelas</span>
@@ -184,15 +187,15 @@ export const ModeGuru: React.FC<ModeGuruProps> = ({
                 </div>
 
                 {showAddClassInput && (
-                  <div className="flex gap-2 p-3 bg-stone-900 rounded-2xl border border-stone-700">
+                  <div className="flex gap-2 p-3 bg-[var(--pasir-terang)] rounded-2xl border border-[var(--emas)]/60">
                     <input
                       type="text"
                       placeholder="Misal: 5C"
                       value={newClassName}
                       onChange={(e) => setNewClassName(e.target.value)}
-                      className="flex-1 bg-stone-950 px-4 py-2 rounded-xl text-white font-bold uppercase focus:outline-none border border-stone-700"
+                      className="flex-1 bg-[var(--gading)] px-4 py-2 rounded-xl text-[var(--malam)] font-bold uppercase focus:outline-none border border-[var(--emas)]"
                     />
-                    <TombolBesar variant="oasis" size="normal" onClick={handleAddClass}>
+                    <TombolBesar variant="zamrud" size="normal" onClick={handleAddClass}>
                       Simpan
                     </TombolBesar>
                   </div>
@@ -206,10 +209,10 @@ export const ModeGuru: React.FC<ModeGuruProps> = ({
                         sfx.playClick();
                         onSetClass(k);
                       }}
-                      className={`touch-btn py-4 rounded-xl text-xl font-black border-2 cursor-pointer ${
+                      className={`py-3.5 rounded-2xl text-xl font-black border-2 cursor-pointer transition-all ${
                         progress.namaKelas === k
-                          ? 'bg-amber-500 text-slate-950 border-amber-300 shadow-md'
-                          : 'bg-stone-900 text-stone-300 border-stone-700'
+                          ? 'bg-[var(--zamrud)] text-[var(--gading)] border-[var(--zamrud-tua)] shadow-md'
+                          : 'bg-[var(--pasir-terang)] text-[var(--malam)] border-[var(--pasir)] hover:border-[var(--zamrud)]'
                       }`}
                     >
                       {k}
@@ -218,8 +221,8 @@ export const ModeGuru: React.FC<ModeGuruProps> = ({
                 </div>
 
                 {/* Level Selection */}
-                <div className="pt-4 border-t border-stone-800">
-                  <span className="text-xl font-bold text-emerald-300 block mb-3">
+                <div className="pt-4 border-t-2 border-[var(--pasir)]">
+                  <span className="text-lg font-black text-[var(--zamrud-tua)] block mb-3">
                     Level Kurikulum
                   </span>
                   <div className="grid grid-cols-3 gap-3">
@@ -230,10 +233,10 @@ export const ModeGuru: React.FC<ModeGuruProps> = ({
                           sfx.playClick();
                           onSetLevel(lvl);
                         }}
-                        className={`touch-btn py-4 rounded-xl text-xl font-black border-2 cursor-pointer ${
+                        className={`py-3.5 rounded-2xl text-xl font-black border-2 cursor-pointer transition-all ${
                           progress.level === lvl
-                            ? 'bg-emerald-600 text-white border-emerald-400 shadow-md'
-                            : 'bg-stone-900 text-stone-300 border-stone-700'
+                            ? 'bg-[var(--emas)] text-[var(--malam)] border-[var(--emas)] shadow-md'
+                            : 'bg-[var(--pasir-terang)] text-[var(--malam)] border-[var(--pasir)] hover:border-[var(--emas)]'
                         }`}
                       >
                         Kelas {lvl}
@@ -244,93 +247,122 @@ export const ModeGuru: React.FC<ModeGuruProps> = ({
               </div>
 
               {/* Display & Sound Toggles */}
-              <div className="glass-panel p-8 rounded-3xl border-2 border-stone-700 flex flex-col gap-5">
-                <div className="flex items-center gap-3 text-emerald-300">
-                  <Settings className="w-8 h-8" />
-                  <h2 className="text-2xl font-black font-display">Tampilan & Audio</h2>
+              <div className="bg-[var(--gading)] p-6 md:p-8 rounded-[28px] border-2 border-[var(--emas)]/50 shadow-md flex flex-col gap-4">
+                <div className="flex items-center gap-3 text-[var(--zamrud-tua)]">
+                  <Settings className="w-7 h-7 text-[var(--zamrud)]" />
+                  <h2 className="text-2xl font-black font-['Baloo_2']">Tampilan & Audio</h2>
                 </div>
 
+                {/* Switch: Teks Latin */}
                 <button
                   onClick={() => {
                     sfx.playClick();
                     onToggleSetting('teksLatin');
                   }}
-                  className="touch-btn flex items-center justify-between p-4 bg-stone-900 rounded-2xl border border-stone-700 cursor-pointer"
+                  className="flex items-center justify-between p-4 bg-[var(--pasir-terang)] rounded-2xl border border-[var(--pasir)] cursor-pointer hover:border-[var(--zamrud)] transition-all"
                 >
-                  <div className="flex items-center gap-3 text-stone-200">
-                    <Type className="w-6 h-6 text-amber-400" />
-                    <span className="text-xl font-bold">Teks Latin (Transliterasi)</span>
+                  <div className="flex items-center gap-3 text-[var(--malam)]">
+                    <Type className="w-6 h-6 text-[var(--emas)]" />
+                    <span className="text-lg font-bold">Teks Latin (Transliterasi)</span>
                   </div>
                   <span
-                    className={`px-4 py-1 rounded-xl font-black text-sm ${
+                    className={`px-4 py-1.5 rounded-full font-black text-xs ${
                       progress.pengaturan.teksLatin
-                        ? 'bg-emerald-500 text-slate-950'
-                        : 'bg-stone-800 text-stone-500'
+                        ? 'bg-[var(--zamrud)] text-[var(--gading)]'
+                        : 'bg-[var(--pasir)] text-[var(--malam)]/60'
                     }`}
                   >
                     {progress.pengaturan.teksLatin ? 'AKTIF' : 'NONAKTIF'}
                   </span>
                 </button>
 
+                {/* Switch: Terjemahan */}
                 <button
                   onClick={() => {
                     sfx.playClick();
                     onToggleSetting('terjemah');
                   }}
-                  className="touch-btn flex items-center justify-between p-4 bg-stone-900 rounded-2xl border border-stone-700 cursor-pointer"
+                  className="flex items-center justify-between p-4 bg-[var(--pasir-terang)] rounded-2xl border border-[var(--pasir)] cursor-pointer hover:border-[var(--zamrud)] transition-all"
                 >
-                  <div className="flex items-center gap-3 text-stone-200">
-                    <Award className="w-6 h-6 text-emerald-400" />
-                    <span className="text-xl font-bold">Terjemahan Kemenag</span>
+                  <div className="flex items-center gap-3 text-[var(--malam)]">
+                    <Award className="w-6 h-6 text-[var(--zamrud)]" />
+                    <span className="text-lg font-bold">Terjemahan Kemenag</span>
                   </div>
                   <span
-                    className={`px-4 py-1 rounded-xl font-black text-sm ${
+                    className={`px-4 py-1.5 rounded-full font-black text-xs ${
                       progress.pengaturan.terjemah
-                        ? 'bg-emerald-500 text-slate-950'
-                        : 'bg-stone-800 text-stone-500'
+                        ? 'bg-[var(--zamrud)] text-[var(--gading)]'
+                        : 'bg-[var(--pasir)] text-[var(--malam)]/60'
                     }`}
                   >
                     {progress.pengaturan.terjemah ? 'AKTIF' : 'NONAKTIF'}
                   </span>
                 </button>
 
+                {/* Switch: Suara Efek */}
                 <button
                   onClick={() => {
                     sfx.playClick();
                     onToggleSetting('suaraEfek');
                   }}
-                  className="touch-btn flex items-center justify-between p-4 bg-stone-900 rounded-2xl border border-stone-700 cursor-pointer"
+                  className="flex items-center justify-between p-4 bg-[var(--pasir-terang)] rounded-2xl border border-[var(--pasir)] cursor-pointer hover:border-[var(--zamrud)] transition-all"
                 >
-                  <div className="flex items-center gap-3 text-stone-200">
-                    <Volume2 className="w-6 h-6 text-sky-400" />
-                    <span className="text-xl font-bold">Efek Suara Sentuhan</span>
+                  <div className="flex items-center gap-3 text-[var(--malam)]">
+                    <Volume2 className="w-6 h-6 text-[var(--biru-laut)]" />
+                    <span className="text-lg font-bold">Efek Suara Sentuhan</span>
                   </div>
                   <span
-                    className={`px-4 py-1 rounded-xl font-black text-sm ${
+                    className={`px-4 py-1.5 rounded-full font-black text-xs ${
                       progress.pengaturan.suaraEfek
-                        ? 'bg-emerald-500 text-slate-950'
-                        : 'bg-stone-800 text-stone-500'
+                        ? 'bg-[var(--zamrud)] text-[var(--gading)]'
+                        : 'bg-[var(--pasir)] text-[var(--malam)]/60'
                     }`}
                   >
                     {progress.pengaturan.suaraEfek ? 'AKTIF' : 'NONAKTIF'}
+                  </span>
+                </button>
+
+                {/* Switch: Maskot Nur Tanpa Wajah (DESIGN.md Halaman 4) */}
+                <button
+                  onClick={() => {
+                    sfx.playClick();
+                    onToggleSetting('nurTanpaWajah');
+                  }}
+                  className="flex items-center justify-between p-4 bg-[var(--pasir-terang)] rounded-2xl border border-[var(--pasir)] cursor-pointer hover:border-[var(--emas)] transition-all"
+                >
+                  <div className="flex items-center gap-3 text-[var(--malam)]">
+                    <LenteraFanus size={24} menyala={true} />
+                    <div className="text-left">
+                      <span className="text-lg font-bold block">Tampilkan Nur Tanpa Wajah</span>
+                      <span className="text-xs text-[var(--malam)]/70 font-semibold block">Untuk sekolah yang menghindari gambar makhluk bernyawa</span>
+                    </div>
+                  </div>
+                  <span
+                    className={`px-4 py-1.5 rounded-full font-black text-xs ${
+                      progress.pengaturan.nurTanpaWajah
+                        ? 'bg-[var(--emas)] text-[var(--malam)]'
+                        : 'bg-[var(--pasir)] text-[var(--malam)]/60'
+                    }`}
+                  >
+                    {progress.pengaturan.nurTanpaWajah ? 'AKTIF' : 'NONAKTIF'}
                   </span>
                 </button>
               </div>
             </div>
 
             {/* Danger Zone */}
-            <div className="p-8 rounded-3xl bg-rose-950/40 border-2 border-rose-600/40 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="p-6 md:p-8 rounded-[28px] bg-[var(--terakota)]/10 border-2 border-[var(--terakota)]/40 flex flex-col md:flex-row items-center justify-between gap-6">
               <div>
-                <h3 className="text-2xl font-black text-rose-300">Atur Ulang Progres Kelas</h3>
-                <p className="text-base text-rose-200/80 mt-1">
+                <h3 className="text-2xl font-black text-[var(--terakota)] font-['Baloo_2']">Atur Ulang Progres Kelas</h3>
+                <p className="text-base text-[var(--malam)]/80 mt-1 font-semibold">
                   Menghapus bintang dan skor lokal untuk kelas {progress.namaKelas}.
                 </p>
               </div>
 
               <TombolBesar
-                variant="danger"
+                variant="terakota"
                 size="normal"
-                icon={<RotateCcw className="w-7 h-7" />}
+                icon={<RotateCcw className="w-6 h-6" />}
                 onClick={() => setShowConfirmReset(true)}
               >
                 Reset Progres
@@ -343,14 +375,14 @@ export const ModeGuru: React.FC<ModeGuruProps> = ({
         {activeTab === 'pos_fokus' && (
           <div className="flex flex-col gap-8">
             {/* Surah Fokus Selector */}
-            <div className="glass-panel p-8 rounded-3xl border-2 border-amber-500/50">
-              <div className="flex items-center gap-3 text-amber-300 mb-4">
-                <Sparkles className="w-8 h-8" />
-                <h3 className="text-2xl font-black font-display">
+            <div className="bg-[var(--gading)] p-6 md:p-8 rounded-[28px] border-2 border-[var(--emas)]/50 shadow-md">
+              <div className="flex items-center gap-3 text-[var(--zamrud-tua)] mb-2">
+                <Sparkles className="w-7 h-7 text-[var(--emas)]" />
+                <h3 className="text-2xl font-black font-['Baloo_2']">
                   Surah Fokus Minggu Ini
                 </h3>
               </div>
-              <p className="text-stone-300 text-lg mb-6">
+              <p className="text-[var(--malam)]/80 text-base mb-6 font-semibold">
                 Surah terpilih akan disorot dengan lencana khusus di Peta Petualangan agar siswa fokus menghafalkannya.
               </p>
 
@@ -362,29 +394,29 @@ export const ModeGuru: React.FC<ModeGuruProps> = ({
                       sfx.playClick();
                       onSetFocusSurahId(s.id);
                     }}
-                    className={`touch-btn p-4 rounded-2xl border-2 font-bold text-center cursor-pointer ${
+                    className={`p-3 rounded-2xl border-2 font-bold text-center cursor-pointer transition-all ${
                       focusSurahId === s.id
-                        ? 'bg-amber-500 text-slate-950 border-amber-300 shadow-gold-glow'
-                        : 'bg-stone-900 text-stone-300 border-stone-700'
+                        ? 'bg-[var(--emas)] text-[var(--malam)] border-[var(--emas)] shadow-md'
+                        : 'bg-[var(--pasir-terang)] text-[var(--malam)] border-[var(--pasir)] hover:border-[var(--zamrud)]'
                     }`}
                   >
-                    <span className="block text-sm text-stone-400">Pos {s.urutanPos}</span>
-                    <span className="block text-xl font-black">{s.namaLatin}</span>
+                    <span className="block text-xs text-[var(--malam)]/70">Pos {s.urutanPos}</span>
+                    <span className="block text-lg font-black font-['Baloo_2']">{s.namaLatin}</span>
                   </button>
                 ))}
               </div>
             </div>
 
             {/* Manual Unlock Table */}
-            <div className="glass-panel p-8 rounded-3xl border-2 border-stone-700">
-              <h3 className="text-2xl font-black text-emerald-300 font-display mb-4">
+            <div className="bg-[var(--gading)] p-6 md:p-8 rounded-[28px] border-2 border-[var(--emas)]/50 shadow-md">
+              <h3 className="text-2xl font-black text-[var(--zamrud-tua)] font-['Baloo_2'] mb-2">
                 Buka / Kunci Pos Secara Manual (37 Pos)
               </h3>
-              <p className="text-stone-400 text-sm mb-6">
+              <p className="text-[var(--malam)]/80 text-sm mb-6 font-semibold">
                 Sentuh gembok pada surah mana pun untuk membuka atau menguncinya bagi kelas ini.
               </p>
 
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
                 {surahListData.map((s) => {
                   const isUnlocked = progress.posTerbuka.includes(s.id);
                   return (
@@ -394,20 +426,20 @@ export const ModeGuru: React.FC<ModeGuruProps> = ({
                         sfx.playClick();
                         onManualToggleUnlock(s.id);
                       }}
-                      className={`touch-btn p-4 rounded-2xl border-2 flex items-center justify-between cursor-pointer ${
+                      className={`p-3 rounded-2xl border-2 flex items-center justify-between cursor-pointer transition-all ${
                         isUnlocked
-                          ? 'bg-emerald-950/70 border-emerald-500/70 text-emerald-100'
-                          : 'bg-stone-950 border-stone-800 text-stone-500'
+                          ? 'bg-[var(--pasir-terang)] border-[var(--zamrud)] text-[var(--zamrud-tua)] shadow-sm'
+                          : 'bg-[var(--pasir)]/30 border-[var(--pasir)] text-[var(--malam)]/50'
                       }`}
                     >
                       <div>
-                        <span className="text-xs text-stone-400 block">Pos {s.urutanPos}</span>
-                        <span className="text-lg font-black">{s.namaLatin}</span>
+                        <span className="text-xs text-[var(--malam)]/60 block">Pos {s.urutanPos}</span>
+                        <span className="text-base font-black font-['Baloo_2']">{s.namaLatin}</span>
                       </div>
                       {isUnlocked ? (
-                        <Unlock className="w-6 h-6 text-emerald-400" />
+                        <Unlock className="w-5 h-5 text-[var(--zamrud)]" />
                       ) : (
-                        <Lock className="w-6 h-6 text-stone-600" />
+                        <Lock className="w-5 h-5 text-[var(--malam)]/40" />
                       )}
                     </div>
                   );
@@ -419,22 +451,22 @@ export const ModeGuru: React.FC<ModeGuruProps> = ({
 
         {/* Tab 3: Rekap Nilai & CSV */}
         {activeTab === 'rekap_csv' && (
-          <div className="glass-panel p-8 rounded-3xl border-2 border-stone-700 flex flex-col gap-6">
-            <div className="flex flex-col md:flex-row items-center justify-between gap-4 border-b border-stone-800 pb-6">
+          <div className="bg-[var(--gading)] p-6 md:p-8 rounded-[28px] border-2 border-[var(--emas)]/50 shadow-md flex flex-col gap-6">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-4 border-b-2 border-[var(--pasir)] pb-6">
               <div>
-                <h3 className="text-3xl font-black text-amber-300 font-display">
+                <h3 className="text-3xl font-black text-[var(--zamrud-tua)] font-['Baloo_2']">
                   Rekap Capaian Kelas {progress.namaKelas}
                 </h3>
-                <p className="text-stone-300 text-lg mt-1">
+                <p className="text-[var(--malam)]/80 text-base mt-1 font-semibold">
                   {completedCount} dari 37 Pos Selesai • Total {totalStars} Bintang Terkumpul
                 </p>
               </div>
 
               <button
                 onClick={handleExportCSV}
-                className="touch-btn flex items-center gap-3 px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-2xl font-bold text-lg shadow-lg cursor-pointer"
+                className="flex items-center gap-2 px-6 py-2.5 bg-[var(--zamrud)] hover:bg-[var(--zamrud-tua)] text-[var(--gading)] rounded-full font-bold text-base shadow-sm cursor-pointer transition-all"
               >
-                <Download className="w-6 h-6" />
+                <Download className="w-5 h-5" />
                 <span>Unduh File CSV (.csv)</span>
               </button>
             </div>
@@ -443,45 +475,45 @@ export const ModeGuru: React.FC<ModeGuruProps> = ({
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="border-b border-stone-700 text-stone-400 text-lg">
-                    <th className="py-4 px-4">Pos</th>
-                    <th className="py-4 px-4">Nama Surah</th>
-                    <th className="py-4 px-4">Arti</th>
-                    <th className="py-4 px-4 text-center">Bintang</th>
-                    <th className="py-4 px-4 text-center">Skor Tertinggi</th>
-                    <th className="py-4 px-4">Status</th>
+                  <tr className="border-b-2 border-[var(--pasir)] text-[var(--malam)]/70 text-base font-black">
+                    <th className="py-3 px-4">Pos</th>
+                    <th className="py-3 px-4">Nama Surah</th>
+                    <th className="py-3 px-4">Arti</th>
+                    <th className="py-3 px-4 text-center">Bintang</th>
+                    <th className="py-3 px-4 text-center">Skor Tertinggi</th>
+                    <th className="py-3 px-4">Status</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-stone-800 text-stone-200 text-lg">
+                <tbody className="divide-y divide-[var(--pasir)] text-[var(--malam)] text-base font-semibold">
                   {surahListData.map((s) => {
                     const detail = progress.posSelesai[s.id];
                     const isUnlocked = progress.posTerbuka.includes(s.id);
                     return (
-                      <tr key={s.id} className="hover:bg-stone-900/60">
-                        <td className="py-4 px-4 font-mono font-bold text-amber-400">{s.urutanPos}</td>
-                        <td className="py-4 px-4 font-black">{s.namaLatin}</td>
-                        <td className="py-4 px-4 text-stone-400">{s.arti}</td>
-                        <td className="py-4 px-4 text-center">
+                      <tr key={s.id} className="hover:bg-[var(--pasir-terang)]">
+                        <td className="py-3 px-4 font-bold text-[var(--zamrud-tua)]">{s.urutanPos}</td>
+                        <td className="py-3 px-4 font-black font-['Baloo_2']">{s.namaLatin}</td>
+                        <td className="py-3 px-4 text-[var(--malam)]/80">{s.arti}</td>
+                        <td className="py-3 px-4 text-center">
                           {detail ? (
-                            <span className="text-yellow-400 font-bold">{'★'.repeat(detail.stars)}</span>
+                            <span className="text-[var(--emas)] font-black">{'★'.repeat(detail.stars)}</span>
                           ) : (
-                            <span className="text-stone-600">-</span>
+                            <span className="text-[var(--pasir)]">-</span>
                           )}
                         </td>
-                        <td className="py-4 px-4 text-center font-bold">
+                        <td className="py-3 px-4 text-center font-bold">
                           {detail ? detail.skorTertinggi : 0}
                         </td>
-                        <td className="py-4 px-4">
+                        <td className="py-3 px-4">
                           {detail && detail.stars >= 1 ? (
-                            <span className="px-3 py-1 rounded-xl bg-emerald-950 text-emerald-400 border border-emerald-600 text-sm font-bold">
+                            <span className="px-3 py-1 rounded-full bg-[var(--zamrud)]/15 text-[var(--zamrud-tua)] border border-[var(--zamrud)] text-xs font-bold">
                               Lulus ({detail.stars}★)
                             </span>
                           ) : isUnlocked ? (
-                            <span className="px-3 py-1 rounded-xl bg-amber-950 text-amber-300 border border-amber-600 text-sm font-bold">
+                            <span className="px-3 py-1 rounded-full bg-[var(--emas)]/20 text-[var(--malam)] border border-[var(--emas)] text-xs font-bold">
                               Terbuka
                             </span>
                           ) : (
-                            <span className="px-3 py-1 rounded-xl bg-stone-900 text-stone-500 text-sm font-bold">
+                            <span className="px-3 py-1 rounded-full bg-[var(--pasir)] text-[var(--malam)]/60 text-xs font-bold">
                               Terkunci
                             </span>
                           )}
@@ -497,11 +529,11 @@ export const ModeGuru: React.FC<ModeGuruProps> = ({
 
         {/* Tab 4: Lencana Kelas */}
         {activeTab === 'lencana' && (
-          <div className="glass-panel p-8 rounded-3xl border-2 border-stone-700 flex flex-col gap-6">
-            <h3 className="text-3xl font-black text-amber-300 font-display">
+          <div className="bg-[var(--gading)] p-6 md:p-8 rounded-[28px] border-2 border-[var(--emas)]/50 shadow-md flex flex-col gap-6">
+            <h3 className="text-3xl font-black text-[var(--zamrud-tua)] font-['Baloo_2']">
               Lencana & Prestasi Kelas {progress.namaKelas}
             </h3>
-            <p className="text-stone-300 text-lg mb-4">
+            <p className="text-[var(--malam)]/80 text-base mb-2 font-semibold">
               Lencana otomatis terbuka ketika kelas mencapai target hafalan dan mini-game.
             </p>
 
@@ -511,18 +543,18 @@ export const ModeGuru: React.FC<ModeGuruProps> = ({
                 return (
                   <div
                     key={b.id}
-                    className={`p-6 rounded-3xl border-3 flex items-start gap-4 transition-all ${
+                    className={`p-6 rounded-3xl border-2 flex items-start gap-4 transition-all ${
                       isEarned
-                        ? 'bg-gradient-to-br from-stone-900 to-emerald-950/80 border-amber-400 shadow-card-glow'
-                        : 'bg-stone-950/80 border-stone-800 opacity-50 grayscale'
+                        ? 'bg-[var(--pasir-terang)] border-[var(--emas)] shadow-sm'
+                        : 'bg-[var(--pasir)]/30 border-[var(--pasir)] opacity-50 grayscale'
                     }`}
                   >
-                    <span className="text-5xl">{b.icon}</span>
+                    <BintangDelapan size={44} fill={isEarned ? '#D4A23A' : '#E8D2A6'} />
                     <div>
-                      <h4 className="text-2xl font-black text-white font-display mb-1">{b.name}</h4>
-                      <p className="text-sm text-stone-300 leading-relaxed">{b.description}</p>
+                      <h4 className="text-xl font-black text-[var(--zamrud-tua)] font-['Baloo_2'] mb-1">{b.name}</h4>
+                      <p className="text-sm text-[var(--malam)]/80 leading-relaxed font-semibold">{b.description}</p>
                       {isEarned && (
-                        <span className="inline-block mt-3 px-3 py-0.5 rounded-md bg-emerald-500 text-slate-950 font-black text-xs">
+                        <span className="inline-block mt-3 px-3 py-0.5 rounded-full bg-[var(--zamrud)] text-[var(--gading)] font-black text-xs">
                           DIRAIH ✓
                         </span>
                       )}

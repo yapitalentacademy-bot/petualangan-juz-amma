@@ -56,6 +56,7 @@ export const defaultClassData: KelasProgress = {
     terjemah: true,
     kecepatanAudio: 1.0,
     qariTerpilih: 'misyari',
+    nurTanpaWajah: false,
   },
 };
 

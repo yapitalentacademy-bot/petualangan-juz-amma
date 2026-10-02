@@ -36,7 +36,7 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="w-full min-h-screen bg-[#12100e] text-slate-100 selection:bg-emerald-500 selection:text-white">
+    <div className="w-full min-h-screen bg-[var(--pasir-terang)] text-[var(--malam)] selection:bg-[var(--zamrud)] selection:text-white font-['Nunito']">
       {currentScreen === 'BERANDA' && (
         <Beranda
           onStartAdventure={kePeta}

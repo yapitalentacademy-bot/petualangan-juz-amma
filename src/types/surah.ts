@@ -62,5 +62,6 @@ export interface KelasProgress {
     terjemah: boolean;
     kecepatanAudio: number;
     qariTerpilih: string;
+    nurTanpaWajah?: boolean;
   };
 }

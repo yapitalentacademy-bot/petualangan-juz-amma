@@ -11,15 +11,15 @@ import { KartuKembarGame } from '../games/KartuKembar/KartuKembarGame';
 import { DuelTimGame } from '../games/DuelTim/DuelTimGame';
 import { PemburuTajwidGame } from '../games/PemburuTajwid/PemburuTajwidGame';
 import { KisahSurahScreen } from '../games/KisahSurah/KisahSurahScreen';
+import { BintangDelapan } from '../components/ornaments/BintangDelapan';
+import { LenteraFanus } from '../components/ornaments/LenteraFanus';
 import sampleSurahsData from '../data/sample-surahs.json';
 import { SurahDetail, KelasLevel } from '../types/surah';
 import { GameResult } from '../types/game';
 import {
   BookOpen,
-  Sparkles,
   HeartHandshake,
   PlayCircle,
-  Star,
   Puzzle,
   Layers,
   Users,
@@ -76,13 +76,13 @@ export const PosSurah: React.FC<PosSurahProps> = ({
 
   if (!surah) {
     return (
-      <div className="min-h-screen bg-oasis-pattern flex flex-col items-center justify-center p-6">
-        <div className="glass-panel p-10 rounded-3xl max-w-lg text-center">
-          <h2 className="text-3xl font-bold text-rose-400 mb-4">Surah Belum Terbuka</h2>
-          <p className="text-stone-300 mb-6">
-            Data surah ini sedang dipersiapkan untuk fase berikutnya.
+      <div className="min-h-screen bg-[var(--pasir-terang)] flex flex-col items-center justify-center p-6 text-[var(--malam)]">
+        <div className="bg-[var(--gading)] border-2 border-[var(--emas)] p-10 rounded-3xl max-w-lg text-center shadow-xl">
+          <h2 className="text-3xl font-black font-['Baloo_2'] text-[var(--terakota)] mb-4">Surah Belum Terbuka</h2>
+          <p className="text-[var(--malam)]/80 font-['Nunito'] font-bold text-lg mb-6">
+            Data surah ini sedang dipersiapkan untuk fase perjalanan kafilah berikutnya.
           </p>
-          <TombolBesar variant="oasis" onClick={onBackToMap}>
+          <TombolBesar variant="zamrud" onClick={onBackToMap}>
             Kembali ke Peta
           </TombolBesar>
         </div>
@@ -138,7 +138,7 @@ export const PosSurah: React.FC<PosSurahProps> = ({
   };
 
   return (
-    <div className="min-h-screen bg-oasis-pattern flex flex-col">
+    <div className="min-h-screen bg-[var(--pasir-terang)] text-[var(--malam)] flex flex-col">
       <HeaderNav
         title={`Pos Surah: ${surah.namaLatin}`}
         subtitle={`${surah.arti} • ${surah.tempatTurun} • ${surah.jumlahAyat} Ayat`}
@@ -153,7 +153,7 @@ export const PosSurah: React.FC<PosSurahProps> = ({
         onToggleSound={onToggleSound}
       />
 
-      <main className="flex-1 p-6 md:p-10 max-w-6xl mx-auto w-full pb-20">
+      <main className="flex-1 p-4 md:p-8 max-w-6xl mx-auto w-full pb-20">
         {/* Game Active Mode */}
         {activeGame !== 'none' && (
           <div className="w-full">
@@ -180,10 +180,11 @@ export const PosSurah: React.FC<PosSurahProps> = ({
                   onBackToMap();
                 }}
                 onNext={
-                  onSelectNextSurah
+                  onSelectNextSurah && surah.id > 78
                     ? () => {
                         handleExitGame();
-                        onSelectNextSurah(surah.id + 1);
+                        // Urutan anak SD: 114 turun ke 78
+                        onSelectNextSurah(surah.id - 1);
                       }
                     : undefined
                 }
@@ -273,28 +274,32 @@ export const PosSurah: React.FC<PosSurahProps> = ({
         {/* Regular Surah Hub when not playing mini-game */}
         {activeGame === 'none' && (
           <>
-            {/* Surah Header Card */}
-            <div className="stone-plaque p-8 md:p-12 rounded-3xl mb-8 relative overflow-hidden border-2 border-emerald-400/50 shadow-2xl">
-              <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+            {/* Surah Header Card: Panel Gerbang Lengkung Mihrab */}
+            <div className="relative bg-[var(--gading)] border-2 border-[var(--emas)] rounded-[32px] p-6 md:p-10 mb-8 shadow-xl overflow-hidden">
+              {/* Lengkung Mihrab Top Accent */}
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-48 h-8 bg-[var(--emas)]/15 rounded-b-[40px] border-b-2 border-x-2 border-[var(--emas)]/40 pointer-events-none" />
+
+              <div className="flex flex-col md:flex-row items-center justify-between gap-6 relative z-10">
                 <div className="flex flex-col items-center md:items-start text-center md:text-left">
-                  <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-xl bg-emerald-950/90 border-2 border-emerald-400/70 text-emerald-300 text-lg font-black mb-3 shadow-md">
-                    <Star className="w-5 h-5 fill-amber-400 text-amber-400" />
-                    Pos ke-{surah.id} ({surah.tempatTurun})
+                  <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-[var(--pasir)]/60 border border-[var(--emas)] text-[var(--zamrud-tua)] text-base font-['Nunito'] font-bold mb-3 shadow-sm">
+                    <BintangDelapan size={18} fill="#D4A23A" className="text-[var(--emas)]" />
+                    <span>Pos Surah ke-{surah.id} • {surah.tempatTurun}</span>
                   </div>
 
-                  <h2 className="text-4xl md:text-6xl font-black gold-title-3d font-display mb-1">
+                  <h2 className="text-4xl md:text-5xl font-black text-[var(--zamrud-tua)] font-['Baloo_2'] mb-1">
                     Surah {surah.namaLatin}
                   </h2>
-                  <p className="text-2xl text-amber-200 font-bold">
-                    Artinya: "{surah.arti}"
+                  <p className="text-xl text-[var(--terakota)] font-['Nunito'] font-bold">
+                    Artinya: "{surah.arti}" • {surah.jumlahAyat} Ayat
                   </p>
                 </div>
 
                 {/* Big Arabic Title */}
-                <div className="text-center md:text-right">
+                <div className="text-center md:text-right flex items-center gap-4">
+                  <LenteraFanus size={42} menyala={true} className="hidden md:block" />
                   <span
                     dir="rtl"
-                    className="font-quran text-6xl md:text-8xl text-amber-200 font-bold drop-shadow-lg"
+                    className="font-['Amiri'] text-5xl md:text-7xl text-[var(--zamrud-tua)] font-bold drop-shadow-sm"
                   >
                     {surah.namaArab}
                   </span>
@@ -302,16 +307,16 @@ export const PosSurah: React.FC<PosSurahProps> = ({
               </div>
 
               {/* Quick Action Tabs */}
-              <div className="flex flex-wrap items-center justify-between gap-4 mt-8 pt-6 border-t border-slate-700">
-                <div className="flex items-center gap-4">
+              <div className="flex flex-wrap items-center justify-between gap-4 mt-8 pt-6 border-t-2 border-[var(--pasir)]/70 relative z-10">
+                <div className="flex items-center gap-3">
                   <button
                     onClick={() => setActiveTab('bacaan')}
                     className={`
-                      touch-btn px-6 py-3 rounded-2xl text-xl font-black border-2 transition-all cursor-pointer shadow-md
+                      px-6 py-2.5 rounded-full text-lg font-['Nunito'] font-bold border-2 transition-all cursor-pointer shadow-sm
                       ${
                         activeTab === 'bacaan'
-                          ? 'bg-gradient-to-r from-emerald-500 to-emerald-700 border-emerald-300 text-white shadow-card-glow'
-                          : 'bg-slate-900/90 border-slate-700 text-stone-300 hover:border-emerald-400'
+                          ? 'bg-[var(--zamrud)] border-[var(--zamrud-tua)] text-[var(--gading)] shadow-md'
+                          : 'bg-[var(--pasir)]/40 border-[var(--pasir)] text-[var(--malam)] hover:border-[var(--zamrud)]'
                       }
                     `}
                   >
@@ -321,11 +326,11 @@ export const PosSurah: React.FC<PosSurahProps> = ({
                   <button
                     onClick={() => setActiveTab('kisah')}
                     className={`
-                      touch-btn px-6 py-3 rounded-2xl text-xl font-black border-2 transition-all cursor-pointer shadow-md
+                      px-6 py-2.5 rounded-full text-lg font-['Nunito'] font-bold border-2 transition-all cursor-pointer shadow-sm
                       ${
                         activeTab === 'kisah'
-                          ? 'bg-gradient-to-r from-emerald-500 to-emerald-700 border-emerald-300 text-white shadow-card-glow'
-                          : 'bg-slate-900/90 border-slate-700 text-stone-300 hover:border-emerald-400'
+                          ? 'bg-[var(--zamrud)] border-[var(--zamrud-tua)] text-[var(--gading)] shadow-md'
+                          : 'bg-[var(--pasir)]/40 border-[var(--pasir)] text-[var(--malam)] hover:border-[var(--zamrud)]'
                       }
                     `}
                   >
@@ -334,158 +339,160 @@ export const PosSurah: React.FC<PosSurahProps> = ({
                 </div>
 
                 <TombolBesar
-                  variant="desert"
+                  variant="emas"
                   size="normal"
-                  icon={<PlayCircle className="w-8 h-8" />}
+                  icon={<PlayCircle className="w-7 h-7" />}
                   onClick={handlePlayAll}
                 >
-                  Putar Murottal
+                  Putar Murottal Lengkap
                 </TombolBesar>
               </div>
             </div>
 
             {/* Mini-Games Launch Section (All 7 Mini-Games) */}
-            <div className="mb-10 p-8 rounded-3xl glass-panel border-3 border-emerald-400/60 shadow-2xl">
-              <div className="flex items-center gap-3 text-emerald-300 mb-6">
-                <Sparkles className="w-8 h-8 text-yellow-400 animate-spin" />
-                <h3 className="text-3xl font-black font-display text-amber-200">
+            <div className="mb-10 p-6 md:p-8 rounded-[32px] bg-[var(--gading)] border-2 border-[var(--emas)]/80 shadow-xl">
+              <div className="flex items-center gap-3 text-[var(--zamrud-tua)] mb-6">
+                <LenteraFanus size={32} menyala={true} />
+                <h3 className="text-3xl font-black font-['Baloo_2'] text-[var(--zamrud-tua)]">
                   Tantangan Mini-Game Petualangan
                 </h3>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {/* 1. Sambung Ayat */}
-                <div className="flex flex-col justify-between p-6 rounded-3xl bg-slate-900/90 border-2 border-emerald-500/70 shadow-lg hover:border-emerald-400 transition-all">
+                <div className="flex flex-col justify-between p-6 rounded-3xl bg-[var(--pasir-terang)] border-2 border-[var(--zamrud)]/40 shadow-sm hover:border-[var(--zamrud)] transition-all">
                   <div>
-                    <div className="flex items-center gap-3 text-emerald-300 mb-2">
-                      <Layers className="w-7 h-7" />
-                      <h4 className="text-2xl font-black">Sambung Ayat</h4>
+                    <div className="flex items-center gap-3 text-[var(--zamrud-tua)] mb-2">
+                      <Layers className="w-6 h-6" />
+                      <h4 className="text-2xl font-black font-['Baloo_2']">Sambung Ayat</h4>
                     </div>
-                    <p className="text-stone-300 text-base mb-6">
+                    <p className="text-[var(--malam)]/80 font-['Nunito'] font-semibold text-base mb-6">
                       Dengarkan bacaan ayat ke-n dan sentuh kartu ayat ke-(n+1) dengan benar!
                     </p>
                   </div>
-                  <TombolBesar variant="oasis" size="normal" onClick={() => setActiveGame('sambung')}>
+                  <TombolBesar variant="zamrud" size="normal" onClick={() => setActiveGame('sambung')}>
                     Mainkan
                   </TombolBesar>
                 </div>
 
                 {/* 2. Susun Ayat */}
-                <div className="flex flex-col justify-between p-6 rounded-3xl bg-slate-900/90 border-2 border-amber-500/70 shadow-lg hover:border-amber-400 transition-all">
+                <div className="flex flex-col justify-between p-6 rounded-3xl bg-[var(--pasir-terang)] border-2 border-[var(--emas)]/60 shadow-sm hover:border-[var(--emas)] transition-all">
                   <div>
-                    <div className="flex items-center gap-3 text-amber-300 mb-2">
-                      <Puzzle className="w-7 h-7" />
-                      <h4 className="text-2xl font-black">Susun Ayat (RTL)</h4>
+                    <div className="flex items-center gap-3 text-[var(--zamrud-tua)] mb-2">
+                      <Puzzle className="w-6 h-6 text-[var(--emas)]" />
+                      <h4 className="text-2xl font-black font-['Baloo_2']">Susun Ayat (RTL)</h4>
                     </div>
-                    <p className="text-stone-300 text-base mb-6">
+                    <p className="text-[var(--malam)]/80 font-['Nunito'] font-semibold text-base mb-6">
                       Susun potongan kata Al-Qur'an ke slot berurutan dari kanan ke kiri!
                     </p>
                   </div>
-                  <TombolBesar variant="desert" size="normal" onClick={() => setActiveGame('susun')}>
+                  <TombolBesar variant="emas" size="normal" onClick={() => setActiveGame('susun')}>
                     Mainkan
                   </TombolBesar>
                 </div>
 
-                {/* 3. Pemburu Tajwid (Fase 6) */}
-                <div className="flex flex-col justify-between p-6 rounded-3xl bg-slate-900/90 border-2 border-cyan-500/70 shadow-lg hover:border-cyan-400 transition-all">
+                {/* 3. Pemburu Tajwid */}
+                <div className="flex flex-col justify-between p-6 rounded-3xl bg-[var(--pasir-terang)] border-2 border-[var(--biru-laut)]/50 shadow-sm hover:border-[var(--biru-laut)] transition-all">
                   <div>
-                    <div className="flex items-center gap-3 text-cyan-300 mb-2">
-                      <Search className="w-7 h-7" />
-                      <h4 className="text-2xl font-black">Pemburu Tajwid</h4>
+                    <div className="flex items-center gap-3 text-[var(--biru-laut)] mb-2">
+                      <Search className="w-6 h-6" />
+                      <h4 className="text-2xl font-black font-['Baloo_2']">Pemburu Tajwid</h4>
                     </div>
-                    <p className="text-stone-300 text-base mb-6">
+                    <p className="text-[var(--malam)]/80 font-['Nunito'] font-semibold text-base mb-6">
                       Cari dan sentuh lafadz yang mengandung hukum tajwid (Ghunnah, Qalqalah, Mad, dll)!
                     </p>
                   </div>
-                  <TombolBesar variant="ocean" size="normal" onClick={() => setActiveGame('tajwid')}>
+                  <TombolBesar variant="biru" size="normal" onClick={() => setActiveGame('tajwid')}>
                     Mulai Berburu
                   </TombolBesar>
                 </div>
 
                 {/* 4. Tebak Surah */}
-                <div className="flex flex-col justify-between p-6 rounded-3xl bg-slate-900/90 border-2 border-yellow-500/70 shadow-lg hover:border-yellow-400 transition-all">
+                <div className="flex flex-col justify-between p-6 rounded-3xl bg-[var(--pasir-terang)] border-2 border-[var(--emas)]/60 shadow-sm hover:border-[var(--emas)] transition-all">
                   <div>
-                    <div className="flex items-center gap-3 text-yellow-300 mb-2">
-                      <HelpCircle className="w-7 h-7" />
-                      <h4 className="text-2xl font-black">Tebak Surah</h4>
+                    <div className="flex items-center gap-3 text-[var(--zamrud-tua)] mb-2">
+                      <HelpCircle className="w-6 h-6 text-[var(--emas)]" />
+                      <h4 className="text-2xl font-black font-['Baloo_2']">Tebak Surah</h4>
                     </div>
-                    <p className="text-stone-300 text-base mb-6">
+                    <p className="text-[var(--malam)]/80 font-['Nunito'] font-semibold text-base mb-6">
                       Tebak nama surah dari arti nama, ciri ayat, atau audio pembuka!
                     </p>
                   </div>
-                  <TombolBesar variant="desert" size="normal" onClick={() => setActiveGame('tebak')}>
+                  <TombolBesar variant="emas" size="normal" onClick={() => setActiveGame('tebak')}>
                     Mainkan
                   </TombolBesar>
                 </div>
 
                 {/* 5. Kereta Surah */}
-                <div className="flex flex-col justify-between p-6 rounded-3xl bg-slate-900/90 border-2 border-teal-500/70 shadow-lg hover:border-teal-400 transition-all">
+                <div className="flex flex-col justify-between p-6 rounded-3xl bg-[var(--pasir-terang)] border-2 border-[var(--zamrud)]/40 shadow-sm hover:border-[var(--zamrud)] transition-all">
                   <div>
-                    <div className="flex items-center gap-3 text-teal-300 mb-2">
-                      <TrainTrack className="w-7 h-7" />
-                      <h4 className="text-2xl font-black">Kereta Surah</h4>
+                    <div className="flex items-center gap-3 text-[var(--zamrud-tua)] mb-2">
+                      <TrainTrack className="w-6 h-6" />
+                      <h4 className="text-2xl font-black font-['Baloo_2']">Kereta Surah</h4>
                     </div>
-                    <p className="text-stone-300 text-base mb-6">
+                    <p className="text-[var(--malam)]/80 font-['Nunito'] font-semibold text-base mb-6">
                       Susun gerbong surah di rel sesuai urutan mushaf (berwaktu di kelas 5–6)!
                     </p>
                   </div>
-                  <TombolBesar variant="oasis" size="normal" onClick={() => setActiveGame('kereta')}>
+                  <TombolBesar variant="zamrud" size="normal" onClick={() => setActiveGame('kereta')}>
                     Mainkan
                   </TombolBesar>
                 </div>
 
                 {/* 6. Kartu Kembar */}
-                <div className="flex flex-col justify-between p-6 rounded-3xl bg-stone-900/90 border-2 border-indigo-500/60 shadow-md">
+                <div className="flex flex-col justify-between p-6 rounded-3xl bg-[var(--pasir-terang)] border-2 border-[var(--biru-laut)]/50 shadow-sm hover:border-[var(--biru-laut)] transition-all">
                   <div>
-                    <div className="flex items-center gap-3 text-indigo-300 mb-2">
-                      <Grid className="w-7 h-7" />
-                      <h4 className="text-2xl font-black">Kartu Kembar</h4>
+                    <div className="flex items-center gap-3 text-[var(--biru-laut)] mb-2">
+                      <Grid className="w-6 h-6" />
+                      <h4 className="text-2xl font-black font-['Baloo_2']">Kartu Kembar</h4>
                     </div>
-                    <p className="text-stone-300 text-base mb-4">
-                      Memory match grid 4×3 mencari pasangan nama dan arti surah!
+                    <p className="text-[var(--malam)]/80 font-['Nunito'] font-semibold text-base mb-4">
+                      Memory match pasangan nama dan arti surah!
                     </p>
                     <div className="flex gap-2 mb-4">
                       <button
                         onClick={() => setKartuKembarMode('solo')}
-                        className={`px-3 py-1 rounded-xl text-xs font-bold border ${
+                        className={`px-3 py-1 rounded-full text-xs font-bold border ${
                           kartuKembarMode === 'solo'
-                            ? 'bg-indigo-600 text-white border-indigo-400'
-                            : 'bg-stone-800 text-stone-400 border-stone-700'
+                            ? 'bg-[var(--biru-laut)] text-[var(--gading)] border-[var(--biru-laut)]'
+                            : 'bg-[var(--pasir)]/50 text-[var(--malam)] border-[var(--pasir)]'
                         }`}
                       >
                         Mode Solo
                       </button>
                       <button
                         onClick={() => setKartuKembarMode('tim')}
-                        className={`px-3 py-1 rounded-xl text-xs font-bold border ${
+                        className={`px-3 py-1 rounded-full text-xs font-bold border ${
                           kartuKembarMode === 'tim'
-                            ? 'bg-indigo-600 text-white border-indigo-400'
-                            : 'bg-stone-800 text-stone-400 border-stone-700'
+                            ? 'bg-[var(--biru-laut)] text-[var(--gading)] border-[var(--biru-laut)]'
+                            : 'bg-[var(--pasir)]/50 text-[var(--malam)] border-[var(--pasir)]'
                         }`}
                       >
                         Mode Tim
                       </button>
                     </div>
                   </div>
-                  <TombolBesar variant="oasis" size="normal" onClick={() => setActiveGame('kartu')}>
+                  <TombolBesar variant="biru" size="normal" onClick={() => setActiveGame('kartu')}>
                     Mainkan
                   </TombolBesar>
                 </div>
 
                 {/* 7. Duel Tim */}
-                <div className="flex flex-col justify-between p-6 rounded-3xl bg-stone-900/90 border-2 border-sky-500/60 shadow-md">
-                  <div>
-                    <div className="flex items-center gap-3 text-sky-300 mb-2">
-                      <Users className="w-7 h-7" />
-                      <h4 className="text-2xl font-black">Duel Tim (Buzzer)</h4>
+                <div className="flex flex-col justify-between p-6 rounded-3xl bg-[var(--pasir-terang)] border-2 border-[var(--terakota)]/50 shadow-sm hover:border-[var(--terakota)] transition-all md:col-span-2 lg:col-span-3">
+                  <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+                    <div>
+                      <div className="flex items-center gap-3 text-[var(--terakota)] mb-2">
+                        <Users className="w-6 h-6" />
+                        <h4 className="text-2xl font-black font-['Baloo_2']">Duel Tim Cepat Tepat (Buzzer)</h4>
+                      </div>
+                      <p className="text-[var(--malam)]/80 font-['Nunito'] font-semibold text-base">
+                        Layar terbelah dengan buzzer multi-touch untuk 2 tim sekelas (Tim Hijau Zamrud vs Tim Biru Laut)!
+                      </p>
                     </div>
-                    <p className="text-stone-300 text-base mb-6">
-                      Layar terbelah dengan buzzer multi-touch untuk 2 tim sekelas (Hijau vs Biru)!
-                    </p>
+                    <TombolBesar variant="terakota" size="normal" onClick={() => setActiveGame('duel')}>
+                      Mulai Duel Tim
+                    </TombolBesar>
                   </div>
-                  <TombolBesar variant="ocean" size="normal" onClick={() => setActiveGame('duel')}>
-                    Mulai Duel
-                  </TombolBesar>
                 </div>
               </div>
             </div>
@@ -509,21 +516,21 @@ export const PosSurah: React.FC<PosSurahProps> = ({
             {activeTab === 'kisah' && (
               <div className="flex flex-col gap-8">
                 {/* Launch Interactive Story Mode Banner */}
-                <div className="p-8 rounded-3xl bg-gradient-to-r from-amber-950 via-stone-900 to-amber-950 border-3 border-amber-400/70 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-6">
+                <div className="p-8 rounded-[32px] bg-[var(--gading)] border-2 border-[var(--emas)] shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
                   <div>
-                    <span className="px-4 py-1.5 rounded-xl bg-amber-500/20 border border-amber-400 text-amber-300 text-sm font-extrabold uppercase tracking-wider inline-block mb-3">
+                    <span className="px-4 py-1.5 rounded-full bg-[var(--pasir)]/60 border border-[var(--emas)] text-[var(--zamrud-tua)] text-sm font-extrabold uppercase tracking-wider inline-block mb-3">
                       Fitur Interaktif
                     </span>
-                    <h3 className="text-3xl md:text-4xl font-black text-white font-display mb-2">
+                    <h3 className="text-3xl md:text-4xl font-black text-[var(--zamrud-tua)] font-['Baloo_2'] mb-2">
                       Jelajahi Kisah & Kuis Pemahaman
                     </h3>
-                    <p className="text-stone-300 text-xl max-w-2xl">
+                    <p className="text-[var(--malam)]/80 text-lg font-['Nunito'] font-semibold max-w-2xl">
                       Ikuti petualangan narasi multi-panel asbabun nuzul Surah {surah.namaLatin},
                       ikuti kuis 3 soal, dan temukan pesan amalan nyata hari ini!
                     </p>
                   </div>
                   <TombolBesar
-                    variant="desert"
+                    variant="emas"
                     size="large"
                     icon={<BookOpen className="w-8 h-8" />}
                     onClick={() => setActiveGame('kisahScreen')}
@@ -533,26 +540,26 @@ export const PosSurah: React.FC<PosSurahProps> = ({
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <div className="glass-panel p-8 md:p-10 rounded-3xl border-2 border-emerald-500/40">
-                    <div className="flex items-center gap-3 text-emerald-400 mb-4">
+                  <div className="bg-[var(--gading)] p-8 md:p-10 rounded-[32px] border-2 border-[var(--zamrud)]/40 shadow-md">
+                    <div className="flex items-center gap-3 text-[var(--zamrud-tua)] mb-4">
                       <BookOpen className="w-8 h-8" />
-                      <h3 className="text-3xl font-black font-display">
+                      <h3 className="text-3xl font-black font-['Baloo_2']">
                         Ringkasan Kisah
                       </h3>
                     </div>
-                    <p className="text-2xl text-stone-200 leading-relaxed font-medium">
+                    <p className="text-xl text-[var(--malam)] font-['Nunito'] leading-relaxed font-semibold">
                       {surah.ringkasanKisah}
                     </p>
                   </div>
 
-                  <div className="glass-panel p-8 md:p-10 rounded-3xl border-2 border-amber-500/40">
-                    <div className="flex items-center gap-3 text-amber-400 mb-4">
+                  <div className="bg-[var(--gading)] p-8 md:p-10 rounded-[32px] border-2 border-[var(--emas)]/60 shadow-md">
+                    <div className="flex items-center gap-3 text-[var(--terakota)] mb-4">
                       <HeartHandshake className="w-8 h-8" />
-                      <h3 className="text-3xl font-black font-display">
+                      <h3 className="text-3xl font-black font-['Baloo_2']">
                         Pesan Akhlak
                       </h3>
                     </div>
-                    <p className="text-2xl text-amber-100 leading-relaxed font-medium">
+                    <p className="text-xl text-[var(--malam)] font-['Nunito'] leading-relaxed font-semibold">
                       {surah.pesanAkhlak}
                     </p>
                   </div>
