@@ -154,57 +154,48 @@ export function findCorrectWordIndices(
   arabAyat: string,
   kataAyat: string[],
   indeksHuruf: number[],
-  hukum: string
+  hukum: string,
+  kataIndex?: number
 ): number[] {
-  const matches: number[] = [];
+  // Jika kataIndex eksplisit sudah tersedia dan valid, gunakan langsung sebagai jawaban tunggal
+  if (kataIndex !== undefined && kataIndex >= 0 && kataIndex < kataAyat.length) {
+    return [kataIndex];
+  }
 
-  // Metode 1: Berdasarkan posisi index karakter
+  // Metode 1: Berdasarkan posisi index karakter (ambil tepat 1 kecocokan pertama yang paling presisi)
   let charCursor = 0;
-  kataAyat.forEach((word, wordIdx) => {
+  for (let wordIdx = 0; wordIdx < kataAyat.length; wordIdx++) {
+    const word = kataAyat[wordIdx];
     const pos = arabAyat.indexOf(word, charCursor);
     if (pos !== -1) {
       const endPos = pos + word.length;
       charCursor = endPos;
-      // Periksa apakah indeksHuruf tumpang tindih dengan kata
       const overlaps = indeksHuruf.some((chIdx) => chIdx >= pos - 1 && chIdx <= endPos + 1);
       if (overlaps) {
-        matches.push(wordIdx);
+        return [wordIdx]; // Tepat 1 kata
       }
     }
-  });
+  }
 
-  // Metode 2: Validasi / Fallback dengan Rule-based Matcher
-  const ruleMatches: number[] = [];
-  kataAyat.forEach((word, wordIdx) => {
-    if (isWordMatchingTajwidRule(word, hukum)) {
-      ruleMatches.push(wordIdx);
+  // Metode 2: Validasi dengan Rule-based Matcher (ambil tepat 1 kata pertama yang cocok)
+  for (let wordIdx = 0; wordIdx < kataAyat.length; wordIdx++) {
+    if (isWordMatchingTajwidRule(kataAyat[wordIdx], hukum)) {
+      return [wordIdx];
     }
-  });
-
-  // Gabungkan jika matches kosong atau gunakan ruleMatches yang valid
-  const combined = Array.from(new Set([...matches, ...ruleMatches]));
-
-  // Pastikan tidak SEMUA kata ditandai benar jika ayat memiliki lebih dari 1 kata
-  if (combined.length === kataAyat.length && kataAyat.length > 1) {
-    // Jika semua kata terdeteksi, prioritaskan ruleMatches atau 1 kata terbaik
-    return matches.length > 0 ? matches : [0];
   }
 
-  // Jika tetap kosong, ambil kata pertama sebagai fallback yang valid
-  if (combined.length === 0) {
-    return [0];
-  }
-
-  return combined;
+  // Fallback: Kata pertama
+  return [0];
 }
 
 export function extractTajwidTargets(surah: SurahDetail, level: KelasLevel): TajwidTarget[] {
   const allowedRules = getTajwidRulesForLevel(level).map((r) => r.hukum);
   const targets: TajwidTarget[] = [];
+  const seenTargets = new Set<string>();
 
   surah.ayat.forEach((ayat) => {
     if (ayat.tajwid && ayat.tajwid.length > 0) {
-      ayat.tajwid.forEach((tj) => {
+      ayat.tajwid.forEach((tj: any) => {
         if (allowedRules.includes(tj.hukum)) {
           const ruleInfo = TAJWID_RULES[tj.hukum] || {
             hukum: tj.hukum,
@@ -219,20 +210,29 @@ export function extractTajwidTargets(surah: SurahDetail, level: KelasLevel): Taj
           const correctWordIndices = findCorrectWordIndices(
             ayat.arab,
             ayat.kata,
-            tj.indeksHuruf,
-            tj.hukum
+            tj.indeksHuruf || [],
+            tj.hukum,
+            tj.kataIndex
           );
 
-          targets.push({
-            ayatNomor: ayat.nomor,
-            arabAyat: ayat.arab,
-            kataAyat: ayat.kata,
-            hukum: tj.hukum,
-            ruleInfo,
-            indeksHuruf: tj.indeksHuruf,
-            label: tj.label || ruleInfo.nama,
-            correctWordIndices,
-          });
+          // Pastikan hanya 1 kata benar per target soal
+          const targetWordIdx = correctWordIndices[0] ?? 0;
+          const targetKey = `${ayat.nomor}_${tj.hukum}_${targetWordIdx}`;
+
+          // Hindari soal duplikat persis di ayat dan kata yang sama
+          if (!seenTargets.has(targetKey)) {
+            seenTargets.add(targetKey);
+            targets.push({
+              ayatNomor: ayat.nomor,
+              arabAyat: ayat.arab,
+              kataAyat: ayat.kata,
+              hukum: tj.hukum,
+              ruleInfo,
+              indeksHuruf: tj.indeksHuruf || [targetWordIdx],
+              label: tj.label || ruleInfo.nama,
+              correctWordIndices: [targetWordIdx],
+            });
+          }
         }
       });
     }
