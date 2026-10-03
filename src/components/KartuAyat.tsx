@@ -17,6 +17,13 @@ export interface KartuAyatProps {
   className?: string;
 }
 
+/**
+ * KartuAyat:
+ * - Latar --gading-kartu (#FFFDF6), radius 28px, garis --zamrud-tua (#0E4D34) 2px
+ * - Bayangan cahaya emas lembut (box-shadow emas transparan)
+ * - Saat dipilih/benar: berubah menjadi kartu solid --zamrud-tua dengan teks gading dan glow emas
+ * - Teks ayat tetap warna murni tanpa efek emas/glow sesuai adab Al-Qur'an
+ */
 export const KartuAyat: React.FC<KartuAyatProps> = ({
   ayat,
   surahNumber,
@@ -40,52 +47,58 @@ export const KartuAyat: React.FC<KartuAyatProps> = ({
     }
   };
 
-  const statusStyles = {
-    default: selected
-      ? 'border-[#D4A23A] bg-[#FFFDF7] ring-4 ring-[#D4A23A]/50 shadow-xl'
-      : 'border-[#D4A23A] bg-[#FFFDF7] hover:border-[#0F7A5C] hover:ring-2 hover:ring-[#0F7A5C]/30 shadow-md',
-    correct: 'border-[#0F7A5C] bg-[#F4FAF7] ring-4 ring-[#0F7A5C]/60 shadow-card-glow',
-    wrong: 'border-[#C0603A] bg-[#FDF6F2] ring-4 ring-[#C0603A]/50',
-  };
+  const isSolidActive = selected || status === 'correct';
 
   return (
     <div
       onClick={handleClick}
       className={`
-        btn-kafilah relative flex flex-col p-6 md:p-8 rounded-[24px] border-2
-        transition-all duration-150 cursor-pointer select-none text-[#14233C]
-        ${statusStyles[status]}
+        btn-kafilah relative flex flex-col p-6 md:p-8 rounded-[28px] border-2
+        transition-all duration-200 cursor-pointer select-none
+        ${
+          isSolidActive
+            ? 'bg-[#0E4D34] text-[#FFFDF6] border-[#C9A04A] shadow-xl shadow-[#C9A04A]/30 ring-2 ring-[#C9A04A]/60'
+            : status === 'wrong'
+            ? 'bg-[#FFF8F5] text-[#2B2A26] border-[#C0603A] ring-4 ring-[#C0603A]/30 shadow-md'
+            : 'bg-[#FFFDF6] text-[#2B2A26] border-[#0E4D34] hover:border-[#1B6B47] shadow-lg shadow-[#C9A04A]/15'
+        }
         ${className}
       `}
-      style={{
-        boxShadow:
-          status === 'correct'
-            ? '0 12px 28px -4px rgba(15, 122, 92, 0.25), inset 0 0 0 2px #0F7A5C'
-            : status === 'wrong'
-            ? '0 12px 28px -4px rgba(192, 96, 58, 0.25), inset 0 0 0 2px #C0603A'
-            : '0 8px 24px -4px rgba(11, 79, 62, 0.15), inset 0 0 0 2px rgba(212, 162, 58, 0.35)',
-      }}
     >
-      {/* Lengkung Mihrab Mini & Header Baris Atas */}
-      <div className="flex items-center justify-between gap-4 mb-4 border-b border-[#E8D2A6]/80 pb-3">
+      {/* Header Baris Atas */}
+      <div
+        className={`flex items-center justify-between gap-4 mb-4 border-b pb-3 ${
+          isSolidActive ? 'border-[#3A9D6A]/50' : 'border-[#E9E1D0]'
+        }`}
+      >
         <div className="flex items-center gap-3">
-          {/* Bulatan Nomor Ayat Bertema Khatam */}
-          <div className="flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-[#FEF08A] to-[#D4A23A] text-[#14233C] font-black text-xl shadow-sm border border-[#FFFDF7]">
+          {/* Bulatan Nomor Ayat Emas */}
+          <div
+            className={`flex items-center justify-center w-11 h-11 rounded-full font-black text-lg font-['Marcellus'] shadow-sm border ${
+              isSolidActive
+                ? 'bg-gradient-to-br from-[#F3D88A] to-[#C9A04A] text-[#0E4D34] border-[#FFFDF6]'
+                : 'bg-gradient-to-br from-[#F3D88A] to-[#C9A04A] text-[#0E4D34] border-[#9C7A2E]/40'
+            }`}
+          >
             {ayat.nomor}
           </div>
-          <span className="text-lg font-black text-[#0B4F3E] font-teks">
-            Ayat ke-{ayat.nomor}
+          <span
+            className={`text-lg font-bold font-['Montserrat'] ${
+              isSolidActive ? 'text-[#F3D88A]' : 'text-[#0E4D34]'
+            }`}
+          >
+            Ayat {ayat.nomor}
           </span>
         </div>
 
         <div className="flex items-center gap-2">
           {status === 'correct' && (
-            <span className="flex items-center gap-1 px-3 py-1 bg-[#0F7A5C] text-[#FFFDF7] font-bold rounded-full text-sm font-teks">
-              <Check className="w-4 h-4" /> Benar
+            <span className="flex items-center gap-1 px-3.5 py-1 bg-gradient-to-r from-[#F3D88A] to-[#C9A04A] text-[#0E4D34] font-black rounded-full text-sm font-['Montserrat'] shadow-sm">
+              <Check className="w-4 h-4 stroke-[3]" /> Benar
             </span>
           )}
           {status === 'wrong' && (
-            <span className="flex items-center gap-1 px-3 py-1 bg-[#C0603A] text-[#FFFDF7] font-bold rounded-full text-sm font-teks">
+            <span className="flex items-center gap-1 px-3.5 py-1 bg-[#C0603A] text-[#FFFDF6] font-bold rounded-full text-sm font-['Montserrat']">
               <RotateCcw className="w-4 h-4" /> Ulangi
             </span>
           )}
@@ -99,10 +112,12 @@ export const KartuAyat: React.FC<KartuAyatProps> = ({
         </div>
       </div>
 
-      {/* Teks Ayat Al-Qur'an (Mulia, Tenang, RTL, Font Ayat Resmi) */}
+      {/* Teks Ayat Al-Qur'an (RTL, Harakat Jelas, Warna Murni) */}
       <div
         dir="rtl"
-        className="font-ayat text-[#14233C] text-3xl md:text-4xl lg:text-5xl tracking-wide leading-[1.9] py-3 text-right"
+        className={`font-ayat text-3xl md:text-4xl lg:text-5xl tracking-wide leading-[2.1] py-3 text-right ${
+          isSolidActive ? 'text-[#FFFDF6]' : 'text-[#2B2A26]'
+        }`}
       >
         {ayat.kata && ayat.kata.length > 0 ? (
           <div className="flex flex-wrap gap-x-3 gap-y-2 justify-start items-center">
@@ -113,7 +128,13 @@ export const KartuAyat: React.FC<KartuAyatProps> = ({
                   key={idx}
                   className={`
                     px-2 py-0.5 rounded-lg transition-colors
-                    ${isHighlighted ? 'bg-[#D4A23A]/25 text-[#0B4F3E] ring-2 ring-[#D4A23A]' : ''}
+                    ${
+                      isHighlighted
+                        ? isSolidActive
+                          ? 'bg-[#C9A04A]/40 text-[#FFFDF6] ring-2 ring-[#F3D88A]'
+                          : 'bg-[#C9A04A]/25 text-[#0E4D34] ring-2 ring-[#C9A04A]'
+                        : ''
+                    }
                   `}
                 >
                   {word}
@@ -128,14 +149,26 @@ export const KartuAyat: React.FC<KartuAyatProps> = ({
 
       {/* Transliterasi dan Terjemahan */}
       {(showLatin || showTerjemah) && (
-        <div className="mt-4 pt-3 border-t border-[#E8D2A6]/70 flex flex-col gap-2">
+        <div
+          className={`mt-4 pt-3 border-t flex flex-col gap-2 ${
+            isSolidActive ? 'border-[#3A9D6A]/50' : 'border-[#E9E1D0]'
+          }`}
+        >
           {showLatin && ayat.latin && (
-            <p className="font-teks text-lg md:text-xl font-bold text-[#0F7A5C] leading-relaxed">
+            <p
+              className={`font-['Montserrat'] text-lg md:text-xl font-bold leading-relaxed ${
+                isSolidActive ? 'text-[#F3D88A]' : 'text-[#1B6B47]'
+              }`}
+            >
               {ayat.latin}
             </p>
           )}
           {showTerjemah && ayat.terjemah && (
-            <p className="font-teks text-base md:text-lg font-medium text-[#14233C]/80 italic leading-relaxed">
+            <p
+              className={`font-['Montserrat'] text-base md:text-lg font-medium italic leading-relaxed ${
+                isSolidActive ? 'text-[#FFFDF6]/90' : 'text-[#2B2A26]/80'
+              }`}
+            >
               "{cleanQuotes(ayat.terjemah)}"
             </p>
           )}

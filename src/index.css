@@ -11,8 +11,8 @@
     width: 100%;
     height: 100%;
     overflow-x: hidden;
-    background-color: var(--pasir-terang);
-    color: var(--malam);
+    background-color: var(--gading);
+    color: var(--teks);
     font-family: var(--font-teks);
     user-select: none;
     -webkit-user-select: none;
@@ -26,25 +26,26 @@
     height: 10px;
   }
   ::-webkit-scrollbar-track {
-    background: var(--pasir);
+    background: var(--marmer-urat);
   }
   ::-webkit-scrollbar-thumb {
     background: var(--zamrud);
     border-radius: 6px;
-    border: 2px solid var(--pasir);
+    border: 2px solid var(--gading);
   }
   ::-webkit-scrollbar-thumb:hover {
     background: var(--zamrud-tua);
   }
 }
 
-/* --- TIPOGRAFI EMPAT PERAN (DESIGN.md) --- */
+/* --- TIPOGRAFI EMPAT PERAN --- */
 .font-ayat {
   font-family: var(--font-ayat);
   direction: rtl;
   text-align: right;
   line-height: 1.9;
   font-feature-settings: "cv01", "cv02";
+  color: var(--teks);
 }
 
 .font-arab-hiasan {
@@ -60,9 +61,18 @@
   font-family: var(--font-teks);
 }
 
+/* --- TEKS GRADASI EMAS BERKILAU --- */
+.text-gradien-emas {
+  background: var(--gradien-emas);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
+}
+
 /* --- TOMBOL SENTUH TV (120ms feedback, turun 4px) --- */
 .btn-kafilah {
-  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
   touch-action: manipulation;
   user-select: none;
 }
@@ -71,80 +81,107 @@
   transform: translateY(4px);
 }
 
-/* --- KARTU AYAT GADING & BINGKAI MUSHAF EMAS (DESIGN.md) --- */
-.kartu-mushaf {
-  background-color: var(--gading);
+/* --- TOMBOL UTAMA EMAS & ZAMRUD --- */
+.btn-emas-utama {
+  background: var(--gradien-emas);
+  color: var(--zamrud-tua);
+  font-family: var(--font-teks);
+  font-weight: 800;
+  border-radius: var(--radius-kapsul);
+  box-shadow: 0 6px 0 0 #8A6C28, 0 10px 20px rgba(201, 160, 74, 0.35);
+  transition: all 0.15s ease;
+}
+
+.btn-emas-utama:hover {
+  filter: brightness(1.05);
+  box-shadow: 0 6px 0 0 #8A6C28, 0 12px 24px rgba(201, 160, 74, 0.5);
+}
+
+.btn-emas-utama:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 0 #8A6C28, 0 4px 10px rgba(201, 160, 74, 0.25);
+}
+
+.btn-zamrud-sekunder {
+  background-color: var(--zamrud-tua);
+  color: var(--gading);
+  font-family: var(--font-teks);
+  font-weight: 700;
+  border-radius: var(--radius-kapsul);
+  border: 1.5px solid var(--zamrud-garis);
+  box-shadow: 0 6px 0 0 #07261A, 0 10px 20px rgba(14, 77, 52, 0.35);
+  transition: all 0.15s ease;
+}
+
+.btn-zamrud-sekunder:hover {
+  background-color: var(--zamrud);
+  box-shadow: 0 6px 0 0 #07261A, 0 12px 24px rgba(14, 77, 52, 0.45);
+}
+
+.btn-zamrud-sekunder:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 0 #07261A, 0 4px 10px rgba(14, 77, 52, 0.2);
+}
+
+/* --- KARTU AYAT GADING & BINGKAI ZAMRUD-EMAS --- */
+.kartu-ayat-tahfiz {
+  background-color: var(--gading-kartu);
   border-radius: var(--radius-kartu);
-  border: 2px solid var(--emas);
-  box-shadow: 
-    0 8px 24px -4px var(--zamrud-bayangan),
-    inset 0 0 0 3px rgba(212, 162, 58, 0.25);
+  border: 2px solid var(--zamrud-tua);
+  box-shadow: 0 8px 24px -4px rgba(201, 160, 74, 0.2), 0 2px 8px rgba(14, 77, 52, 0.08);
+  transition: all 0.2s ease;
+}
+
+.kartu-ayat-tahfiz:hover {
+  border-color: var(--zamrud);
+  box-shadow: 0 12px 28px -4px rgba(201, 160, 74, 0.35), 0 0 16px rgba(201, 160, 74, 0.2);
+}
+
+.kartu-ayat-tahfiz-active {
+  background-color: var(--zamrud-tua) !important;
+  color: var(--gading) !important;
+  border-color: var(--emas) !important;
+  box-shadow: 0 0 24px rgba(201, 160, 74, 0.5), inset 0 0 0 2px var(--emas) !important;
+}
+
+/* --- PLAKAT EMAS (Meniru Proposal "±14 Jam / 9 Sesi") --- */
+.plakat-emas {
+  background: var(--gradien-emas);
+  border-radius: 24px;
+  border: 2px solid var(--emas-terang);
+  box-shadow: 0 8px 20px -2px rgba(156, 122, 46, 0.4), inset 0 1px 2px rgba(255, 255, 255, 0.6);
+  color: var(--zamrud-tua);
+}
+
+/* --- BINGKAI MIHRAB GANDA --- */
+.bingkai-mihrab-container {
   position: relative;
+  border-radius: 48px 48px 28px 28px;
+  padding: 8px;
+  background: linear-gradient(180deg, var(--zamrud-tua) 0%, #082A1C 100%);
+  border: 2px solid var(--emas);
+  box-shadow: 0 16px 36px -6px rgba(14, 77, 52, 0.45), 0 0 20px rgba(201, 160, 74, 0.25);
 }
 
-.kartu-mushaf:hover {
-  box-shadow: 
-    0 12px 28px -4px var(--zamrud-bayangan),
-    0 0 16px var(--emas-glow),
-    inset 0 0 0 4px var(--emas);
+.bingkai-mihrab-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 40px 40px 20px 20px;
+  border: 1.5px solid var(--zamrud-garis);
+  overflow: hidden;
 }
 
-/* --- TEKSTUR POLA GIRIH (Opasitas 6-10%) --- */
-.bg-pola-girih {
-  background-image: radial-gradient(var(--emas) 0.75px, transparent 0.75px), radial-gradient(var(--zamrud) 0.75px, var(--pasir-terang) 0.75px);
-  background-size: 28px 28px;
-  background-position: 0 0, 14px 14px;
+/* --- TEKSTUR MARMER HALUS --- */
+.bg-marmer {
+  background-color: var(--gading);
+  background-image: 
+    radial-gradient(ellipse at top left, rgba(233, 225, 208, 0.6) 0%, transparent 60%),
+    radial-gradient(ellipse at bottom right, rgba(217, 203, 176, 0.4) 0%, transparent 50%),
+    linear-gradient(135deg, rgba(248, 244, 234, 1) 0%, rgba(245, 238, 222, 0.95) 100%);
 }
 
-/* Suasana Wilayah Peta (DESIGN.md) */
-.suasana-pagi {
-  background: linear-gradient(180deg, #FDF7ED 0%, #F6EBD9 50%, #E8D2A6 100%);
-}
-
-.suasana-senja {
-  background: linear-gradient(180deg, #F4DFC0 0%, #E8A87C 50%, #C0603A 100%);
-}
-
-.suasana-malam {
-  background: linear-gradient(180deg, #0B132B 0%, #14233C 60%, #1C2541 100%);
-}
-
-
-.gold-stroke {
-  text-shadow:
-    -2px -2px 0 #451a03,
-     2px -2px 0 #451a03,
-    -2px  2px 0 #451a03,
-     2px  2px 0 #451a03,
-     0 6px 12px rgba(0, 0, 0, 0.9);
-}
-
-/* Glass Explorer Panels */
-.glass-panel {
-  background: linear-gradient(135deg, rgba(13, 35, 28, 0.88) 0%, rgba(8, 24, 18, 0.92) 100%);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 2px solid rgba(52, 211, 153, 0.35);
-  box-shadow: 0 12px 30px -4px rgba(0, 0, 0, 0.55), inset 0 1px 2px rgba(255, 255, 255, 0.1);
-}
-
-.glass-oasis {
-  background: linear-gradient(135deg, rgba(6, 78, 59, 0.9) 0%, rgba(4, 47, 46, 0.92) 100%);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 2px solid rgba(52, 211, 153, 0.5);
-  box-shadow: 0 12px 32px -4px rgba(5, 150, 105, 0.35);
-}
-
-.glass-stone {
-  background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.94) 100%);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 2px solid rgba(148, 163, 184, 0.3);
-  box-shadow: 0 12px 32px -4px rgba(0, 0, 0, 0.6);
-}
-
-/* 1920x1080 TV Optimized font scaling helpers */
+/* --- TV CLAMP HELPER --- */
 .text-tv-arabic {
   font-size: clamp(2.5rem, 4.5vw, 5.5rem);
 }

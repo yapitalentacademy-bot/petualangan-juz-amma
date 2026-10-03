@@ -3,15 +3,20 @@ import { sfx } from '../lib/audioPlayer';
 import { createTouchHandler } from '../lib/utils';
 
 export interface TombolBesarProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'oasis' | 'zamrud' | 'desert' | 'emas' | 'ocean' | 'biru' | 'danger' | 'terakota' | 'ghost';
+  variant?: 'emas' | 'zamrud' | 'oasis' | 'desert' | 'ocean' | 'biru' | 'danger' | 'terakota' | 'ghost';
   size?: 'normal' | 'large' | 'small' | 'icon-box';
   icon?: React.ReactNode;
   children?: React.ReactNode;
   soundEffect?: boolean;
 }
 
+/**
+ * TombolBesar Bergaya Proposal Mewah Tahfiz Camp:
+ * - Tombol utama (emas): kapsul --gradien-emas dengan teks --zamrud-tua tebal & kilau lembut.
+ * - Tombol sekunder (zamrud): kapsul --zamrud-tua dengan teks gading.
+ */
 export const TombolBesar: React.FC<TombolBesarProps> = ({
-  variant = 'zamrud',
+  variant = 'emas',
   size = 'normal',
   icon,
   children,
@@ -32,40 +37,36 @@ export const TombolBesar: React.FC<TombolBesarProps> = ({
     }
   };
 
-  // Normalisasi nama variant
+  // Normalisasi variant
   const actualVariant =
-    variant === 'oasis' ? 'zamrud' :
-    variant === 'desert' ? 'emas' :
-    variant === 'ocean' ? 'biru' :
-    variant === 'danger' ? 'terakota' : variant;
+    variant === 'desert' || variant === 'emas' ? 'emas' :
+    variant === 'oasis' || variant === 'zamrud' ? 'zamrud' :
+    variant === 'ocean' || variant === 'biru' ? 'zamrud' :
+    variant === 'danger' || variant === 'terakota' ? 'terakota' : variant;
 
   const variantStyles: Record<string, string> = {
-    // Tombol Aksi Utama / Kafilah Zamrud
-    zamrud:
-      'bg-[#0F7A5C] hover:bg-[#128F6C] text-[#FFFDF7] border-2 border-[#34D399]/40 border-b-[6px] border-b-[#0B4F3E] shadow-btn-zamrud active:border-b-[2px] active:translate-y-1',
-    
-    // Tombol Hadiah / Emas
+    // Tombol Utama Emas (Proposal Style Gradient)
     emas:
-      'bg-[#D4A23A] hover:bg-[#E2B34B] text-[#FFFDF7] border-2 border-[#FEF08A]/60 border-b-[6px] border-b-[#9A7220] shadow-btn-emas active:border-b-[2px] active:translate-y-1',
+      'bg-gradient-to-r from-[#F3D88A] via-[#C9A04A] to-[#9C7A2E] text-[#0E4D34] border-2 border-[#FFF2C6] border-b-[6px] border-b-[#7A5F23] shadow-lg shadow-[#C9A04A]/30 hover:brightness-105 active:border-b-[2px] active:translate-y-1',
     
-    // Tombol Tim Kanan / Biru Laut
-    biru:
-      'bg-[#1E6F8C] hover:bg-[#2585A8] text-[#FFFDF7] border-2 border-[#7DD3FC]/50 border-b-[6px] border-b-[#134B5F] shadow-btn-biru active:border-b-[2px] active:translate-y-1',
+    // Tombol Sekunder Zamrud Tua
+    zamrud:
+      'bg-[#0E4D34] hover:bg-[#155E40] text-[#FFFDF6] border-2 border-[#3A9D6A]/60 border-b-[6px] border-b-[#07261A] shadow-lg shadow-[#0E4D34]/35 active:border-b-[2px] active:translate-y-1',
     
-    // Tombol Peringatan / Terakota (Jawaban Perlu Diulang)
+    // Terakota (Peringatan Halus)
     terakota:
-      'bg-[#C0603A] hover:bg-[#D4714A] text-[#FFFDF7] border-2 border-[#FCA5A5]/40 border-b-[6px] border-b-[#8F3D1F] shadow-md active:border-b-[2px] active:translate-y-1',
+      'bg-[#C0603A] hover:bg-[#D4714A] text-[#FFFDF6] border-2 border-[#FCA5A5]/50 border-b-[6px] border-b-[#8F3D1F] shadow-md active:border-b-[2px] active:translate-y-1',
     
-    // Tombol Sekunder / Panel Netral
+    // Ghost / Gading Marmer
     ghost:
-      'bg-[#E8D2A6] hover:bg-[#DFC797] text-[#14233C] border-2 border-[#CBB385] border-b-[6px] border-b-[#B39B6F] shadow-sm active:border-b-[2px] active:translate-y-1',
+      'bg-[#FFFDF6] hover:bg-[#F8F4EA] text-[#0E4D34] border-2 border-[#D9CBB0] border-b-[6px] border-b-[#CDBFA6] shadow-sm active:border-b-[2px] active:translate-y-1',
   };
 
   const sizeStyles = {
-    small: 'min-h-[52px] px-6 py-2.5 text-lg font-extrabold rounded-full gap-2.5',
+    small: 'min-h-[50px] px-6 py-2 text-base md:text-lg font-extrabold rounded-full gap-2.5',
     normal: 'min-h-[64px] px-8 py-3.5 text-xl md:text-2xl font-black rounded-full gap-3.5',
-    large: 'min-h-[84px] md:min-h-[96px] min-w-[240px] px-10 py-5 text-2xl md:text-3xl font-black rounded-full gap-5',
-    'icon-box': 'min-w-[140px] min-h-[140px] p-5 text-xl font-black rounded-3xl flex-col gap-3 justify-center items-center',
+    large: 'min-h-[80px] md:min-h-[92px] min-w-[240px] px-10 py-4.5 text-2xl md:text-3xl font-black rounded-full gap-5',
+    'icon-box': 'min-w-[130px] min-h-[130px] p-4 text-lg font-black rounded-[24px] flex-col gap-2.5 justify-center items-center',
   };
 
   return (
@@ -74,8 +75,8 @@ export const TombolBesar: React.FC<TombolBesarProps> = ({
       disabled={disabled}
       className={`
         btn-kafilah inline-flex items-center justify-center
-        cursor-pointer select-none font-teks tracking-wide text-center
-        ${variantStyles[actualVariant] || variantStyles.zamrud}
+        cursor-pointer select-none font-['Montserrat'] tracking-wide text-center
+        ${variantStyles[actualVariant] || variantStyles.emas}
         ${sizeStyles[size]}
         ${disabled ? 'opacity-40 cursor-not-allowed filter grayscale pointer-events-none' : ''}
         ${className}
@@ -87,4 +88,3 @@ export const TombolBesar: React.FC<TombolBesarProps> = ({
     </button>
   );
 };
-

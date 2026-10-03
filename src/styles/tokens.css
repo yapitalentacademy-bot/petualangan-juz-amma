@@ -1,41 +1,45 @@
 /* ==========================================================================
-   Design Tokens — Tema Kafilah Cahaya (Petualangan Juz 'Amma)
-   Sesuai spesifikasi DESIGN.md
+   Design Tokens — Tema Elegan Tahfiz Camp (Petualangan Juz 'Amma)
+   Sesuai spesifikasi DESIGN.md & Proposal Visual Guide
    ========================================================================== */
 
 :root {
   /* --- PALET WARNA INTI --- */
-  --pasir-terang: #F6EBD9; /* Latar utama layar */
-  --pasir: #E8D2A6;        /* Latar peta, panel sekunder */
-  --gading: #FFFDF7;       /* Kartu ayat, kotak dialog */
-  --zamrud: #0F7A5C;       /* Warna utama, tombol aksi, Tim Kiri */
-  --zamrud-tua: #0B4F3E;   /* Teks judul, bingkai, bayangan tombol */
-  --emas: #D4A23A;         /* Bintang, lentera, lencana, ornamen */
-  --biru-laut: #1E6F8C;    /* Tim Kanan, oase dan air di peta */
-  --malam: #14233C;        /* Langit malam peta, teks utama */
-  --terakota: #C0603A;     /* Peringatan lembut, jawaban perlu diulang */
+  --gading: #F8F4EA;          /* Latar utama */
+  --gading-kartu: #FFFDF6;    /* Isi kartu */
+  --marmer-urat: #E9E1D0;     /* Urat marmer halus */
+  --ornamen: #D9CBB0;         /* Garis ornamen sudut */
+  --zamrud-tua: #0E4D34;      /* Judul, kartu solid, tombol utama */
+  --zamrud: #1B6B47;          /* Teks sekunder, ikon */
+  --zamrud-garis: #3A9D6A;    /* Garis bingkai kedua mihrab */
+  --emas-terang: #F3D88A;     /* Aksen emas highlight */
+  --emas: #C9A04A;            /* Emas utama */
+  --emas-tua: #9C7A2E;        /* Emas bayangan / border gelap */
+  --gradien-emas: linear-gradient(135deg, #F3D88A 0%, #C9A04A 55%, #9C7A2E 100%);
+  --teks: #2B2A26;            /* Teks isi & ayat Al-Qur'an */
+  --gunung-pasir: #CDBFA6;    /* Siluet gunung di pojok */
 
-  /* Warna Transparansi & Bayangan */
-  --zamrud-bayangan: rgba(11, 79, 62, 0.45);
-  --emas-glow: rgba(212, 162, 58, 0.35);
-  --pasir-transparan: rgba(246, 235, 217, 0.85);
-  --gading-transparan: rgba(255, 253, 247, 0.92);
+  /* Warna Semantik / Transparansi / Bayangan */
+  --zamrud-bayangan: rgba(14, 77, 52, 0.35);
+  --emas-glow: rgba(201, 160, 74, 0.4);
+  --emas-transparan: rgba(201, 160, 74, 0.15);
+  --gading-transparan: rgba(248, 244, 234, 0.92);
 
   /* --- TIPOGRAFI EMPAT PERAN --- */
-  /* 1. Ayat Al-Qur'an (RTL, Harakat Jelas, Tinggi Baris 1.9) */
+  /* 1. Ayat Al-Qur'an (RTL, Harakat Jelas, Mushaf Uthmani) */
   --font-ayat: 'Scheherazade New', 'Amiri', 'Traditional Arabic', serif;
   
   /* 2. Nama Surah & Hiasan Arab */
   --font-arab-hiasan: 'Amiri', 'Reem Kufi', serif;
   
-  /* 3. Judul Latin Membulat Ramah Anak (Baloo 2) */
-  --font-judul: 'Baloo 2', cursive, sans-serif;
+  /* 3. Judul Layar & Angka Besar (Marcellus Serif Elegan) */
+  --font-judul: 'Marcellus', Georgia, serif;
   
-  /* 4. Teks Isi, Instruksi & Tombol (Nunito) */
-  --font-teks: 'Nunito', system-ui, sans-serif;
+  /* 4. Teks Isi, Tombol & Judul Utama Beranda (Montserrat) */
+  --font-teks: 'Montserrat', system-ui, -apple-system, sans-serif;
 
-  /* Radius Sudut (Sesuai DESIGN.md: 24px kartu, 999px tombol kapsul) */
-  --radius-kartu: 24px;
+  /* Radius Sudut */
+  --radius-kartu: 28px;
   --radius-kapsul: 999px;
   --radius-sedang: 16px;
 }

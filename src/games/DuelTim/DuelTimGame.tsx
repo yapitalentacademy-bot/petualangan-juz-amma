@@ -35,10 +35,8 @@ export const DuelTimGame: React.FC<MiniGameProps> = ({
   const [isTurnBasedFallback, setIsTurnBasedFallback] = useState(false);
   const [turnTeam, setTurnTeam] = useState<'A' | 'B'>('A');
 
-  // Load questions
   useEffect(() => {
     const generated = generateSambungAyatQuestions(surahId, level);
-    // Limit to 10 questions per duel round (or all if < 10)
     const roundQuestions = generated.slice(0, 10);
     setQuestions(roundQuestions);
     resetRound();
@@ -63,13 +61,11 @@ export const DuelTimGame: React.FC<MiniGameProps> = ({
 
   const currentQ = questions[currentIndex];
 
-  // Auto-play prompt audio when entering a new question
   useEffect(() => {
     if (currentQ && !isFinished) {
       resetQuestionState();
 
       if (isTurnBasedFallback) {
-        // In turn-based mode, automatically grant turn to the active turn team
         setActiveBuzzerTeam(turnTeam);
         setIsTimerRunning(true);
       }
@@ -85,7 +81,6 @@ export const DuelTimGame: React.FC<MiniGameProps> = ({
     }
   }, [currentIndex, currentQ?.id, isTurnBasedFallback]);
 
-  // Answering countdown timer
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
     if (isTimerRunning && timerSeconds > 0 && !isAnswerRevealed) {
@@ -93,7 +88,6 @@ export const DuelTimGame: React.FC<MiniGameProps> = ({
         setTimerSeconds((prev) => prev - 1);
       }, 1000);
     } else if (timerSeconds === 0 && isTimerRunning && !isAnswerRevealed) {
-      // Time out! Count as wrong for the answering team
       handleTimeOut();
     }
     return () => {
@@ -101,7 +95,6 @@ export const DuelTimGame: React.FC<MiniGameProps> = ({
     };
   }, [isTimerRunning, timerSeconds, isAnswerRevealed]);
 
-  // Buzzer press handler
   const handleBuzzerPress = (team: 'A' | 'B') => {
     if (activeBuzzerTeam !== null || lockedTeams[team] || isAnswerRevealed) return;
 
@@ -119,12 +112,10 @@ export const DuelTimGame: React.FC<MiniGameProps> = ({
     const newLocked = { ...lockedTeams, [activeBuzzerTeam]: true };
     setLockedTeams(newLocked);
 
-    // If the other team is not locked yet, give them a turn!
     if (!newLocked[otherTeam] && !isTurnBasedFallback) {
       setActiveBuzzerTeam(otherTeam);
-      setTimerSeconds(5); // 5s for steal chance
+      setTimerSeconds(5);
     } else {
-      // Both teams failed or timed out -> reveal answer and move on
       setIsAnswerRevealed(true);
       setIsTimerRunning(false);
       setTimeout(handleNextQuestion, 2500);
@@ -133,7 +124,6 @@ export const DuelTimGame: React.FC<MiniGameProps> = ({
 
   const isHandlingAnswer = useRef(false);
 
-  // Choice selection
   const handleSelectChoice = (index: number) => {
     if (!activeBuzzerTeam || isAnswerRevealed || isHandlingAnswer.current) return;
     isHandlingAnswer.current = true;
@@ -142,7 +132,6 @@ export const DuelTimGame: React.FC<MiniGameProps> = ({
     const chosen = currentQ.pilihanAyat[index];
 
     if (chosen.isCorrect) {
-      // Correct!
       sfx.playCorrect();
       setIsAnswerRevealed(true);
       setIsTimerRunning(false);
@@ -160,21 +149,18 @@ export const DuelTimGame: React.FC<MiniGameProps> = ({
         handleNextQuestion();
       }, 2500);
     } else {
-      // Incorrect!
       sfx.playWrong();
       const currentTeam = activeBuzzerTeam;
       const otherTeam = currentTeam === 'A' ? 'B' : 'A';
       const newLocked = { ...lockedTeams, [currentTeam]: true };
       setLockedTeams(newLocked);
 
-      // Give turn to opponent if available
       if (!newLocked[otherTeam] && !isTurnBasedFallback) {
         setActiveBuzzerTeam(otherTeam);
         setTimerSeconds(5);
         setSelectedChoiceIdx(null);
         isHandlingAnswer.current = false;
       } else {
-        // Both missed -> show correct answer
         setIsAnswerRevealed(true);
         setIsTimerRunning(false);
         setTimeout(() => {
@@ -220,8 +206,8 @@ export const DuelTimGame: React.FC<MiniGameProps> = ({
       <DuelResultScreen
         scoreA={scoreA}
         scoreB={scoreB}
-        teamAName="Tim Hijau"
-        teamBName="Tim Biru"
+        teamAName="Tim Zamrud"
+        teamBName="Tim Emas"
         onRestart={resetRound}
         onExit={onExit || (() => {})}
       />
@@ -230,8 +216,8 @@ export const DuelTimGame: React.FC<MiniGameProps> = ({
 
   if (!currentQ) {
     return (
-      <div className="flex flex-col items-center justify-center p-12 glass-panel rounded-3xl text-center">
-        <p className="text-2xl text-stone-300 mb-6">Mempersiapkan ronde Duel Tim...</p>
+      <div className="flex flex-col items-center justify-center p-12 bg-[#FFFDF6] border-2 border-[#0E4D34] rounded-[28px] text-center">
+        <p className="text-2xl text-[#0E4D34] mb-6 font-['Marcellus']">Mempersiapkan ronde Duel Tim...</p>
         {onExit && (
           <TombolBesar variant="ghost" onClick={onExit}>
             Kembali
@@ -242,29 +228,37 @@ export const DuelTimGame: React.FC<MiniGameProps> = ({
   }
 
   return (
-    <div className="flex flex-col max-w-7xl mx-auto w-full gap-6 font-['Nunito']">
-      {/* Top Header: Scores & Round status & Fallback toggle */}
-      <div className="flex flex-wrap items-center justify-between gap-4 p-4 md:p-6 rounded-[28px] bg-[var(--gading)] border-2 border-[var(--emas)] shadow-md">
-        {/* Team A Score (Zamrud) */}
-        <div className="flex items-center gap-3 bg-[var(--zamrud)]/10 border-2 border-[var(--zamrud)] px-5 py-2.5 rounded-2xl">
-          <div className="w-4 h-4 rounded-full bg-[var(--zamrud)] animate-pulse" />
-          <span className="text-xl font-black text-[var(--zamrud-tua)] font-['Baloo_2']">Tim Zamrud:</span>
-          <span className="text-3xl font-black text-[var(--zamrud-tua)] font-['Baloo_2']">{scoreA}</span>
+    <div className="flex flex-col max-w-7xl mx-auto w-full gap-6 font-['Montserrat']">
+      {/* Top Header: Comparison Pricing Cards Style from Proposal */}
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
+        {/* Team A (Tim Zamrud): Solid Zamrud Card with Gold Score */}
+        <div className="md:col-span-4 flex items-center justify-between p-4 px-6 rounded-[24px] bg-[#0E4D34] border-2 border-[#3A9D6A] shadow-lg text-[#FFFDF6]">
+          <div className="flex items-center gap-3">
+            <div className="w-3.5 h-3.5 rounded-full bg-[#F3D88A] animate-pulse" />
+            <span className="text-lg font-bold uppercase tracking-wider font-['Montserrat']">Tim Zamrud</span>
+          </div>
+          <span className="text-3xl md:text-4xl font-black font-['Marcellus'] text-gradien-emas">
+            {scoreA}
+          </span>
         </div>
 
         {/* Center Round Info */}
-        <div className="flex flex-col items-center">
-          <span className="text-[var(--malam)]/70 font-bold text-xs uppercase tracking-wider">Duel Tim Cepat Tepat</span>
-          <span className="text-2xl font-black text-[var(--zamrud-tua)] font-['Baloo_2']">
+        <div className="md:col-span-4 flex flex-col items-center justify-center p-3 rounded-[20px] bg-[#FFFDF6] border-2 border-[#D9CBB0] shadow-sm text-center">
+          <span className="text-[#0E4D34] font-bold text-xs uppercase tracking-wider">Duel Tim Cepat Tepat</span>
+          <span className="text-xl md:text-2xl font-black text-[#0E4D34] font-['Marcellus']">
             Soal {currentIndex + 1} dari {questions.length}
           </span>
         </div>
 
-        {/* Team B Score (Biru Laut) */}
-        <div className="flex items-center gap-3 bg-[var(--biru-laut)]/10 border-2 border-[var(--biru-laut)] px-5 py-2.5 rounded-2xl">
-          <div className="w-4 h-4 rounded-full bg-[var(--biru-laut)] animate-pulse" />
-          <span className="text-xl font-black text-[var(--biru-laut)] font-['Baloo_2']">Tim Biru Laut:</span>
-          <span className="text-3xl font-black text-[var(--biru-laut)] font-['Baloo_2']">{scoreB}</span>
+        {/* Team B (Tim Emas): Solid Gold Gradient Card with Zamrud Score */}
+        <div className="md:col-span-4 flex items-center justify-between p-4 px-6 rounded-[24px] bg-gradient-to-r from-[#F3D88A] via-[#C9A04A] to-[#9C7A2E] border-2 border-[#FFF2C6] shadow-lg text-[#0E4D34]">
+          <div className="flex items-center gap-3">
+            <div className="w-3.5 h-3.5 rounded-full bg-[#0E4D34] animate-pulse" />
+            <span className="text-lg font-bold uppercase tracking-wider font-['Montserrat']">Tim Emas</span>
+          </div>
+          <span className="text-3xl md:text-4xl font-black font-['Marcellus'] text-[#0E4D34]">
+            {scoreB}
+          </span>
         </div>
       </div>
 
@@ -275,12 +269,12 @@ export const DuelTimGame: React.FC<MiniGameProps> = ({
             sfx.playClick();
             setIsTurnBasedFallback(!isTurnBasedFallback);
           }}
-          className="flex items-center gap-2 px-4 py-2 bg-[var(--gading)] border border-[var(--pasir)] hover:border-[var(--emas)] text-[var(--malam)] rounded-full font-bold text-sm cursor-pointer shadow-sm"
+          className="flex items-center gap-2 px-4 py-2 bg-[#FFFDF6] border border-[#D9CBB0] hover:border-[#0E4D34] text-[#2B2A26] rounded-full font-bold text-xs md:text-sm cursor-pointer shadow-sm"
         >
           {isTurnBasedFallback ? (
-            <ToggleRight className="w-5 h-5 text-[var(--zamrud)]" />
+            <ToggleRight className="w-5 h-5 text-[#0E4D34]" />
           ) : (
-            <ToggleLeft className="w-5 h-5 text-[var(--pasir)]" />
+            <ToggleLeft className="w-5 h-5 text-[#D9CBB0]" />
           )}
           <span>
             {isTurnBasedFallback ? 'Mode Giliran Bergantian (Aktif)' : 'Mode Multi-Touch Buzzer'}
@@ -290,7 +284,7 @@ export const DuelTimGame: React.FC<MiniGameProps> = ({
         {onExit && (
           <button
             onClick={onExit}
-            className="px-4 py-2 rounded-full bg-[var(--gading)] text-[var(--malam)]/80 hover:text-[var(--malam)] font-bold text-sm border border-[var(--pasir)] hover:border-[var(--terakota)] cursor-pointer shadow-sm"
+            className="px-4 py-2 rounded-full bg-[#FFFDF6] text-[#2B2A26]/80 hover:text-[#0E4D34] font-bold text-xs md:text-sm border border-[#D9CBB0] hover:border-[#C0603A] cursor-pointer shadow-sm"
           >
             Keluar Duel
           </button>
@@ -299,9 +293,11 @@ export const DuelTimGame: React.FC<MiniGameProps> = ({
 
       {/* Main Split-Screen Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-        {/* Left Side: Team A Buzzer (Zamrud) */}
-        <div className="lg:col-span-3 flex flex-col items-center justify-center p-6 rounded-[32px] bg-[var(--gading)] border-2 border-[var(--zamrud)] shadow-md">
-          <span className="text-2xl font-black text-[var(--zamrud-tua)] font-['Baloo_2'] mb-3">TIM ZAMRUD</span>
+        {/* Left Side: Team A Buzzer (Tim Zamrud) */}
+        <div className="lg:col-span-3 flex flex-col items-center justify-center p-6 rounded-[32px] bg-[#0E4D34] border-2 border-[#3A9D6A] shadow-xl text-[#FFFDF6]">
+          <span className="text-2xl font-black font-['Marcellus'] text-[#F3D88A] mb-3 uppercase tracking-wider">
+            TIM ZAMRUD
+          </span>
           <BuzzerButton
             team="A"
             teamName="Tim Zamrud"
@@ -315,28 +311,28 @@ export const DuelTimGame: React.FC<MiniGameProps> = ({
         {/* Center: Question & Choices Card */}
         <div className="lg:col-span-6 flex flex-col gap-4">
           {/* Active Turn & Timer Indicator */}
-          <div className="flex items-center justify-between px-4 py-2.5 rounded-2xl bg-[var(--gading)] border border-[var(--emas)]/60 shadow-sm">
+          <div className="flex items-center justify-between px-4 py-2.5 rounded-2xl bg-[#FFFDF6] border border-[#0E4D34]/30 shadow-sm">
             <div className="flex items-center gap-2">
-              <span className="text-sm font-bold text-[var(--malam)]/70">Giliran Menjawab:</span>
+              <span className="text-xs md:text-sm font-bold text-[#2B2A26]/70">Giliran Menjawab:</span>
               {activeBuzzerTeam ? (
                 <span
-                  className={`px-3 py-0.5 rounded-full font-black text-sm text-[var(--gading)] ${
+                  className={`px-3.5 py-0.5 rounded-full font-black text-xs md:text-sm shadow-sm ${
                     activeBuzzerTeam === 'A'
-                      ? 'bg-[var(--zamrud)]'
-                      : 'bg-[var(--biru-laut)]'
+                      ? 'bg-[#0E4D34] text-[#F3D88A] border border-[#3A9D6A]'
+                      : 'bg-gradient-to-r from-[#F3D88A] to-[#C9A04A] text-[#0E4D34] border border-[#9C7A2E]/40'
                   }`}
                 >
-                  {activeBuzzerTeam === 'A' ? 'Tim Zamrud' : 'Tim Biru Laut'}
+                  {activeBuzzerTeam === 'A' ? 'Tim Zamrud' : 'Tim Emas'}
                 </span>
               ) : (
-                <span className="text-[var(--terakota)] font-bold text-sm animate-pulse">
+                <span className="text-[#C0603A] font-bold text-xs md:text-sm animate-pulse">
                   Tekan Buzzer untuk Rebut Soal!
                 </span>
               )}
             </div>
 
             {isTimerRunning && (
-              <div className="flex items-center gap-1.5 text-[var(--terakota)] font-black text-lg">
+              <div className="flex items-center gap-1.5 text-[#C0603A] font-black text-base md:text-lg">
                 <Timer className="w-5 h-5 animate-spin" />
                 <span>{timerSeconds}s</span>
               </div>
@@ -344,14 +340,14 @@ export const DuelTimGame: React.FC<MiniGameProps> = ({
           </div>
 
           {/* Prompt Ayat Box */}
-          <div className="bg-[var(--gading)] p-5 md:p-6 rounded-[28px] border-2 border-[var(--emas)] shadow-md">
-            <div className="flex items-center justify-between mb-2 border-b border-[var(--pasir)] pb-2">
-              <span className="text-sm font-bold text-[var(--zamrud-tua)]">
+          <div className="bg-[#FFFDF6] p-5 md:p-6 rounded-[28px] border-2 border-[#0E4D34] shadow-md">
+            <div className="flex items-center justify-between mb-2 border-b border-[#E9E1D0] pb-2">
+              <span className="text-xs md:text-sm font-bold text-[#0E4D34]">
                 Sambung Ayat ke-{currentQ.promptAyat.nomor} ➔ Ayat ke-{currentQ.jawabanBenar.nomor}:
               </span>
               <button
                 onClick={handleReplayPrompt}
-                className="flex items-center gap-1 px-3 py-1 bg-[var(--emas)] hover:bg-[var(--emas)]/80 text-[var(--malam)] rounded-full text-xs font-bold cursor-pointer"
+                className="flex items-center gap-1 px-3 py-1 bg-[#F8F4EA] hover:bg-[#E9E1D0] text-[#0E4D34] border border-[#D9CBB0] rounded-full text-xs font-bold cursor-pointer"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
                 <span>Putar</span>
@@ -360,15 +356,15 @@ export const DuelTimGame: React.FC<MiniGameProps> = ({
 
             <div
               dir="rtl"
-              className="font-['Amiri'] text-[var(--zamrud-tua)] text-3xl md:text-4xl text-right leading-loose py-1"
+              className="font-ayat text-[#2B2A26] text-3xl md:text-4xl text-right leading-loose py-1"
             >
               {currentQ.promptAyat.arab}
             </div>
 
             {(showLatin || showTerjemah) && (
-              <div className="mt-2 pt-2 border-t border-[var(--pasir)]">
+              <div className="mt-2 pt-2 border-t border-[#E9E1D0]">
                 {showLatin && (
-                  <p className="text-sm font-bold text-[var(--terakota)] italic truncate">
+                  <p className="text-sm font-bold text-[#1B6B47] italic truncate">
                     {currentQ.promptAyat.latin}
                   </p>
                 )}
@@ -382,13 +378,13 @@ export const DuelTimGame: React.FC<MiniGameProps> = ({
               const isSelected = selectedChoiceIdx === idx;
               const isCorrect = choice.isCorrect;
 
-              let style = 'bg-[var(--gading)] border-[var(--emas)]/40 hover:border-[var(--zamrud)]';
+              let style = 'bg-[#FFFDF6] border-[#0E4D34]/40 hover:border-[#0E4D34] text-[#2B2A26]';
               if (isSelected && isCorrect) {
-                style = 'bg-[var(--pasir-terang)] border-[var(--zamrud)] ring-4 ring-[var(--zamrud)]/30';
+                style = 'bg-[#0E4D34] border-[#C9A04A] text-[#FFFDF6] ring-4 ring-[#C9A04A]/40';
               } else if (isSelected && !isCorrect) {
-                style = 'bg-[var(--terakota)]/15 border-[var(--terakota)] ring-4 ring-[var(--terakota)]/30';
+                style = 'bg-[#FFF8F5] border-[#C0603A] text-[#2B2A26] ring-4 ring-[#C0603A]/30';
               } else if (isAnswerRevealed && isCorrect) {
-                style = 'bg-[var(--pasir-terang)] border-[var(--zamrud)] border-dashed';
+                style = 'bg-[#0E4D34] border-[#C9A04A] text-[#FFFDF6] border-dashed';
               }
 
               return (
@@ -396,19 +392,19 @@ export const DuelTimGame: React.FC<MiniGameProps> = ({
                   key={idx}
                   onClick={() => handleSelectChoice(idx)}
                   className={`
-                    p-4 rounded-2xl border-2 flex flex-col justify-between min-h-[110px]
+                    p-4 rounded-[22px] border-2 flex flex-col justify-between min-h-[110px]
                     transition-all select-none cursor-pointer shadow-sm
                     ${style}
                     ${!activeBuzzerTeam ? 'opacity-70 cursor-not-allowed' : ''}
                   `}
                 >
-                  <span className="w-7 h-7 rounded-full bg-[var(--pasir)] text-[var(--zamrud-tua)] font-black text-xs flex items-center justify-center mb-1 border border-[var(--emas)]/40">
+                  <span className="w-7 h-7 rounded-full bg-[#F8F4EA] text-[#0E4D34] font-black text-xs flex items-center justify-center mb-1 border border-[#D9CBB0]">
                     {String.fromCharCode(65 + idx)}
                   </span>
 
                   <div
                     dir="rtl"
-                    className="font-['Amiri'] text-[var(--zamrud-tua)] text-xl text-right leading-relaxed"
+                    className="font-ayat text-xl md:text-2xl text-right leading-relaxed"
                   >
                     {choice.arab}
                   </div>
@@ -418,12 +414,14 @@ export const DuelTimGame: React.FC<MiniGameProps> = ({
           </div>
         </div>
 
-        {/* Right Side: Team B Buzzer (Biru Laut) */}
-        <div className="lg:col-span-3 flex flex-col items-center justify-center p-6 rounded-[32px] bg-[var(--gading)] border-2 border-[var(--biru-laut)] shadow-md">
-          <span className="text-2xl font-black text-[var(--biru-laut)] font-['Baloo_2'] mb-3">TIM BIRU LAUT</span>
+        {/* Right Side: Team B Buzzer (Tim Emas) */}
+        <div className="lg:col-span-3 flex flex-col items-center justify-center p-6 rounded-[32px] bg-gradient-to-br from-[#F3D88A] via-[#C9A04A] to-[#9C7A2E] border-2 border-[#FFF2C6] shadow-xl text-[#0E4D34]">
+          <span className="text-2xl font-black font-['Marcellus'] text-[#0E4D34] mb-3 uppercase tracking-wider">
+            TIM EMAS
+          </span>
           <BuzzerButton
             team="B"
-            teamName="Tim Biru Laut"
+            teamName="Tim Emas"
             isActive={activeBuzzerTeam === 'B'}
             isLocked={lockedTeams.B}
             onPress={handleBuzzerPress}

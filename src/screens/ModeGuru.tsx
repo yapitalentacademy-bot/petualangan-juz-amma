@@ -82,7 +82,7 @@ export const ModeGuru: React.FC<ModeGuruProps> = ({
   const totalStars = Object.values(progress.posSelesai).reduce((acc, curr) => acc + curr.stars, 0);
 
   return (
-    <div className="min-h-screen bg-[var(--pasir-terang)] text-[var(--malam)] flex flex-col font-['Nunito']">
+    <div className="min-h-screen bg-[#F8F4EA] text-[#2B2A26] flex flex-col font-['Montserrat']">
       <HeaderNav
         title="Mode Guru & Manajemen Kelas"
         subtitle={`Kelas ${progress.namaKelas} (Lv.${progress.level}) • Rekap, Kurikulum & Pengaturan`}
@@ -97,20 +97,20 @@ export const ModeGuru: React.FC<ModeGuruProps> = ({
 
       <main className="flex-1 p-4 md:p-8 max-w-6xl mx-auto w-full pb-20">
         {/* Navigation Tabs */}
-        <div className="flex flex-wrap items-center justify-between gap-3 mb-8 bg-[var(--gading)] p-3 rounded-2xl border-2 border-[var(--emas)]/40 shadow-sm">
+        <div className="flex flex-wrap items-center justify-between gap-3 mb-8 bg-[#FFFDF6] p-3 rounded-[24px] border-2 border-[#0E4D34]/30 shadow-sm">
           <div className="flex flex-wrap gap-2">
             <button
               onClick={() => {
                 sfx.playClick();
                 setActiveTab('pengaturan');
               }}
-              className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-bold text-base cursor-pointer transition-all ${
+              className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-bold text-sm md:text-base cursor-pointer transition-all ${
                 activeTab === 'pengaturan'
-                  ? 'bg-[var(--zamrud)] text-[var(--gading)] shadow-md'
-                  : 'bg-[var(--pasir)]/40 text-[var(--malam)] hover:bg-[var(--pasir)]'
+                  ? 'bg-[#0E4D34] text-[#FFFDF6] shadow-md'
+                  : 'bg-[#F8F4EA] text-[#2B2A26] hover:bg-[#E9E1D0]'
               }`}
             >
-              <Settings className="w-5 h-5" />
+              <Settings className="w-4 h-4 text-[#C9A04A]" />
               <span>Pengaturan & Kelas</span>
             </button>
 
@@ -119,13 +119,13 @@ export const ModeGuru: React.FC<ModeGuruProps> = ({
                 sfx.playClick();
                 setActiveTab('pos_fokus');
               }}
-              className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-bold text-base cursor-pointer transition-all ${
+              className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-bold text-sm md:text-base cursor-pointer transition-all ${
                 activeTab === 'pos_fokus'
-                  ? 'bg-[var(--zamrud)] text-[var(--gading)] shadow-md'
-                  : 'bg-[var(--pasir)]/40 text-[var(--malam)] hover:bg-[var(--pasir)]'
+                  ? 'bg-[#0E4D34] text-[#FFFDF6] shadow-md'
+                  : 'bg-[#F8F4EA] text-[#2B2A26] hover:bg-[#E9E1D0]'
               }`}
             >
-              <Layers className="w-5 h-5" />
+              <Layers className="w-4 h-4 text-[#C9A04A]" />
               <span>Pos & Surah Fokus</span>
             </button>
 
@@ -134,13 +134,13 @@ export const ModeGuru: React.FC<ModeGuruProps> = ({
                 sfx.playClick();
                 setActiveTab('rekap_csv');
               }}
-              className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-bold text-base cursor-pointer transition-all ${
+              className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-bold text-sm md:text-base cursor-pointer transition-all ${
                 activeTab === 'rekap_csv'
-                  ? 'bg-[var(--zamrud)] text-[var(--gading)] shadow-md'
-                  : 'bg-[var(--pasir)]/40 text-[var(--malam)] hover:bg-[var(--pasir)]'
+                  ? 'bg-[#0E4D34] text-[#FFFDF6] shadow-md'
+                  : 'bg-[#F8F4EA] text-[#2B2A26] hover:bg-[#E9E1D0]'
               }`}
             >
-              <FileSpreadsheet className="w-5 h-5" />
+              <FileSpreadsheet className="w-4 h-4 text-[#C9A04A]" />
               <span>Rekap Nilai & CSV</span>
             </button>
 
@@ -149,22 +149,22 @@ export const ModeGuru: React.FC<ModeGuruProps> = ({
                 sfx.playClick();
                 setActiveTab('lencana');
               }}
-              className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-bold text-base cursor-pointer transition-all ${
+              className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-bold text-sm md:text-base cursor-pointer transition-all ${
                 activeTab === 'lencana'
-                  ? 'bg-[var(--zamrud)] text-[var(--gading)] shadow-md'
-                  : 'bg-[var(--pasir)]/40 text-[var(--malam)] hover:bg-[var(--pasir)]'
+                  ? 'bg-[#0E4D34] text-[#FFFDF6] shadow-md'
+                  : 'bg-[#F8F4EA] text-[#2B2A26] hover:bg-[#E9E1D0]'
               }`}
             >
-              <Award className="w-5 h-5" />
+              <Award className="w-4 h-4 text-[#C9A04A]" />
               <span>Lencana ({progress.lencana.length})</span>
             </button>
           </div>
 
           <button
             onClick={handleExportCSV}
-            className="flex items-center gap-2 px-5 py-2.5 bg-[var(--zamrud)] hover:bg-[var(--zamrud-tua)] text-[var(--gading)] rounded-full font-bold text-base shadow-sm cursor-pointer transition-all"
+            className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-[#F3D88A] to-[#C9A04A] text-[#0E4D34] rounded-full font-bold text-sm shadow-sm cursor-pointer hover:brightness-105 transition-all"
           >
-            <Download className="w-5 h-5" />
+            <Download className="w-4 h-4" />
             <span>Unduh CSV Nilai</span>
           </button>
         </div>
@@ -174,32 +174,32 @@ export const ModeGuru: React.FC<ModeGuruProps> = ({
           <div className="flex flex-col gap-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {/* Class Selection & Add */}
-              <div className="bg-[var(--gading)] p-6 md:p-8 rounded-[28px] border-2 border-[var(--emas)]/50 shadow-md flex flex-col gap-6">
+              <div className="bg-[#FFFDF6] p-6 md:p-8 rounded-[28px] border-2 border-[#0E4D34]/30 shadow-md flex flex-col gap-6">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3 text-[var(--zamrud-tua)]">
-                    <Shield className="w-7 h-7 text-[var(--emas)]" />
-                    <h2 className="text-2xl font-black font-['Baloo_2']">Pilih Kelas Aktif</h2>
+                  <div className="flex items-center gap-3 text-[#0E4D34]">
+                    <Shield className="w-6 h-6 text-[#C9A04A]" />
+                    <h2 className="text-2xl font-bold font-['Marcellus']">Pilih Kelas Aktif</h2>
                   </div>
 
                   <button
                     onClick={() => setShowAddClassInput(!showAddClassInput)}
-                    className="flex items-center gap-1.5 px-3 py-1.5 bg-[var(--pasir)]/60 text-[var(--zamrud-tua)] rounded-full text-sm font-bold border border-[var(--emas)] cursor-pointer hover:bg-[var(--pasir)]"
+                    className="flex items-center gap-1.5 px-3 py-1.5 bg-[#F8F4EA] text-[#0E4D34] rounded-full text-xs font-bold border border-[#D9CBB0] cursor-pointer hover:bg-[#E9E1D0]"
                   >
-                    <Plus className="w-4 h-4" />
+                    <Plus className="w-3.5 h-3.5" />
                     <span>Tambah Kelas</span>
                   </button>
                 </div>
 
                 {showAddClassInput && (
-                  <div className="flex gap-2 p-3 bg-[var(--pasir-terang)] rounded-2xl border border-[var(--emas)]/60">
+                  <div className="flex gap-2 p-3 bg-[#F8F4EA] rounded-2xl border border-[#D9CBB0]">
                     <input
                       type="text"
                       placeholder="Misal: 5C"
                       value={newClassName}
                       onChange={(e) => setNewClassName(e.target.value)}
-                      className="flex-1 bg-[var(--gading)] px-4 py-2 rounded-xl text-[var(--malam)] font-bold uppercase focus:outline-none border border-[var(--emas)]"
+                      className="flex-1 bg-[#FFFDF6] px-4 py-2 rounded-xl text-[#2B2A26] font-bold uppercase focus:outline-none border border-[#0E4D34]"
                     />
-                    <TombolBesar variant="zamrud" size="normal" onClick={handleAddClass}>
+                    <TombolBesar variant="zamrud" size="small" onClick={handleAddClass}>
                       Simpan
                     </TombolBesar>
                   </div>
@@ -213,10 +213,10 @@ export const ModeGuru: React.FC<ModeGuruProps> = ({
                         sfx.playClick();
                         onSetClass(k);
                       }}
-                      className={`py-3.5 rounded-2xl text-xl font-black border-2 cursor-pointer transition-all ${
+                      className={`py-3 rounded-2xl text-lg font-black border-2 cursor-pointer transition-all ${
                         progress.namaKelas === k
-                          ? 'bg-[var(--zamrud)] text-[var(--gading)] border-[var(--zamrud-tua)] shadow-md'
-                          : 'bg-[var(--pasir-terang)] text-[var(--malam)] border-[var(--pasir)] hover:border-[var(--zamrud)]'
+                          ? 'bg-[#0E4D34] text-[#FFFDF6] border-[#0E4D34] shadow-md'
+                          : 'bg-[#F8F4EA] text-[#2B2A26] border-[#D9CBB0] hover:border-[#0E4D34]'
                       }`}
                     >
                       {k}
@@ -225,8 +225,8 @@ export const ModeGuru: React.FC<ModeGuruProps> = ({
                 </div>
 
                 {/* Level Selection */}
-                <div className="pt-4 border-t-2 border-[var(--pasir)]">
-                  <span className="text-lg font-black text-[var(--zamrud-tua)] block mb-3">
+                <div className="pt-4 border-t-2 border-[#E9E1D0]">
+                  <span className="text-base font-bold text-[#0E4D34] block mb-3 font-['Montserrat']">
                     Level Kurikulum
                   </span>
                   <div className="grid grid-cols-3 gap-3">
@@ -237,10 +237,10 @@ export const ModeGuru: React.FC<ModeGuruProps> = ({
                           sfx.playClick();
                           onSetLevel(lvl);
                         }}
-                        className={`py-3.5 rounded-2xl text-xl font-black border-2 cursor-pointer transition-all ${
+                        className={`py-3 rounded-2xl text-base font-black border-2 cursor-pointer transition-all ${
                           progress.level === lvl
-                            ? 'bg-[var(--emas)] text-[var(--malam)] border-[var(--emas)] shadow-md'
-                            : 'bg-[var(--pasir-terang)] text-[var(--malam)] border-[var(--pasir)] hover:border-[var(--emas)]'
+                            ? 'bg-gradient-to-r from-[#F3D88A] to-[#C9A04A] text-[#0E4D34] border-[#9C7A2E]/40 shadow-md'
+                            : 'bg-[#F8F4EA] text-[#2B2A26] border-[#D9CBB0] hover:border-[#C9A04A]'
                         }`}
                       >
                         Kelas {lvl}
@@ -251,10 +251,10 @@ export const ModeGuru: React.FC<ModeGuruProps> = ({
               </div>
 
               {/* Display & Sound Toggles */}
-              <div className="bg-[var(--gading)] p-6 md:p-8 rounded-[28px] border-2 border-[var(--emas)]/50 shadow-md flex flex-col gap-4">
-                <div className="flex items-center gap-3 text-[var(--zamrud-tua)]">
-                  <Settings className="w-7 h-7 text-[var(--zamrud)]" />
-                  <h2 className="text-2xl font-black font-['Baloo_2']">Tampilan & Audio</h2>
+              <div className="bg-[#FFFDF6] p-6 md:p-8 rounded-[28px] border-2 border-[#0E4D34]/30 shadow-md flex flex-col gap-4">
+                <div className="flex items-center gap-3 text-[#0E4D34]">
+                  <Settings className="w-6 h-6 text-[#0E4D34]" />
+                  <h2 className="text-2xl font-bold font-['Marcellus']">Tampilan & Audio</h2>
                 </div>
 
                 {/* Switch: Teks Latin */}
@@ -263,17 +263,17 @@ export const ModeGuru: React.FC<ModeGuruProps> = ({
                     sfx.playClick();
                     onToggleSetting('teksLatin');
                   }}
-                  className="flex items-center justify-between p-4 bg-[var(--pasir-terang)] rounded-2xl border border-[var(--pasir)] cursor-pointer hover:border-[var(--zamrud)] transition-all"
+                  className="flex items-center justify-between p-4 bg-[#F8F4EA] rounded-2xl border border-[#D9CBB0] cursor-pointer hover:border-[#0E4D34] transition-all"
                 >
-                  <div className="flex items-center gap-3 text-[var(--malam)]">
-                    <Type className="w-6 h-6 text-[var(--emas)]" />
-                    <span className="text-lg font-bold">Teks Latin (Transliterasi)</span>
+                  <div className="flex items-center gap-3 text-[#2B2A26]">
+                    <Type className="w-5 h-5 text-[#C9A04A]" />
+                    <span className="text-base font-bold">Teks Latin (Transliterasi)</span>
                   </div>
                   <span
-                    className={`px-4 py-1.5 rounded-full font-black text-xs ${
+                    className={`px-3.5 py-1 rounded-full font-black text-xs ${
                       progress.pengaturan.teksLatin
-                        ? 'bg-[var(--zamrud)] text-[var(--gading)]'
-                        : 'bg-[var(--pasir)] text-[var(--malam)]/60'
+                        ? 'bg-[#0E4D34] text-[#FFFDF6]'
+                        : 'bg-[#D9CBB0] text-[#2B2A26]/60'
                     }`}
                   >
                     {progress.pengaturan.teksLatin ? 'AKTIF' : 'NONAKTIF'}
@@ -286,17 +286,17 @@ export const ModeGuru: React.FC<ModeGuruProps> = ({
                     sfx.playClick();
                     onToggleSetting('terjemah');
                   }}
-                  className="flex items-center justify-between p-4 bg-[var(--pasir-terang)] rounded-2xl border border-[var(--pasir)] cursor-pointer hover:border-[var(--zamrud)] transition-all"
+                  className="flex items-center justify-between p-4 bg-[#F8F4EA] rounded-2xl border border-[#D9CBB0] cursor-pointer hover:border-[#0E4D34] transition-all"
                 >
-                  <div className="flex items-center gap-3 text-[var(--malam)]">
-                    <Award className="w-6 h-6 text-[var(--zamrud)]" />
-                    <span className="text-lg font-bold">Terjemahan Kemenag</span>
+                  <div className="flex items-center gap-3 text-[#2B2A26]">
+                    <Award className="w-5 h-5 text-[#0E4D34]" />
+                    <span className="text-base font-bold">Terjemahan Kemenag</span>
                   </div>
                   <span
-                    className={`px-4 py-1.5 rounded-full font-black text-xs ${
+                    className={`px-3.5 py-1 rounded-full font-black text-xs ${
                       progress.pengaturan.terjemah
-                        ? 'bg-[var(--zamrud)] text-[var(--gading)]'
-                        : 'bg-[var(--pasir)] text-[var(--malam)]/60'
+                        ? 'bg-[#0E4D34] text-[#FFFDF6]'
+                        : 'bg-[#D9CBB0] text-[#2B2A26]/60'
                     }`}
                   >
                     {progress.pengaturan.terjemah ? 'AKTIF' : 'NONAKTIF'}
@@ -309,69 +309,69 @@ export const ModeGuru: React.FC<ModeGuruProps> = ({
                     sfx.playClick();
                     onToggleSetting('suaraEfek');
                   }}
-                  className="flex items-center justify-between p-4 bg-[var(--pasir-terang)] rounded-2xl border border-[var(--pasir)] cursor-pointer hover:border-[var(--zamrud)] transition-all"
+                  className="flex items-center justify-between p-4 bg-[#F8F4EA] rounded-2xl border border-[#D9CBB0] cursor-pointer hover:border-[#0E4D34] transition-all"
                 >
-                  <div className="flex items-center gap-3 text-[var(--malam)]">
-                    <Volume2 className="w-6 h-6 text-[var(--biru-laut)]" />
-                    <span className="text-lg font-bold">Efek Suara Sentuhan</span>
+                  <div className="flex items-center gap-3 text-[#2B2A26]">
+                    <Volume2 className="w-5 h-5 text-[#1B6B47]" />
+                    <span className="text-base font-bold">Efek Suara Sentuhan</span>
                   </div>
                   <span
-                    className={`px-4 py-1.5 rounded-full font-black text-xs ${
+                    className={`px-3.5 py-1 rounded-full font-black text-xs ${
                       progress.pengaturan.suaraEfek
-                        ? 'bg-[var(--zamrud)] text-[var(--gading)]'
-                        : 'bg-[var(--pasir)] text-[var(--malam)]/60'
+                        ? 'bg-[#0E4D34] text-[#FFFDF6]'
+                        : 'bg-[#D9CBB0] text-[#2B2A26]/60'
                     }`}
                   >
                     {progress.pengaturan.suaraEfek ? 'AKTIF' : 'NONAKTIF'}
                   </span>
                 </button>
 
-                {/* Switch: Maskot Nur Tanpa Wajah (DESIGN.md Halaman 4) */}
+                {/* Switch: Maskot Nur Tanpa Wajah */}
                 <button
                   onClick={() => {
                     sfx.playClick();
                     onToggleSetting('nurTanpaWajah');
                   }}
-                  className="flex items-center justify-between p-4 bg-[var(--pasir-terang)] rounded-2xl border border-[var(--pasir)] cursor-pointer hover:border-[var(--emas)] transition-all"
+                  className="flex items-center justify-between p-4 bg-[#F8F4EA] rounded-2xl border border-[#D9CBB0] cursor-pointer hover:border-[#C9A04A] transition-all"
                 >
-                  <div className="flex items-center gap-3 text-[var(--malam)]">
-                    <LenteraFanus size={24} menyala={true} />
+                  <div className="flex items-center gap-3 text-[#2B2A26]">
+                    <LenteraFanus size={22} menyala={true} />
                     <div className="text-left">
-                      <span className="text-lg font-bold block">Tampilkan Nur Tanpa Wajah</span>
-                      <span className="text-xs text-[var(--malam)]/70 font-semibold block">Untuk sekolah yang menghindari gambar makhluk bernyawa</span>
+                      <span className="text-base font-bold block">Tampilkan Nur Tanpa Wajah</span>
+                      <span className="text-xs text-[#2B2A26]/70 font-medium block">Untuk sekolah yang menghindari gambar makhluk bernyawa</span>
                     </div>
                   </div>
                   <span
-                    className={`px-4 py-1.5 rounded-full font-black text-xs ${
+                    className={`px-3.5 py-1 rounded-full font-black text-xs ${
                       progress.pengaturan.nurTanpaWajah
-                        ? 'bg-[var(--emas)] text-[var(--malam)]'
-                        : 'bg-[var(--pasir)] text-[var(--malam)]/60'
+                        ? 'bg-gradient-to-r from-[#F3D88A] to-[#C9A04A] text-[#0E4D34]'
+                        : 'bg-[#D9CBB0] text-[#2B2A26]/60'
                     }`}
                   >
                     {progress.pengaturan.nurTanpaWajah ? 'AKTIF' : 'NONAKTIF'}
                   </span>
                 </button>
 
-                {/* Switch: Sembunyikan Siluet Hewan (DESIGN.md Bagian Pemandangan Alam) */}
+                {/* Switch: Sembunyikan Siluet Hewan */}
                 <button
                   onClick={() => {
                     sfx.playClick();
                     onToggleSetting('sembunyikanHewan');
                   }}
-                  className="flex items-center justify-between p-4 bg-[var(--pasir-terang)] rounded-2xl border border-[var(--pasir)] cursor-pointer hover:border-[var(--emas)] transition-all"
+                  className="flex items-center justify-between p-4 bg-[#F8F4EA] rounded-2xl border border-[#D9CBB0] cursor-pointer hover:border-[#C9A04A] transition-all"
                 >
-                  <div className="flex items-center gap-3 text-[var(--malam)]">
-                    <Sparkles className="w-6 h-6 text-[#1E6F8C]" />
+                  <div className="flex items-center gap-3 text-[#2B2A26]">
+                    <Sparkles className="w-5 h-5 text-[#1B6B47]" />
                     <div className="text-left">
-                      <span className="text-lg font-bold block">Sembunyikan Siluet Hewan</span>
-                      <span className="text-xs text-[var(--malam)]/70 font-semibold block">Hanya tampilkan lanskap alam tanpa siluet burung/kupu-kupu</span>
+                      <span className="text-base font-bold block">Sembunyikan Siluet Hewan</span>
+                      <span className="text-xs text-[#2B2A26]/70 font-medium block">Hanya tampilkan lanskap alam murni tanpa siluet fauna</span>
                     </div>
                   </div>
                   <span
-                    className={`px-4 py-1.5 rounded-full font-black text-xs ${
+                    className={`px-3.5 py-1 rounded-full font-black text-xs ${
                       progress.pengaturan.sembunyikanHewan
-                        ? 'bg-[var(--zamrud)] text-[var(--gading)]'
-                        : 'bg-[var(--pasir)] text-[var(--malam)]/60'
+                        ? 'bg-[#0E4D34] text-[#FFFDF6]'
+                        : 'bg-[#D9CBB0] text-[#2B2A26]/60'
                     }`}
                   >
                     {progress.pengaturan.sembunyikanHewan ? 'TERSEMBUNYI' : 'TAMPIL'}
@@ -381,18 +381,18 @@ export const ModeGuru: React.FC<ModeGuruProps> = ({
             </div>
 
             {/* Danger Zone */}
-            <div className="p-6 md:p-8 rounded-[28px] bg-[var(--terakota)]/10 border-2 border-[var(--terakota)]/40 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="p-6 md:p-8 rounded-[28px] bg-[#C0603A]/10 border-2 border-[#C0603A]/40 flex flex-col md:flex-row items-center justify-between gap-6">
               <div>
-                <h3 className="text-2xl font-black text-[var(--terakota)] font-['Baloo_2']">Atur Ulang Progres Kelas</h3>
-                <p className="text-base text-[var(--malam)]/80 mt-1 font-semibold">
+                <h3 className="text-2xl font-bold text-[#C0603A] font-['Marcellus']">Atur Ulang Progres Kelas</h3>
+                <p className="text-sm text-[#2B2A26]/80 mt-1 font-medium">
                   Menghapus bintang dan skor lokal untuk kelas {progress.namaKelas}.
                 </p>
               </div>
 
               <TombolBesar
                 variant="terakota"
-                size="normal"
-                icon={<RotateCcw className="w-6 h-6" />}
+                size="small"
+                icon={<RotateCcw className="w-5 h-5" />}
                 onClick={() => setShowConfirmReset(true)}
               >
                 Reset Progres
@@ -404,15 +404,14 @@ export const ModeGuru: React.FC<ModeGuruProps> = ({
         {/* Tab 2: Pos & Surah Fokus */}
         {activeTab === 'pos_fokus' && (
           <div className="flex flex-col gap-8">
-            {/* Surah Fokus Selector */}
-            <div className="bg-[var(--gading)] p-6 md:p-8 rounded-[28px] border-2 border-[var(--emas)]/50 shadow-md">
-              <div className="flex items-center gap-3 text-[var(--zamrud-tua)] mb-2">
-                <Sparkles className="w-7 h-7 text-[var(--emas)]" />
-                <h3 className="text-2xl font-black font-['Baloo_2']">
+            <div className="bg-[#FFFDF6] p-6 md:p-8 rounded-[28px] border-2 border-[#0E4D34]/30 shadow-md">
+              <div className="flex items-center gap-3 text-[#0E4D34] mb-2">
+                <Sparkles className="w-6 h-6 text-[#C9A04A]" />
+                <h3 className="text-2xl font-bold font-['Marcellus']">
                   Surah Fokus Minggu Ini
                 </h3>
               </div>
-              <p className="text-[var(--malam)]/80 text-base mb-6 font-semibold">
+              <p className="text-[#2B2A26]/80 text-sm mb-6 font-medium">
                 Surah terpilih akan disorot dengan lencana khusus di Peta Petualangan agar siswa fokus menghafalkannya.
               </p>
 
@@ -426,30 +425,29 @@ export const ModeGuru: React.FC<ModeGuruProps> = ({
                     }}
                     className={`p-3 rounded-2xl border-2 font-bold text-center cursor-pointer transition-all ${
                       focusSurahId === s.id
-                        ? 'bg-[var(--emas)] text-[var(--malam)] border-[var(--emas)] shadow-md'
-                        : 'bg-[var(--pasir-terang)] text-[var(--malam)] border-[var(--pasir)] hover:border-[var(--zamrud)]'
+                        ? 'bg-gradient-to-r from-[#F3D88A] to-[#C9A04A] text-[#0E4D34] border-[#9C7A2E]/50 shadow-md'
+                        : 'bg-[#F8F4EA] text-[#2B2A26] border-[#D9CBB0] hover:border-[#0E4D34]'
                     }`}
                   >
-                    <span className="block text-xs text-[var(--malam)]/70">Pos {s.urutanPos}</span>
-                    <span className="block text-lg font-black font-['Baloo_2']">{s.namaLatin}</span>
+                    <span className="block text-xs text-[#2B2A26]/70">Pos {s.urutanPos}</span>
+                    <span className="block text-base font-black font-['Marcellus']">{s.namaLatin}</span>
                   </button>
                 ))}
               </div>
             </div>
 
             {/* Manual Unlock Table */}
-            <div className="bg-[var(--gading)] p-6 md:p-8 rounded-[28px] border-2 border-[var(--emas)]/50 shadow-md">
+            <div className="bg-[#FFFDF6] p-6 md:p-8 rounded-[28px] border-2 border-[#0E4D34]/30 shadow-md">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
                 <div>
-                  <h3 className="text-2xl font-black text-[var(--zamrud-tua)] font-['Baloo_2'] mb-1">
+                  <h3 className="text-2xl font-bold text-[#0E4D34] font-['Marcellus'] mb-1">
                     Buka / Kunci Pos Secara Manual (37 Pos)
                   </h3>
-                  <p className="text-[var(--malam)]/80 text-sm font-semibold">
+                  <p className="text-[#2B2A26]/80 text-sm font-medium">
                     Sentuh gembok pada surah mana pun untuk membuka atau menguncinya bagi kelas ini.
                   </p>
                 </div>
 
-                {/* Tombol Aksi Cepat */}
                 <div className="flex flex-wrap items-center gap-2">
                   {onUnlockAllSurahs && (
                     <button
@@ -457,9 +455,9 @@ export const ModeGuru: React.FC<ModeGuruProps> = ({
                         sfx.playCorrect();
                         onUnlockAllSurahs();
                       }}
-                      className="px-4 py-2 bg-[#0F7A5C] hover:bg-[#128F6C] text-[#FFFDF7] font-bold text-xs rounded-full shadow-sm flex items-center gap-1.5 cursor-pointer transition-all"
+                      className="px-4 py-2 bg-[#0E4D34] hover:bg-[#155E40] text-[#FFFDF6] font-bold text-xs rounded-full shadow-sm flex items-center gap-1.5 cursor-pointer transition-all"
                     >
-                      <Unlock className="w-4 h-4" />
+                      <Unlock className="w-3.5 h-3.5" />
                       <span>Buka Semua (37 Pos)</span>
                     </button>
                   )}
@@ -470,9 +468,9 @@ export const ModeGuru: React.FC<ModeGuruProps> = ({
                         sfx.playClick();
                         onUnlockLevelSurahs(progress.level);
                       }}
-                      className="px-4 py-2 bg-[#D4A23A] hover:bg-[#C2902B] text-[#14233C] font-bold text-xs rounded-full shadow-sm flex items-center gap-1.5 cursor-pointer transition-all"
+                      className="px-4 py-2 bg-gradient-to-r from-[#F3D88A] to-[#C9A04A] text-[#0E4D34] font-bold text-xs rounded-full shadow-sm flex items-center gap-1.5 cursor-pointer transition-all border border-[#9C7A2E]/30"
                     >
-                      <Sparkles className="w-4 h-4" />
+                      <Sparkles className="w-3.5 h-3.5" />
                       <span>Sesuai Kelas {progress.level}</span>
                     </button>
                   )}
@@ -491,18 +489,18 @@ export const ModeGuru: React.FC<ModeGuruProps> = ({
                       }}
                       className={`p-3 rounded-2xl border-2 flex items-center justify-between cursor-pointer transition-all ${
                         isUnlocked
-                          ? 'bg-[var(--pasir-terang)] border-[var(--zamrud)] text-[var(--zamrud-tua)] shadow-sm'
-                          : 'bg-[var(--pasir)]/30 border-[var(--pasir)] text-[var(--malam)]/50'
+                          ? 'bg-[#F8F4EA] border-[#0E4D34] text-[#0E4D34] shadow-sm'
+                          : 'bg-[#E9E1D0]/40 border-[#D9CBB0] text-[#2B2A26]/50'
                       }`}
                     >
                       <div>
-                        <span className="text-xs text-[var(--malam)]/60 block">Pos {s.urutanPos}</span>
-                        <span className="text-base font-black font-['Baloo_2']">{s.namaLatin}</span>
+                        <span className="text-xs text-[#2B2A26]/60 block">Pos {s.urutanPos}</span>
+                        <span className="text-sm font-black font-['Marcellus']">{s.namaLatin}</span>
                       </div>
                       {isUnlocked ? (
-                        <Unlock className="w-5 h-5 text-[var(--zamrud)]" />
+                        <Unlock className="w-4 h-4 text-[#0E4D34]" />
                       ) : (
-                        <Lock className="w-5 h-5 text-[var(--malam)]/40" />
+                        <Lock className="w-4 h-4 text-[#C0603A]/60" />
                       )}
                     </div>
                   );
@@ -514,22 +512,22 @@ export const ModeGuru: React.FC<ModeGuruProps> = ({
 
         {/* Tab 3: Rekap Nilai & CSV */}
         {activeTab === 'rekap_csv' && (
-          <div className="bg-[var(--gading)] p-6 md:p-8 rounded-[28px] border-2 border-[var(--emas)]/50 shadow-md flex flex-col gap-6">
-            <div className="flex flex-col md:flex-row items-center justify-between gap-4 border-b-2 border-[var(--pasir)] pb-6">
+          <div className="bg-[#FFFDF6] p-6 md:p-8 rounded-[28px] border-2 border-[#0E4D34]/30 shadow-md flex flex-col gap-6">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-4 border-b-2 border-[#E9E1D0] pb-6">
               <div>
-                <h3 className="text-3xl font-black text-[var(--zamrud-tua)] font-['Baloo_2']">
+                <h3 className="text-3xl font-bold text-[#0E4D34] font-['Marcellus']">
                   Rekap Capaian Kelas {progress.namaKelas}
                 </h3>
-                <p className="text-[var(--malam)]/80 text-base mt-1 font-semibold">
+                <p className="text-[#2B2A26]/80 text-sm mt-1 font-medium">
                   {completedCount} dari 37 Pos Selesai • Total {totalStars} Bintang Terkumpul
                 </p>
               </div>
 
               <button
                 onClick={handleExportCSV}
-                className="flex items-center gap-2 px-6 py-2.5 bg-[var(--zamrud)] hover:bg-[var(--zamrud-tua)] text-[var(--gading)] rounded-full font-bold text-base shadow-sm cursor-pointer transition-all"
+                className="flex items-center gap-2 px-6 py-2.5 bg-[#0E4D34] hover:bg-[#155E40] text-[#FFFDF6] rounded-full font-bold text-sm shadow-sm cursor-pointer transition-all"
               >
-                <Download className="w-5 h-5" />
+                <Download className="w-4 h-4" />
                 <span>Unduh File CSV (.csv)</span>
               </button>
             </div>
@@ -538,7 +536,7 @@ export const ModeGuru: React.FC<ModeGuruProps> = ({
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="border-b-2 border-[var(--pasir)] text-[var(--malam)]/70 text-base font-black">
+                  <tr className="border-b-2 border-[#E9E1D0] text-[#2B2A26]/70 text-sm font-black font-['Montserrat']">
                     <th className="py-3 px-4">Pos</th>
                     <th className="py-3 px-4">Nama Surah</th>
                     <th className="py-3 px-4">Arti</th>
@@ -547,20 +545,20 @@ export const ModeGuru: React.FC<ModeGuruProps> = ({
                     <th className="py-3 px-4">Status</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[var(--pasir)] text-[var(--malam)] text-base font-semibold">
+                <tbody className="divide-y divide-[#E9E1D0] text-[#2B2A26] text-sm font-medium">
                   {surahListData.map((s) => {
                     const detail = progress.posSelesai[s.id];
                     const isUnlocked = progress.posTerbuka.includes(s.id);
                     return (
-                      <tr key={s.id} className="hover:bg-[var(--pasir-terang)]">
-                        <td className="py-3 px-4 font-bold text-[var(--zamrud-tua)]">{s.urutanPos}</td>
-                        <td className="py-3 px-4 font-black font-['Baloo_2']">{s.namaLatin}</td>
-                        <td className="py-3 px-4 text-[var(--malam)]/80">{s.arti}</td>
+                      <tr key={s.id} className="hover:bg-[#F8F4EA]">
+                        <td className="py-3 px-4 font-bold text-[#0E4D34]">{s.urutanPos}</td>
+                        <td className="py-3 px-4 font-black font-['Marcellus'] text-base">{s.namaLatin}</td>
+                        <td className="py-3 px-4 text-[#2B2A26]/80">{s.arti}</td>
                         <td className="py-3 px-4 text-center">
                           {detail ? (
-                            <span className="text-[var(--emas)] font-black">{'★'.repeat(detail.stars)}</span>
+                            <span className="text-[#C9A04A] font-black">{'★'.repeat(detail.stars)}</span>
                           ) : (
-                            <span className="text-[var(--pasir)]">-</span>
+                            <span className="text-[#D9CBB0]">-</span>
                           )}
                         </td>
                         <td className="py-3 px-4 text-center font-bold">
@@ -568,15 +566,15 @@ export const ModeGuru: React.FC<ModeGuruProps> = ({
                         </td>
                         <td className="py-3 px-4">
                           {detail && detail.stars >= 1 ? (
-                            <span className="px-3 py-1 rounded-full bg-[var(--zamrud)]/15 text-[var(--zamrud-tua)] border border-[var(--zamrud)] text-xs font-bold">
+                            <span className="px-3 py-1 rounded-full bg-[#0E4D34]/15 text-[#0E4D34] border border-[#0E4D34] text-xs font-bold">
                               Lulus ({detail.stars}★)
                             </span>
                           ) : isUnlocked ? (
-                            <span className="px-3 py-1 rounded-full bg-[var(--emas)]/20 text-[var(--malam)] border border-[var(--emas)] text-xs font-bold">
+                            <span className="px-3 py-1 rounded-full bg-[#C9A04A]/20 text-[#0E4D34] border border-[#C9A04A] text-xs font-bold">
                               Terbuka
                             </span>
                           ) : (
-                            <span className="px-3 py-1 rounded-full bg-[var(--pasir)] text-[var(--malam)]/60 text-xs font-bold">
+                            <span className="px-3 py-1 rounded-full bg-[#E9E1D0] text-[#2B2A26]/60 text-xs font-bold">
                               Terkunci
                             </span>
                           )}
@@ -592,11 +590,11 @@ export const ModeGuru: React.FC<ModeGuruProps> = ({
 
         {/* Tab 4: Lencana Kelas */}
         {activeTab === 'lencana' && (
-          <div className="bg-[var(--gading)] p-6 md:p-8 rounded-[28px] border-2 border-[var(--emas)]/50 shadow-md flex flex-col gap-6">
-            <h3 className="text-3xl font-black text-[var(--zamrud-tua)] font-['Baloo_2']">
+          <div className="bg-[#FFFDF6] p-6 md:p-8 rounded-[28px] border-2 border-[#0E4D34]/30 shadow-md flex flex-col gap-6">
+            <h3 className="text-3xl font-bold text-[#0E4D34] font-['Marcellus']">
               Lencana & Prestasi Kelas {progress.namaKelas}
             </h3>
-            <p className="text-[var(--malam)]/80 text-base mb-2 font-semibold">
+            <p className="text-[#2B2A26]/80 text-sm mb-2 font-medium">
               Lencana otomatis terbuka ketika kelas mencapai target hafalan dan mini-game.
             </p>
 
@@ -606,18 +604,18 @@ export const ModeGuru: React.FC<ModeGuruProps> = ({
                 return (
                   <div
                     key={b.id}
-                    className={`p-6 rounded-3xl border-2 flex items-start gap-4 transition-all ${
+                    className={`p-6 rounded-[24px] border-2 flex items-start gap-4 transition-all ${
                       isEarned
-                        ? 'bg-[var(--pasir-terang)] border-[var(--emas)] shadow-sm'
-                        : 'bg-[var(--pasir)]/30 border-[var(--pasir)] opacity-50 grayscale'
+                        ? 'bg-[#F8F4EA] border-[#C9A04A] shadow-sm'
+                        : 'bg-[#E9E1D0]/30 border-[#D9CBB0] opacity-50 grayscale'
                     }`}
                   >
-                    <BintangDelapan size={44} fill={isEarned ? '#D4A23A' : '#E8D2A6'} />
+                    <BintangDelapan size={40} fill={isEarned ? '#C9A04A' : '#D9CBB0'} />
                     <div>
-                      <h4 className="text-xl font-black text-[var(--zamrud-tua)] font-['Baloo_2'] mb-1">{b.name}</h4>
-                      <p className="text-sm text-[var(--malam)]/80 leading-relaxed font-semibold">{b.description}</p>
+                      <h4 className="text-lg font-bold text-[#0E4D34] font-['Marcellus'] mb-1">{b.name}</h4>
+                      <p className="text-xs text-[#2B2A26]/80 leading-relaxed font-medium">{b.description}</p>
                       {isEarned && (
-                        <span className="inline-block mt-3 px-3 py-0.5 rounded-full bg-[var(--zamrud)] text-[var(--gading)] font-black text-xs">
+                        <span className="inline-block mt-3 px-3 py-0.5 rounded-full bg-[#0E4D34] text-[#FFFDF6] font-black text-[11px]">
                           DIRAIH ✓
                         </span>
                       )}
@@ -631,18 +629,19 @@ export const ModeGuru: React.FC<ModeGuruProps> = ({
 
         {/* Reset Confirmation Modal */}
         {showConfirmReset && (
-          <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-6">
-            <div className="glass-panel p-8 rounded-3xl border-4 border-rose-500 max-w-md w-full text-center">
-              <h4 className="text-3xl font-black text-rose-400 mb-3">Konfirmasi Reset?</h4>
-              <p className="text-stone-300 mb-6">
+          <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-6">
+            <div className="bg-[#FFFDF6] p-8 rounded-[28px] border-4 border-[#C0603A] max-w-md w-full text-center shadow-2xl">
+              <h4 className="text-2xl font-bold font-['Marcellus'] text-[#C0603A] mb-3">Konfirmasi Reset?</h4>
+              <p className="text-sm font-medium text-[#2B2A26]/80 mb-6 font-['Montserrat']">
                 Yakin ingin mereset seluruh nilai dan progres kelas {progress.namaKelas}? Tindakan ini tidak dapat dibatalkan.
               </p>
               <div className="flex gap-4">
-                <TombolBesar variant="ghost" className="flex-1" onClick={() => setShowConfirmReset(false)}>
+                <TombolBesar variant="ghost" size="small" className="flex-1" onClick={() => setShowConfirmReset(false)}>
                   Batal
                 </TombolBesar>
                 <TombolBesar
-                  variant="danger"
+                  variant="terakota"
+                  size="small"
                   className="flex-1"
                   onClick={() => {
                     onResetProgress();

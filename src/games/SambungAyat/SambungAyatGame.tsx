@@ -27,10 +27,8 @@ export const SambungAyatGame: React.FC<MiniGameProps> = ({
   const [showHint, setShowHint] = useState(false);
   const [nurMessage, setNurMessage] = useState('Dengarkan lantunan ayat, lalu pilih ayat sambungannya ya!');
 
-  // Helper to clean quotes
   const cleanQuotes = (text: string) => text.replace(/^["'\s]+|["'\s]+$/g, '');
 
-  // Load questions on mount or surah change
   useEffect(() => {
     const generated = generateSambungAyatQuestions(surahId, level);
     setQuestions(generated);
@@ -46,7 +44,6 @@ export const SambungAyatGame: React.FC<MiniGameProps> = ({
 
   const currentQ = questions[currentIndex];
 
-  // Auto-play prompt audio when moving to a new question
   useEffect(() => {
     if (currentQ) {
       setSelectedChoiceIdx(null);
@@ -55,7 +52,6 @@ export const SambungAyatGame: React.FC<MiniGameProps> = ({
       setShowHint(false);
       setNurMessage(`Mari dengarkan ayat ke-${currentQ.promptAyat.nomor}, lalu pilih sambungannya!`);
 
-      // Play prompt ayat audio with slight delay for smooth transition
       const timer = setTimeout(() => {
         quranAudio.playAyat(currentQ.promptAyat.surahId, currentQ.promptAyat.nomor);
       }, 300);
@@ -75,7 +71,6 @@ export const SambungAyatGame: React.FC<MiniGameProps> = ({
     const chosen = currentQ.pilihanAyat[index];
 
     if (chosen.isCorrect) {
-      // Benar
       sfx.playCorrect();
       setAnsweredState('correct');
       setNurMessage('Masya Allah, jawabanmu tepat sekali!');
@@ -85,20 +80,17 @@ export const SambungAyatGame: React.FC<MiniGameProps> = ({
         setCorrectCount((prev) => prev + 1);
       }
 
-      // Putar audio ayat jawaban yang benar
       quranAudio.playAyat(chosen.surahId, chosen.nomor);
 
-      // Auto advance after 2.5s
       isTransitioning.current = true;
       setTimeout(() => {
         isTransitioning.current = false;
         handleNextQuestion();
       }, 2500);
     } else {
-      // Salah / Perlu Diulang
       sfx.playWrong();
       setAnsweredState('wrong');
-      setNurMessage('Ayo kita coba periksa kembali ayat berikutnya.');
+      setNurMessage('Belum tepat, coba dengarkan dan perhatikan lagi ya!');
       if (isFirstTry) {
         setWrongCount((prev) => prev + 1);
         setIsFirstTry(false);
@@ -110,27 +102,28 @@ export const SambungAyatGame: React.FC<MiniGameProps> = ({
     if (currentIndex + 1 < questions.length) {
       setCurrentIndex((prev) => prev + 1);
     } else {
-      // Selesai seluruh soal
-      finishGame();
+      handleGameFinish();
     }
   };
 
-  const finishGame = () => {
+  const handleGameFinish = () => {
     const totalSoal = questions.length;
-    const maxSkor = totalSoal * 15;
     const finalScore = score;
-    const akurasi = totalSoal > 0 ? Math.round((correctCount / totalSoal) * 100) : 100;
-    const stars = calculateStars(akurasi);
+    const maxSkor = totalSoal * 15;
+    const accuracy = totalSoal > 0 ? Math.round((correctCount / totalSoal) * 100) : 100;
+    const stars = calculateStars(accuracy);
 
-    onFinish({
-      skor: finalScore,
-      maxSkor,
-      benar: correctCount,
-      salah: wrongCount,
-      totalSoal,
-      stars,
-      akurasi,
-    });
+    if (onFinish) {
+      onFinish({
+        skor: finalScore,
+        maxSkor,
+        stars,
+        akurasi: accuracy,
+        benar: correctCount,
+        salah: wrongCount,
+        totalSoal,
+      });
+    }
   };
 
   const handleReplayPrompt = () => {
@@ -142,10 +135,10 @@ export const SambungAyatGame: React.FC<MiniGameProps> = ({
 
   if (!currentQ) {
     return (
-      <div className="flex flex-col items-center justify-center p-12 bg-[var(--gading)] rounded-[32px] border-2 border-[var(--emas)] text-center shadow-lg">
-        <p className="text-2xl text-[var(--malam)] font-['Baloo_2'] mb-6 font-bold">Mempersiapkan soal Sambung Ayat...</p>
+      <div className="flex flex-col items-center justify-center p-12 bg-[#FFFDF6] border-2 border-[#0E4D34] rounded-[28px] text-center max-w-lg mx-auto shadow-xl">
+        <p className="text-2xl text-[#0E4D34] mb-6 font-['Marcellus']">Memuat soal sambung ayat...</p>
         {onExit && (
-          <TombolBesar variant="zamrud" onClick={onExit}>
+          <TombolBesar variant="ghost" onClick={onExit}>
             Kembali
           </TombolBesar>
         )}
@@ -153,61 +146,60 @@ export const SambungAyatGame: React.FC<MiniGameProps> = ({
     );
   }
 
-  // Level display settings
   const shouldDisplayLatin = level === 4 ? showLatin : showHint;
   const shouldDisplayTerjemah = level <= 5 ? showTerjemah : showHint;
 
   return (
-    <div className="flex flex-col max-w-5xl mx-auto w-full gap-6 font-['Nunito']">
-      {/* Game Bilah Atas: Kembali, Nama Surah, JalurProgres, Skor */}
-      <div className="flex flex-wrap items-center justify-between gap-4 p-4 md:p-5 rounded-[28px] bg-[var(--gading)] border-2 border-[var(--emas)]/60 shadow-md">
+    <div className="flex flex-col max-w-5xl mx-auto w-full gap-6 font-['Montserrat']">
+      {/* Game Bilah Atas */}
+      <div className="flex flex-wrap items-center justify-between gap-4 p-4 md:p-5 rounded-[28px] bg-[#FFFDF6] border-2 border-[#0E4D34] shadow-md">
         <div className="flex items-center gap-3">
           {onExit && (
             <button
               onClick={onExit}
-              className="p-2.5 rounded-full bg-[var(--pasir-terang)] border border-[var(--pasir)] text-[var(--malam)] hover:border-[var(--zamrud)] cursor-pointer transition-all"
+              className="p-2.5 rounded-full bg-[#F8F4EA] border border-[#D9CBB0] text-[#0E4D34] hover:bg-[#E9E1D0] cursor-pointer transition-all"
               title="Kembali ke Peta"
             >
-              <ArrowLeft className="w-6 h-6" />
+              <ArrowLeft className="w-5 h-5 stroke-[2.5]" />
             </button>
           )}
           <div>
-            <span className="text-xs text-[var(--zamrud-tua)] font-bold block uppercase tracking-wider">
+            <span className="text-xs text-[#0E4D34] font-bold block uppercase tracking-wider font-['Montserrat']">
               Sambung Ayat • Surah {currentQ.promptAyat.surahLatin}
             </span>
-            <span className="text-xl font-black text-[var(--malam)] font-['Baloo_2']">
+            <span className="text-xl font-black text-[#2B2A26] font-['Marcellus']">
               Soal {currentIndex + 1} dari {questions.length}
             </span>
           </div>
         </div>
 
-        {/* JalurProgres Jalan Setapak */}
+        {/* JalurProgres */}
         <div className="flex-1 max-w-xs mx-auto">
           <JalurProgres currentStep={currentIndex + 1} totalSteps={questions.length} />
         </div>
 
-        <div className="flex items-center gap-2 bg-[var(--pasir-terang)] px-5 py-2 rounded-full border border-[var(--emas)]/60 shadow-inner">
-          <BintangDelapan size={20} fill="#D4A23A" />
-          <span className="text-sm font-bold text-[var(--malam)]">Skor:</span>
-          <span className="text-2xl font-black text-[var(--zamrud-tua)] font-['Baloo_2']">{score}</span>
+        <div className="flex items-center gap-2 bg-[#F8F4EA] px-5 py-2 rounded-full border border-[#C9A04A] shadow-sm">
+          <BintangDelapan size={20} fill="#C9A04A" />
+          <span className="text-xs font-bold text-[#0E4D34] font-['Montserrat']">Skor:</span>
+          <span className="text-2xl font-black text-gradien-emas font-['Marcellus']">{score}</span>
         </div>
       </div>
 
       {/* Prompt Card: Ayat ke-n */}
-      <div className="bg-[var(--gading)] p-6 md:p-8 rounded-[32px] border-2 border-[var(--emas)] shadow-xl relative overflow-hidden">
-        <div className="flex items-center justify-between mb-4 border-b-2 border-[var(--pasir)] pb-3">
+      <div className="bg-[#FFFDF6] p-6 md:p-8 rounded-[28px] border-2 border-[#0E4D34] shadow-xl relative overflow-hidden">
+        <div className="flex items-center justify-between mb-4 border-b border-[#E9E1D0] pb-3">
           <div className="flex items-center gap-2">
-            <span className="bg-[var(--zamrud)] text-[var(--gading)] font-bold text-sm px-3.5 py-1 rounded-full">
+            <span className="bg-[#0E4D34] text-[#FFFDF6] font-bold text-xs md:text-sm px-3.5 py-1 rounded-full font-['Montserrat']">
               Dengarkan Ayat Ini:
             </span>
-            <span className="text-base font-black text-[var(--zamrud-tua)]">
+            <span className="text-sm md:text-base font-black text-[#0E4D34] font-['Montserrat']">
               Ayat ke-{currentQ.promptAyat.nomor}
             </span>
           </div>
 
           <button
             onClick={handleReplayPrompt}
-            className="flex items-center gap-2 px-4 py-1.5 bg-[var(--emas)] hover:bg-[var(--emas)]/80 text-[var(--malam)] rounded-full text-sm font-black shadow-sm cursor-pointer transition-all"
+            className="flex items-center gap-2 px-4 py-1.5 bg-gradient-to-r from-[#F3D88A] to-[#C9A04A] text-[#0E4D34] rounded-full text-xs md:text-sm font-black shadow-sm cursor-pointer hover:brightness-105 transition-all font-['Montserrat']"
           >
             <RotateCcw className="w-4 h-4" />
             <span>Putar Ulang</span>
@@ -217,21 +209,21 @@ export const SambungAyatGame: React.FC<MiniGameProps> = ({
         {/* Big Arabic Text (Prompt) */}
         <div
           dir="rtl"
-          className="font-['Amiri'] text-[var(--zamrud-tua)] text-4xl md:text-5xl text-center leading-[2.2] py-2"
+          className="font-ayat text-[#2B2A26] text-3xl md:text-4xl text-center leading-[2.2] py-2"
         >
           {currentQ.promptAyat.arab}
         </div>
 
         {/* Latin & Translation */}
         {(shouldDisplayLatin || shouldDisplayTerjemah) && (
-          <div className="mt-3 pt-3 border-t-2 border-[var(--pasir)] flex flex-col gap-1 text-center">
+          <div className="mt-3 pt-3 border-t border-[#E9E1D0] flex flex-col gap-1 text-center font-['Montserrat']">
             {shouldDisplayLatin && (
-              <p className="text-base font-bold text-[var(--terakota)] italic">
+              <p className="text-sm md:text-base font-bold text-[#1B6B47] italic">
                 {currentQ.promptAyat.latin}
               </p>
             )}
             {shouldDisplayTerjemah && (
-              <p className="text-sm text-[var(--malam)]/80 font-semibold">
+              <p className="text-xs md:text-sm text-[#2B2A26]/80 font-medium">
                 "{cleanQuotes(currentQ.promptAyat.terjemah)}"
               </p>
             )}
@@ -241,23 +233,23 @@ export const SambungAyatGame: React.FC<MiniGameProps> = ({
 
       {/* Instruction & Helper */}
       <div className="flex items-center justify-between px-2">
-        <h3 className="text-xl md:text-2xl font-black text-[var(--zamrud-tua)] font-['Baloo_2'] flex items-center gap-2">
-          <ArrowRight className="w-6 h-6 text-[var(--emas)]" />
+        <h3 className="text-lg md:text-xl font-bold text-[#0E4D34] font-['Marcellus'] flex items-center gap-2">
+          <ArrowRight className="w-5 h-5 text-[#C9A04A]" />
           <span>Pilih Lanjutan Ayat Berikutnya (Ayat ke-{currentQ.jawabanBenar.nomor}):</span>
         </h3>
 
         {level === 6 && (
           <button
             onClick={() => setShowHint(!showHint)}
-            className="flex items-center gap-2 px-4 py-1.5 bg-[var(--gading)] border border-[var(--pasir)] hover:border-[var(--emas)] text-[var(--malam)] rounded-full font-bold text-sm cursor-pointer shadow-sm"
+            className="flex items-center gap-2 px-4 py-1.5 bg-[#FFFDF6] border border-[#D9CBB0] hover:border-[#0E4D34] text-[#2B2A26] rounded-full font-bold text-xs cursor-pointer shadow-sm"
           >
-            <HelpCircle className="w-4 h-4 text-[var(--emas)]" />
+            <HelpCircle className="w-4 h-4 text-[#C9A04A]" />
             <span>{showHint ? 'Sembunyikan Bantuan' : 'Buka Bantuan Teks'}</span>
           </button>
         )}
       </div>
 
-      {/* Choice Cards Grid */}
+      {/* Choice Cards Grid (Kartu Pilihan: Radius 28px, Gading, Zamrud saat Benar) */}
       <div
         className={`grid gap-5 ${
           currentQ.pilihanAyat.length === 3 ? 'grid-cols-1 md:grid-cols-3' : 'grid-cols-1 md:grid-cols-2'
@@ -266,14 +258,13 @@ export const SambungAyatGame: React.FC<MiniGameProps> = ({
         {currentQ.pilihanAyat.map((choice, idx) => {
           const isSelected = selectedChoiceIdx === idx;
           const isCorrect = choice.isCorrect;
+          const isSolidActive = (isSelected && answeredState === 'correct') || (answeredState === 'wrong' && isCorrect);
 
-          let cardBorder = 'border-[var(--emas)]/40 hover:border-[var(--zamrud)] bg-[var(--gading)]';
-          if (isSelected && answeredState === 'correct') {
-            cardBorder = 'border-[var(--zamrud)] ring-4 ring-[var(--zamrud)]/30 bg-[var(--pasir-terang)]';
+          let cardStyle = 'bg-[#FFFDF6] text-[#2B2A26] border-[#0E4D34] hover:border-[#1B6B47] shadow-lg shadow-[#C9A04A]/10';
+          if (isSolidActive) {
+            cardStyle = 'bg-[#0E4D34] text-[#FFFDF6] border-[#C9A04A] ring-4 ring-[#C9A04A]/40 shadow-xl';
           } else if (isSelected && answeredState === 'wrong') {
-            cardBorder = 'border-[var(--terakota)] ring-4 ring-[var(--terakota)]/30 bg-[var(--terakota)]/10';
-          } else if (answeredState === 'wrong' && isCorrect) {
-            cardBorder = 'border-[var(--zamrud)]/60 border-dashed bg-[var(--pasir-terang)]';
+            cardStyle = 'bg-[#FFF8F5] text-[#2B2A26] border-[#C0603A] ring-4 ring-[#C0603A]/30 shadow-md';
           }
 
           return (
@@ -281,31 +272,45 @@ export const SambungAyatGame: React.FC<MiniGameProps> = ({
               key={idx}
               onClick={() => handleSelectChoice(idx)}
               className={`
-                relative flex flex-col justify-between p-5 md:p-6 rounded-[28px] border-2 min-h-[220px]
-                transition-all duration-150 cursor-pointer select-none shadow-md
-                ${cardBorder}
+                btn-kafilah relative flex flex-col justify-between p-5 md:p-6 rounded-[28px] border-2 min-h-[220px]
+                transition-all duration-150 cursor-pointer select-none
+                ${cardStyle}
               `}
             >
               {/* Top Choice Indicator */}
-              <div className="flex items-center justify-between mb-2 border-b border-[var(--pasir)] pb-2">
+              <div
+                className={`flex items-center justify-between mb-2 border-b pb-2 ${
+                  isSolidActive ? 'border-[#3A9D6A]/50' : 'border-[#E9E1D0]'
+                }`}
+              >
                 <div className="flex items-center gap-2">
-                  <span className="w-9 h-9 rounded-full bg-[var(--pasir)] text-[var(--zamrud-tua)] font-black text-lg font-['Baloo_2'] flex items-center justify-center border border-[var(--emas)]/50">
+                  <span
+                    className={`w-8 h-8 rounded-full font-black text-sm font-['Marcellus'] flex items-center justify-center border ${
+                      isSolidActive
+                        ? 'bg-gradient-to-br from-[#F3D88A] to-[#C9A04A] text-[#0E4D34] border-white'
+                        : 'bg-[#F8F4EA] text-[#0E4D34] border-[#D9CBB0]'
+                    }`}
+                  >
                     {String.fromCharCode(65 + idx)}
                   </span>
-                  <span className="text-base font-black text-[var(--zamrud-tua)] font-['Baloo_2']">
+                  <span
+                    className={`text-sm font-bold font-['Montserrat'] ${
+                      isSolidActive ? 'text-[#F3D88A]' : 'text-[#0E4D34]'
+                    }`}
+                  >
                     Pilihan {String.fromCharCode(65 + idx)}
                   </span>
                 </div>
 
                 {isSelected && answeredState === 'correct' && (
-                  <div className="flex items-center gap-1.5 text-[var(--zamrud)] font-black text-sm">
-                    <Check className="w-5 h-5 stroke-[3]" />
+                  <div className="flex items-center gap-1.5 text-[#F3D88A] font-black text-xs font-['Montserrat']">
+                    <Check className="w-4 h-4 stroke-[3]" />
                     <span>Benar! (+{isFirstTry ? '15' : '10'})</span>
                   </div>
                 )}
 
                 {isSelected && answeredState === 'wrong' && (
-                  <div className="flex items-center gap-1.5 text-[var(--terakota)] font-black text-sm">
+                  <div className="flex items-center gap-1.5 text-[#C0603A] font-black text-xs font-['Montserrat']">
                     <RotateCcw className="w-4 h-4 stroke-[3]" />
                     <span>Perlu Diulang</span>
                   </div>
@@ -315,21 +320,35 @@ export const SambungAyatGame: React.FC<MiniGameProps> = ({
               {/* Arabic Choice Text */}
               <div
                 dir="rtl"
-                className="font-['Amiri'] text-[var(--zamrud-tua)] text-2xl md:text-3xl text-center leading-[2] py-2 flex-1 flex items-center justify-center"
+                className={`font-ayat text-2xl md:text-3xl text-center leading-[2] py-2 flex-1 flex items-center justify-center ${
+                  isSolidActive ? 'text-[#FFFDF6]' : 'text-[#2B2A26]'
+                }`}
               >
                 {choice.arab}
               </div>
 
               {/* Latin & Translation */}
               {(shouldDisplayLatin || shouldDisplayTerjemah) && (
-                <div className="mt-2 pt-2 border-t border-[var(--pasir)] flex flex-col gap-1 text-center">
+                <div
+                  className={`mt-2 pt-2 border-t flex flex-col gap-1 text-center font-['Montserrat'] ${
+                    isSolidActive ? 'border-[#3A9D6A]/50' : 'border-[#E9E1D0]'
+                  }`}
+                >
                   {shouldDisplayLatin && (
-                    <p className="text-sm font-bold text-[var(--terakota)] italic leading-snug">
+                    <p
+                      className={`text-xs font-bold italic leading-snug ${
+                        isSolidActive ? 'text-[#F3D88A]' : 'text-[#1B6B47]'
+                      }`}
+                    >
                       {choice.latin}
                     </p>
                   )}
                   {shouldDisplayTerjemah && (
-                    <p className="text-xs text-[var(--malam)]/70 leading-relaxed font-semibold">
+                    <p
+                      className={`text-[11px] leading-relaxed font-medium ${
+                        isSolidActive ? 'text-[#FFFDF6]/90' : 'text-[#2B2A26]/75'
+                      }`}
+                    >
                       "{cleanQuotes(choice.terjemah)}"
                     </p>
                   )}
@@ -340,15 +359,15 @@ export const SambungAyatGame: React.FC<MiniGameProps> = ({
         })}
       </div>
 
-      {/* Maskot Nur di pojok kiri bawah & Lanjut button */}
+      {/* Maskot Nur & Lanjut button */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-2">
         <GelembungNur text={nurMessage} />
 
         {answeredState === 'correct' && (
           <TombolBesar
-            variant="zamrud"
+            variant="emas"
             size="normal"
-            icon={<ArrowRight className="w-6 h-6" />}
+            icon={<ArrowRight className="w-6 h-6 text-[#0E4D34]" />}
             onClick={handleNextQuestion}
           >
             Lanjut Soal Berikutnya

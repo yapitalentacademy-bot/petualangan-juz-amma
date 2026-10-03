@@ -28,52 +28,52 @@ export const BuzzerButton: React.FC<BuzzerButtonProps> = ({
 
   const baseColors = isTeamA
     ? {
-        idle: 'from-emerald-400 via-emerald-600 to-emerald-800 border-emerald-200 border-b-[12px] border-b-[#064e3b] shadow-btn-emerald hover:from-emerald-300 hover:to-emerald-700 active:border-b-[4px] active:translate-y-2',
-        active: 'from-emerald-300 via-emerald-500 to-emerald-600 border-yellow-300 ring-8 ring-yellow-400 shadow-2xl scale-105 animate-pulse',
-        bgGlow: 'bg-emerald-500/30',
-        textColor: 'text-emerald-300',
+        idle: 'from-[#0E4D34] via-[#1B6B47] to-[#082A1C] border-[#3A9D6A] border-b-[10px] border-b-[#051A11] shadow-xl hover:brightness-110 active:border-b-[4px] active:translate-y-2',
+        active: 'from-[#1B6B47] via-[#3A9D6A] to-[#0E4D34] border-[#F3D88A] ring-8 ring-[#F3D88A]/70 shadow-2xl scale-105 animate-pulse',
+        bgGlow: 'bg-[#1B6B47]/30',
+        textColor: 'text-[#F3D88A]',
       }
     : {
-        idle: 'from-sky-400 via-sky-600 to-sky-800 border-sky-200 border-b-[12px] border-b-[#0c4a6e] shadow-btn-sky hover:from-sky-300 hover:to-sky-700 active:border-b-[4px] active:translate-y-2',
-        active: 'from-sky-300 via-sky-500 to-sky-600 border-yellow-300 ring-8 ring-yellow-400 shadow-2xl scale-105 animate-pulse',
-        bgGlow: 'bg-sky-500/30',
-        textColor: 'text-sky-300',
+        idle: 'from-[#F3D88A] via-[#C9A04A] to-[#9C7A2E] border-[#FFF2C6] border-b-[10px] border-b-[#6A521D] shadow-xl hover:brightness-105 active:border-b-[4px] active:translate-y-2 text-[#0E4D34]',
+        active: 'from-[#FFF2C6] via-[#F3D88A] to-[#C9A04A] border-white ring-8 ring-[#0E4D34]/50 shadow-2xl scale-105 animate-pulse text-[#0E4D34]',
+        bgGlow: 'bg-[#C9A04A]/40',
+        textColor: 'text-[#0E4D34]',
       };
 
   return (
-    <div className="flex flex-col items-center justify-center p-4">
+    <div className="flex flex-col items-center justify-center p-3">
       <button
         onPointerDown={handlePointerDown}
         disabled={disabled || isLocked}
         className={`
           touch-btn relative flex flex-col items-center justify-center
-          w-[280px] h-[280px] md:w-[320px] md:h-[320px] rounded-full border-4
+          w-[240px] h-[240px] md:w-[280px] md:h-[280px] rounded-full border-4
           bg-gradient-to-b transition-all duration-75 cursor-pointer select-none
           ${isActive ? baseColors.active : baseColors.idle}
-          ${isLocked ? 'opacity-40 grayscale cursor-not-allowed border-stone-600 border-b-4' : ''}
+          ${isLocked ? 'opacity-35 grayscale cursor-not-allowed border-stone-400 border-b-4' : ''}
           ${disabled ? 'opacity-30 cursor-not-allowed' : ''}
         `}
       >
         {/* Glowing aura */}
-        <div className={`absolute -inset-4 rounded-full blur-xl ${baseColors.bgGlow} -z-10`} />
+        <div className={`absolute -inset-3 rounded-full blur-xl ${baseColors.bgGlow} -z-10`} />
 
         {/* Icon */}
-        <div className="mb-3">
+        <div className="mb-2">
           {isActive ? (
-            <Check className="w-24 h-24 text-white animate-bounce stroke-[3]" />
+            <Check className={`w-20 h-20 ${isTeamA ? 'text-[#F3D88A]' : 'text-[#0E4D34]'} animate-bounce stroke-[3]`} />
           ) : isLocked ? (
-            <Lock className="w-20 h-20 text-stone-300" />
+            <Lock className="w-16 h-16 text-white/60" />
           ) : (
-            <BellRing className="w-24 h-24 text-white stroke-[2.5]" />
+            <BellRing className={`w-20 h-20 ${isTeamA ? 'text-white' : 'text-[#0E4D34]'} stroke-[2.5]`} />
           )}
         </div>
 
         {/* Buzzer Label */}
-        <span className="text-3xl md:text-5xl font-black text-white tracking-wider font-display uppercase drop-shadow-md">
+        <span className={`text-2xl md:text-4xl font-black font-['Marcellus'] uppercase tracking-wider ${isTeamA ? 'text-white' : 'text-[#0E4D34]'}`}>
           {isActive ? 'MENJAWAB!' : 'BUZZER'}
         </span>
 
-        <span className="text-lg md:text-2xl font-black text-amber-200 mt-1 font-display drop-shadow">
+        <span className={`text-base md:text-xl font-bold font-['Montserrat'] mt-1 ${isTeamA ? 'text-[#F3D88A]' : 'text-[#0E4D34]'}`}>
           {teamName}
         </span>
       </button>

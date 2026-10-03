@@ -7,7 +7,9 @@ import { useFullscreen } from '../lib/useFullscreen';
 import { BintangDelapan } from '../components/ornaments/BintangDelapan';
 import { LenteraFanus } from '../components/ornaments/LenteraFanus';
 import { MaskotNur } from '../components/ornaments/MaskotNur';
-import { LatarParallax } from '../components/LatarParallax';
+import { BingkaiMihrab } from '../components/BingkaiMihrab';
+import { OrnamenSudut } from '../components/ornaments/OrnamenSudut';
+import { TeksturMarmer } from '../components/ornaments/TeksturMarmer';
 
 interface BerandaProps {
   onStartAdventure: () => void;
@@ -34,7 +36,6 @@ export const Beranda: React.FC<BerandaProps> = ({
   onSelectLevel,
   onOpenTeacherMode,
   onOpenAbout,
-  sembunyikanHewan = false,
 }) => {
   const [showPinModal, setShowPinModal] = useState(false);
   const [pinInput, setPinInput] = useState('');
@@ -94,29 +95,30 @@ export const Beranda: React.FC<BerandaProps> = ({
   };
 
   return (
-    <LatarParallax wilayah="lembah-fajar" sembunyikanHewan={sembunyikanHewan} className="min-h-screen">
-      <div className="min-h-screen text-[#14233C] flex flex-col items-center justify-between p-6 md:p-10 relative overflow-hidden bg-white/20 backdrop-blur-[2px]">
+    <TeksturMarmer className="min-h-screen relative flex flex-col justify-between p-6 md:p-10 select-none">
+      {/* Ornamen Garis Tipis & Pola Geometris Sudut */}
+      <OrnamenSudut variant="semua" />
 
       {/* Top Header: Badge, Stars & Tools */}
-      <header className="w-full flex flex-wrap items-center justify-between gap-4 z-10 max-w-6xl">
-        <div className="flex items-center gap-3 bg-[#FFFDF7] px-5 py-2.5 rounded-full border-2 border-[#E8D2A6] shadow-sm">
-          <Sparkles className="w-5 h-5 text-[#D4A23A]" />
-          <span className="text-lg md:text-xl font-bold font-judul text-[#0B4F3E]">
-            Kafilah Cahaya • Juz 'Amma
+      <header className="w-full flex flex-wrap items-center justify-between gap-4 z-10 max-w-7xl mx-auto">
+        <div className="flex items-center gap-3 bg-[#FFFDF6] px-5 py-2.5 rounded-full border-2 border-[#0E4D34] shadow-sm">
+          <Sparkles className="w-5 h-5 text-[#C9A04A]" />
+          <span className="text-base md:text-lg font-bold font-['Montserrat'] text-[#0E4D34]">
+            Kafilah Cahaya • Proposal Ekspedisi Qur'an
           </span>
         </div>
 
         <div className="flex items-center gap-3">
           {/* Bintang Khatam Count */}
-          <div className="flex items-center gap-2 bg-[#FFFDF7] border-2 border-[#D4A23A] px-4 py-2 rounded-full shadow-sm">
-            <BintangDelapan filled={true} size={24} />
-            <span className="text-lg font-black font-teks text-[#0B4F3E]">{totalStars} Bintang</span>
+          <div className="flex items-center gap-2 bg-[#FFFDF6] border-2 border-[#C9A04A] px-4 py-2 rounded-full shadow-sm">
+            <BintangDelapan filled={true} size={22} />
+            <span className="text-base font-black font-['Montserrat'] text-[#0E4D34]">{totalStars} Bintang</span>
           </div>
 
           {/* Lencana Count */}
-          <div className="flex items-center gap-2 bg-[#FFFDF7] border-2 border-[#0F7A5C] px-4 py-2 rounded-full shadow-sm">
+          <div className="flex items-center gap-2 bg-[#FFFDF6] border-2 border-[#0E4D34] px-4 py-2 rounded-full shadow-sm">
             <LenteraFanus isLit={true} size={20} />
-            <span className="text-lg font-black font-teks text-[#0F7A5C]">{badges.length} Lencana</span>
+            <span className="text-base font-black font-['Montserrat'] text-[#0E4D34]">{badges.length} Lencana</span>
           </div>
 
           {/* Fullscreen Button */}
@@ -125,11 +127,11 @@ export const Beranda: React.FC<BerandaProps> = ({
               sfx.playClick();
               toggleFullscreen();
             }}
-            className="btn-kafilah flex items-center gap-1.5 px-3.5 py-2 bg-[#FFFDF7] hover:bg-[#F6EBD9] text-[#0B4F3E] border-2 border-[#E8D2A6] rounded-full text-base font-bold shadow-sm"
+            className="btn-kafilah flex items-center gap-1.5 px-3.5 py-2 bg-[#FFFDF6] hover:bg-[#F8F4EA] text-[#0E4D34] border-2 border-[#D9CBB0] rounded-full text-sm font-bold shadow-sm cursor-pointer"
             title={isFullscreen ? 'Keluar Layar Penuh (ESC)' : 'Mode Layar Penuh'}
           >
             {isFullscreen ? <Minimize className="w-4 h-4" /> : <Maximize className="w-4 h-4" />}
-            <span className="hidden sm:inline">{isFullscreen ? 'Kecilkan' : 'Layar Penuh'}</span>
+            <span className="hidden sm:inline font-['Montserrat']">{isFullscreen ? 'Kecilkan' : 'Layar Penuh'}</span>
           </button>
 
           {onOpenAbout && (
@@ -138,148 +140,153 @@ export const Beranda: React.FC<BerandaProps> = ({
                 sfx.playClick();
                 onOpenAbout();
               }}
-              className="btn-kafilah flex items-center gap-1.5 px-3.5 py-2 bg-[#FFFDF7] hover:bg-[#F6EBD9] text-[#1E6F8C] border-2 border-[#E8D2A6] rounded-full text-base font-bold shadow-sm"
+              className="btn-kafilah flex items-center gap-1.5 px-3.5 py-2 bg-[#FFFDF6] hover:bg-[#F8F4EA] text-[#1B6B47] border-2 border-[#D9CBB0] rounded-full text-sm font-bold shadow-sm cursor-pointer"
             >
               <Info className="w-4 h-4" />
-              <span>Tentang</span>
+              <span className="font-['Montserrat']">Tentang</span>
             </button>
           )}
         </div>
       </header>
 
-      {/* Hero Utama: Lentera Besar Bercahaya + Judul Baloo 2 */}
-      <main className="flex flex-col items-center text-center my-4 z-10 max-w-4xl w-full">
-        {/* Lentera Besar / Maskot Nur */}
-        <div className="relative mb-2">
-          <LenteraFanus isLit={true} size={96} className="animate-pulse" />
-        </div>
+      {/* Hero Utama Bergaya Cover Proposal PDF: Kiri Teks & Aksi, Kanan Bingkai Mihrab */}
+      <main className="w-full max-w-7xl mx-auto my-auto py-6 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center z-10">
+        {/* Kolom Kiri: Judul Cover PDF & Tombol Aksi */}
+        <div className="lg:col-span-7 flex flex-col items-start text-left">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#0E4D34]/10 border border-[#0E4D34]/30 text-[#0E4D34] font-bold text-xs uppercase tracking-widest font-['Montserrat'] mb-3">
+            <Sparkles className="w-3.5 h-3.5 text-[#C9A04A]" /> Game Edukasi Al-Qur'an Smart TV
+          </div>
 
-        {/* Judul Petualangan Juz 'Amma (Baloo 2) */}
-        <h1 className="text-4xl sm:text-5xl md:text-6xl font-black font-judul text-[#0B4F3E] tracking-wide mb-1 drop-shadow-sm">
-          Petualangan Juz 'Amma
-        </h1>
+          <h1 className="font-['Montserrat'] font-black tracking-tight leading-[1.05] mb-2 flex flex-col">
+            <span className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-[#0E4D34]">
+              PETUALANGAN
+            </span>
+            <span className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-gradien-emas font-black">
+              JUZ 'AMMA
+            </span>
+          </h1>
 
-        <p className="text-lg md:text-xl font-bold font-teks text-[#D4A23A] mb-6">
-          Menyusuri 37 Pos Oase & Lentera Ilmu Bersama Kafilah Cilik
-        </p>
+          <p className="text-base sm:text-lg md:text-xl font-medium font-['Montserrat'] text-[#2B2A26]/85 max-w-xl mb-6 leading-relaxed">
+            Menyusuri 37 Pos Oase & Lentera Ilmu Bersama Kafilah Cilik dalam petualangan hafalan Al-Qur'an yang mulia dan menyenangkan.
+          </p>
 
-        {/* Panel Pilihan Kelas & Tingkat Ekspedisi */}
-        <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 text-left">
-          {/* Pilih Rombel Kelas */}
-          <div className="bg-[#FFFDF7] p-6 rounded-[24px] border-2 border-[#E8D2A6] shadow-md">
-            <div className="flex items-center gap-2.5 text-[#0B4F3E] mb-4">
-              <Users className="w-6 h-6 text-[#0F7A5C]" />
-              <h2 className="text-2xl font-black font-judul">Pilih Rombel Kelas</h2>
-            </div>
-
-            <div className="grid grid-cols-3 gap-3">
-              {availableClasses.map((kelas) => {
-                const isSelected = selectedClass === kelas;
-                return (
+          {/* Pengaturan Singkat Kelas & Tingkat */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-xl mb-8">
+            {/* Rombel */}
+            <div className="bg-[#FFFDF6] p-4 rounded-[22px] border-2 border-[#0E4D34]/30 shadow-sm">
+              <div className="flex items-center gap-2 text-[#0E4D34] mb-2">
+                <Users className="w-4 h-4 text-[#1B6B47]" />
+                <span className="text-sm font-bold font-['Montserrat']">Rombel Kelas</span>
+              </div>
+              <div className="grid grid-cols-3 gap-2">
+                {availableClasses.map((kelas) => (
                   <button
                     key={kelas}
                     onClick={() => {
                       sfx.playClick();
                       onSelectClass(kelas);
                     }}
-                    className={`
-                      btn-kafilah py-3 px-2 rounded-2xl font-black text-xl font-teks border-2 text-center transition-all
-                      ${
-                        isSelected
-                          ? 'bg-[#0F7A5C] text-[#FFFDF7] border-[#0B4F3E] shadow-btn-zamrud'
-                          : 'bg-[#F6EBD9] text-[#14233C] border-[#E8D2A6] hover:bg-[#E8D2A6]'
-                      }
-                    `}
+                    className={`py-1.5 px-1 rounded-xl font-black text-sm font-['Montserrat'] border transition-all cursor-pointer ${
+                      selectedClass === kelas
+                        ? 'bg-[#0E4D34] text-[#FFFDF6] border-[#0E4D34] shadow-sm'
+                        : 'bg-[#F8F4EA] text-[#2B2A26] border-[#D9CBB0] hover:bg-[#E9E1D0]'
+                    }`}
                   >
                     {kelas}
                   </button>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Pilih Wilayah & Tingkat Ekspedisi */}
-          <div className="bg-[#FFFDF7] p-6 rounded-[24px] border-2 border-[#E8D2A6] shadow-md">
-            <div className="flex items-center gap-2.5 text-[#0B4F3E] mb-4">
-              <Compass className="w-6 h-6 text-[#D4A23A]" />
-              <h2 className="text-2xl font-black font-judul">Tingkat & Wilayah</h2>
+                ))}
+              </div>
             </div>
 
-            <div className="flex flex-col gap-2.5">
-              {levels.map((item) => {
-                const isSelected = selectedLevel === item.level;
-                return (
+            {/* Tingkat */}
+            <div className="bg-[#FFFDF6] p-4 rounded-[22px] border-2 border-[#0E4D34]/30 shadow-sm">
+              <div className="flex items-center gap-2 text-[#0E4D34] mb-2">
+                <Compass className="w-4 h-4 text-[#C9A04A]" />
+                <span className="text-sm font-bold font-['Montserrat']">Tingkat Ekspedisi</span>
+              </div>
+              <div className="flex flex-col gap-1.5">
+                {levels.map((item) => (
                   <button
                     key={item.level}
                     onClick={() => {
                       sfx.playClick();
                       onSelectLevel(item.level);
                     }}
-                    className={`
-                      btn-kafilah flex items-center justify-between p-3.5 px-5 rounded-2xl border-2 text-left transition-all
-                      ${
-                        isSelected
-                          ? 'bg-[#F0FAF6] border-[#0F7A5C] text-[#0B4F3E] shadow-sm'
-                          : 'bg-[#F6EBD9] border-[#E8D2A6] text-[#14233C] hover:bg-[#E8D2A6]'
-                      }
-                    `}
+                    className={`flex items-center justify-between px-3 py-1.5 rounded-xl border text-xs font-bold font-['Montserrat'] transition-all cursor-pointer ${
+                      selectedLevel === item.level
+                        ? 'bg-[#0E4D34] text-[#FFFDF6] border-[#0E4D34]'
+                        : 'bg-[#F8F4EA] text-[#2B2A26] border-[#D9CBB0] hover:bg-[#E9E1D0]'
+                    }`}
                   >
-                    <div>
-                      <span className="text-lg font-black font-judul text-[#0B4F3E]">{item.label} • {item.wilayah}</span>
-                      <p className="text-xs md:text-sm text-[#14233C]/75 font-teks font-medium">{item.desc}</p>
-                    </div>
-                    {isSelected && (
-                      <span className="bg-[#0F7A5C] text-[#FFFDF7] font-bold px-3 py-1 rounded-full text-xs font-teks">
-                        Aktif
-                      </span>
+                    <span>{item.label} ({item.wilayah})</span>
+                    {selectedLevel === item.level && (
+                      <span className="text-[#F3D88A] text-[10px]">✓</span>
                     )}
                   </button>
-                );
-              })}
+                ))}
+              </div>
             </div>
+          </div>
+
+          {/* Dua Tombol Aksi Utama: Mulai Petualangan (Emas) & Duel Tim (Zamrud) */}
+          <div className="flex flex-wrap items-center gap-4 w-full max-w-xl">
+            <TombolBesar
+              variant="emas"
+              size="large"
+              icon={<Compass className="w-8 h-8 text-[#0E4D34]" />}
+              onClick={onStartAdventure}
+              className="flex-1 min-w-[240px]"
+            >
+              Mulai Petualangan
+            </TombolBesar>
+
+            <TombolBesar
+              variant="zamrud"
+              size="large"
+              icon={<Swords className="w-8 h-8 text-[#FFFDF6]" />}
+              onClick={() => {
+                if (onStartDuel) {
+                  onStartDuel();
+                } else {
+                  onStartAdventure();
+                }
+              }}
+              className="flex-1 min-w-[220px]"
+            >
+              Duel Tim
+            </TombolBesar>
           </div>
         </div>
 
-        {/* Dua Tombol Aksi Utama: Mulai Petualangan & Duel Tim (DESIGN.md) */}
-        <div className="flex flex-wrap items-center justify-center gap-6 w-full max-w-2xl">
-          <TombolBesar
-            variant="zamrud"
-            size="large"
-            icon={<Compass className="w-8 h-8" />}
-            onClick={onStartAdventure}
-            className="flex-1 min-w-[260px]"
-          >
-            Mulai Petualangan
-          </TombolBesar>
-
-          <TombolBesar
-            variant="biru"
-            size="large"
-            icon={<Swords className="w-8 h-8" />}
-            onClick={() => {
-              if (onStartDuel) {
-                onStartDuel();
-              } else {
-                onStartAdventure();
-              }
-            }}
-            className="flex-1 min-w-[260px]"
-          >
-            Duel Tim Santri
-          </TombolBesar>
+        {/* Kolom Kanan: Bingkai Mihrab Ganda Berisi Pemandangan Lembah Fajar */}
+        <div className="lg:col-span-5 flex flex-col items-center justify-center relative">
+          <div className="relative w-full max-w-sm md:max-w-md">
+            <BingkaiMihrab
+              imageSrc="/scenes/lembah-fajar.webp"
+              altText="Pemandangan Lembah Fajar"
+              className="w-full"
+            />
+            {/* Tag Wilayah Emas Melayang */}
+            <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-[#F3D88A] via-[#C9A04A] to-[#9C7A2E] text-[#0E4D34] px-6 py-2 rounded-full border-2 border-white shadow-xl flex items-center gap-2 whitespace-nowrap">
+              <LenteraFanus isLit={true} size={20} />
+              <span className="font-['Montserrat'] font-black text-sm uppercase tracking-wider">
+                Lembah Fajar • Wilayah 1
+              </span>
+            </div>
+          </div>
         </div>
       </main>
 
-      {/* Footer & Tombol Mode Guru Pojok Kanan Bawah (Hold 2 Detik) */}
-      <footer className="w-full max-w-6xl flex items-center justify-between z-10 pt-4 border-t border-[#E8D2A6]/70">
+      {/* Footer & Tombol Mode Guru */}
+      <footer className="w-full max-w-7xl mx-auto flex items-center justify-between z-10 pt-4 border-t border-[#E9E1D0]">
         <div className="flex items-center gap-3">
-          <MaskotNur size={36} expression="happy" />
-          <span className="font-teks font-bold text-sm text-[#0B4F3E]/80">
+          <MaskotNur size={34} expression="happy" />
+          <span className="font-['Montserrat'] font-semibold text-xs md:text-sm text-[#0E4D34]">
             "Sebaik-baik kalian adalah yang mempelajari Al-Qur'an dan mengajarkannya."
           </span>
         </div>
 
-        {/* Tombol Mode Guru yang harus ditahan 2 detik */}
+        {/* Tombol Mode Guru (Tahan 2 Detik) */}
         <div className="relative">
           <button
             onMouseDown={handleHoldStart}
@@ -287,13 +294,13 @@ export const Beranda: React.FC<BerandaProps> = ({
             onMouseLeave={handleHoldEnd}
             onTouchStart={handleHoldStart}
             onTouchEnd={handleHoldEnd}
-            className="btn-kafilah relative flex items-center gap-2 px-4 py-2.5 bg-[#FFFDF7] hover:bg-[#F6EBD9] text-[#0B4F3E] border-2 border-[#E8D2A6] rounded-full text-sm font-bold shadow-sm select-none"
+            className="btn-kafilah relative flex items-center gap-2 px-4 py-2 bg-[#FFFDF6] hover:bg-[#F8F4EA] text-[#0E4D34] border-2 border-[#D9CBB0] rounded-full text-xs md:text-sm font-bold shadow-sm select-none cursor-pointer"
             title="Tahan 2 detik untuk membuka Mode Guru"
           >
-            <ShieldCheck className="w-5 h-5 text-[#0F7A5C]" />
-            <span>Mode Guru</span>
+            <ShieldCheck className="w-4 h-4 text-[#1B6B47]" />
+            <span className="font-['Montserrat']">Mode Guru</span>
             {holdProgress > 0 && (
-              <span className="text-xs text-[#D4A23A] font-bold">({holdProgress}%)</span>
+              <span className="text-xs text-[#C9A04A] font-black">({holdProgress}%)</span>
             )}
           </button>
         </div>
@@ -302,15 +309,15 @@ export const Beranda: React.FC<BerandaProps> = ({
       {/* PIN Modal untuk Mode Guru */}
       {showPinModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-          <div className="bg-[#FFFDF7] p-8 rounded-[28px] border-4 border-[#D4A23A] max-w-md w-full text-center shadow-2xl">
-            <div className="w-16 h-16 rounded-full bg-[#F6EBD9] flex items-center justify-center mx-auto mb-4 border-2 border-[#E8D2A6]">
-              <KeyRound className="w-8 h-8 text-[#0F7A5C]" />
+          <div className="bg-[#FFFDF6] p-8 rounded-[28px] border-2 border-[#C9A04A] max-w-md w-full text-center shadow-2xl">
+            <div className="w-14 h-14 rounded-full bg-[#F8F4EA] flex items-center justify-center mx-auto mb-4 border-2 border-[#D9CBB0]">
+              <KeyRound className="w-7 h-7 text-[#0E4D34]" />
             </div>
 
-            <h3 className="text-2xl font-black font-judul text-[#0B4F3E] mb-2">
+            <h3 className="text-2xl font-black font-['Marcellus'] text-[#0E4D34] mb-2">
               Akses Mode Guru
             </h3>
-            <p className="text-sm font-teks text-[#14233C]/80 mb-6">
+            <p className="text-sm font-['Montserrat'] text-[#2B2A26]/80 mb-6">
               Masukkan PIN guru untuk membuka rekap nilai & pengaturan (Default: 1234 atau 0000).
             </p>
 
@@ -325,11 +332,11 @@ export const Beranda: React.FC<BerandaProps> = ({
               onKeyDown={(e) => e.key === 'Enter' && handlePinSubmit()}
               placeholder="••••"
               autoFocus
-              className="w-full text-center text-3xl font-black tracking-widest py-3 px-4 rounded-2xl bg-[#F6EBD9] border-2 border-[#E8D2A6] focus:outline-none focus:border-[#0F7A5C] text-[#14233C] mb-4"
+              className="w-full text-center text-3xl font-black tracking-widest py-3 px-4 rounded-2xl bg-[#F8F4EA] border-2 border-[#D9CBB0] focus:outline-none focus:border-[#0E4D34] text-[#2B2A26] mb-4 font-['Marcellus']"
             />
 
             {pinError && (
-              <p className="text-sm font-bold text-[#C0603A] mb-4">
+              <p className="text-sm font-bold text-[#C0603A] mb-4 font-['Montserrat']">
                 PIN salah. Silakan coba lagi.
               </p>
             )}
@@ -341,13 +348,13 @@ export const Beranda: React.FC<BerandaProps> = ({
                   setPinInput('');
                   setPinError(false);
                 }}
-                className="flex-1 py-3 rounded-full font-bold font-teks bg-[#E8D2A6] hover:bg-[#DFC797] text-[#14233C]"
+                className="flex-1 py-3 rounded-full font-bold font-['Montserrat'] bg-[#F8F4EA] hover:bg-[#E9E1D0] text-[#2B2A26] border border-[#D9CBB0] cursor-pointer"
               >
                 Batal
               </button>
               <button
                 onClick={handlePinSubmit}
-                className="flex-1 py-3 rounded-full font-bold font-teks bg-[#0F7A5C] hover:bg-[#128F6C] text-[#FFFDF7] shadow-md"
+                className="flex-1 py-3 rounded-full font-bold font-['Montserrat'] bg-[#0E4D34] hover:bg-[#155E40] text-[#FFFDF6] shadow-md cursor-pointer"
               >
                 Masuk
               </button>
@@ -355,8 +362,6 @@ export const Beranda: React.FC<BerandaProps> = ({
           </div>
         </div>
       )}
-      </div>
-    </LatarParallax>
+    </TeksturMarmer>
   );
 };
-
