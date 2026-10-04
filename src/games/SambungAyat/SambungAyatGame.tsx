@@ -209,21 +209,21 @@ export const SambungAyatGame: React.FC<MiniGameProps> = ({
         {/* Big Arabic Text (Prompt) */}
         <div
           dir="rtl"
-          className="font-ayat text-[#2B2A26] text-3xl md:text-4xl text-center leading-[2.2] py-2"
+          className="font-ayat text-[#2B2A26] text-3xl md:text-4xl lg:text-[38px] text-center leading-[2.4] py-4 px-2"
         >
           {currentQ.promptAyat.arab}
         </div>
 
         {/* Latin & Translation */}
         {(shouldDisplayLatin || shouldDisplayTerjemah) && (
-          <div className="mt-3 pt-3 border-t border-[#E9E1D0] flex flex-col gap-1 text-center font-['Montserrat']">
+          <div className="mt-4 pt-3 border-t border-[#E9E1D0] flex flex-col gap-1.5 text-center font-['Montserrat']">
             {shouldDisplayLatin && (
               <p className="text-sm md:text-base font-bold text-[#1B6B47] italic">
                 {currentQ.promptAyat.latin}
               </p>
             )}
             {shouldDisplayTerjemah && (
-              <p className="text-xs md:text-sm text-[#2B2A26]/80 font-medium">
+              <p className="text-xs md:text-sm text-[#2B2A26]/80 font-medium leading-relaxed">
                 "{cleanQuotes(currentQ.promptAyat.terjemah)}"
               </p>
             )}
@@ -272,8 +272,8 @@ export const SambungAyatGame: React.FC<MiniGameProps> = ({
               key={idx}
               onClick={() => handleSelectChoice(idx)}
               className={`
-                btn-kafilah relative flex flex-col justify-between p-5 md:p-6 rounded-[28px] border-2 min-h-[220px]
-                transition-all duration-150 cursor-pointer select-none
+                btn-kafilah relative flex flex-col justify-between p-6 md:p-7 rounded-[28px] border-2 min-h-[250px] h-auto gap-4
+                transition-all duration-150 cursor-pointer select-none overflow-visible
                 ${cardStyle}
               `}
             >
@@ -320,7 +320,7 @@ export const SambungAyatGame: React.FC<MiniGameProps> = ({
               {/* Arabic Choice Text */}
               <div
                 dir="rtl"
-                className={`font-ayat text-2xl md:text-3xl text-center leading-[2] py-2 flex-1 flex items-center justify-center ${
+                className={`font-ayat text-2xl md:text-3xl text-center leading-[2.35] py-3 px-2 flex-1 flex items-center justify-center ${
                   isSolidActive ? 'text-[#FFFDF6]' : 'text-[#2B2A26]'
                 }`}
               >
@@ -330,13 +330,13 @@ export const SambungAyatGame: React.FC<MiniGameProps> = ({
               {/* Latin & Translation */}
               {(shouldDisplayLatin || shouldDisplayTerjemah) && (
                 <div
-                  className={`mt-2 pt-2 border-t flex flex-col gap-1 text-center font-['Montserrat'] ${
+                  className={`mt-3 pt-3 border-t flex flex-col gap-1.5 text-center font-['Montserrat'] ${
                     isSolidActive ? 'border-[#3A9D6A]/50' : 'border-[#E9E1D0]'
                   }`}
                 >
                   {shouldDisplayLatin && (
                     <p
-                      className={`text-xs font-bold italic leading-snug ${
+                      className={`text-xs md:text-sm font-bold italic leading-snug ${
                         isSolidActive ? 'text-[#F3D88A]' : 'text-[#1B6B47]'
                       }`}
                     >
@@ -345,8 +345,8 @@ export const SambungAyatGame: React.FC<MiniGameProps> = ({
                   )}
                   {shouldDisplayTerjemah && (
                     <p
-                      className={`text-[11px] leading-relaxed font-medium ${
-                        isSolidActive ? 'text-[#FFFDF6]/90' : 'text-[#2B2A26]/75'
+                      className={`text-xs md:text-[13px] leading-relaxed font-medium ${
+                        isSolidActive ? 'text-[#FFFDF6]/90' : 'text-[#2B2A26]/80'
                       }`}
                     >
                       "{cleanQuotes(choice.terjemah)}"

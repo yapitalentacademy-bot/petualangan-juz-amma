@@ -115,19 +115,19 @@ export const KartuAyat: React.FC<KartuAyatProps> = ({
       {/* Teks Ayat Al-Qur'an (RTL, Harakat Jelas, Warna Murni) */}
       <div
         dir="rtl"
-        className={`font-ayat text-3xl md:text-4xl lg:text-5xl tracking-wide leading-[2.1] py-3 text-right ${
+        className={`font-ayat text-3xl md:text-4xl lg:text-5xl tracking-normal leading-[2.4] py-3 text-right ${
           isSolidActive ? 'text-[#FFFDF6]' : 'text-[#2B2A26]'
         }`}
       >
-        {ayat.kata && ayat.kata.length > 0 ? (
-          <div className="flex flex-wrap gap-x-3 gap-y-2 justify-start items-center">
+        {highlightWords.length > 0 && ayat.kata && ayat.kata.length > 0 ? (
+          <div className="flex flex-wrap gap-x-3 gap-y-2 justify-start items-center leading-[2.4]">
             {ayat.kata.map((word, idx) => {
               const isHighlighted = highlightWords.includes(idx);
               return (
                 <span
                   key={idx}
                   className={`
-                    px-2 py-0.5 rounded-lg transition-colors
+                    px-2.5 py-1 rounded-xl transition-colors inline-block
                     ${
                       isHighlighted
                         ? isSolidActive
@@ -143,7 +143,7 @@ export const KartuAyat: React.FC<KartuAyatProps> = ({
             })}
           </div>
         ) : (
-          <p>{ayat.arab}</p>
+          <p className="leading-[2.4]">{ayat.arab}</p>
         )}
       </div>
 

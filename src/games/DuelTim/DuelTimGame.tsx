@@ -356,7 +356,7 @@ export const DuelTimGame: React.FC<MiniGameProps> = ({
 
             <div
               dir="rtl"
-              className="font-ayat text-[#2B2A26] text-3xl md:text-4xl text-right leading-loose py-1"
+              className="font-ayat text-[#2B2A26] text-3xl md:text-4xl text-right leading-[2.4] py-3"
             >
               {currentQ.promptAyat.arab}
             </div>
@@ -364,7 +364,7 @@ export const DuelTimGame: React.FC<MiniGameProps> = ({
             {(showLatin || showTerjemah) && (
               <div className="mt-2 pt-2 border-t border-[#E9E1D0]">
                 {showLatin && (
-                  <p className="text-sm font-bold text-[#1B6B47] italic truncate">
+                  <p className="text-sm font-bold text-[#1B6B47] italic">
                     {currentQ.promptAyat.latin}
                   </p>
                 )}
@@ -392,7 +392,7 @@ export const DuelTimGame: React.FC<MiniGameProps> = ({
                   key={idx}
                   onClick={() => handleSelectChoice(idx)}
                   className={`
-                    p-4 rounded-[22px] border-2 flex flex-col justify-between min-h-[110px]
+                    p-4 md:p-5 rounded-[22px] border-2 flex flex-col justify-between min-h-[130px] h-auto gap-2
                     transition-all select-none cursor-pointer shadow-sm
                     ${style}
                     ${!activeBuzzerTeam ? 'opacity-70 cursor-not-allowed' : ''}
@@ -404,7 +404,7 @@ export const DuelTimGame: React.FC<MiniGameProps> = ({
 
                   <div
                     dir="rtl"
-                    className="font-ayat text-xl md:text-2xl text-right leading-relaxed"
+                    className="font-ayat text-xl md:text-2xl text-right leading-[2.35] py-2"
                   >
                     {choice.arab}
                   </div>

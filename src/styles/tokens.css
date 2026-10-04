@@ -27,10 +27,10 @@
 
   /* --- TIPOGRAFI EMPAT PERAN --- */
   /* 1. Ayat Al-Qur'an (RTL, Harakat Jelas, Mushaf Uthmani) */
-  --font-ayat: 'Scheherazade New', 'Amiri', 'Traditional Arabic', serif;
+  --font-ayat: 'Amiri', 'Noto Naskh Arabic', 'Scheherazade New', 'Traditional Arabic', serif;
   
   /* 2. Nama Surah & Hiasan Arab */
-  --font-arab-hiasan: 'Amiri', 'Reem Kufi', serif;
+  --font-arab-hiasan: 'Amiri', 'Reem Kufi', 'Noto Naskh Arabic', serif;
   
   /* 3. Judul Layar & Angka Besar (Marcellus Serif Elegan) */
   --font-judul: 'Marcellus', Georgia, serif;
