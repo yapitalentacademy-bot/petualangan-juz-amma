@@ -83,7 +83,7 @@ export const TebakSurahGame: React.FC<MiniGameProps> = ({
 
   const handleNextQuestion = () => {
     setSelectedChoiceIdx(null);
-    setAnsweredState('none');
+    setAnsweredState('idle');
     if (currentIndex + 1 < questions.length) {
       setCurrentIndex((prev) => prev + 1);
     } else {
