@@ -96,8 +96,17 @@ export const KartuKembarGame: React.FC<MiniGameProps> = ({
           }
         }, 800);
       } else {
-        // NO MATCH
+        // NO MATCH -> Kurangi poin
         sfx.playWrong();
+        if (isTeamMode) {
+          setTeamScores((prev) => ({
+            ...prev,
+            [currentTurnTeam]: Math.max(0, prev[currentTurnTeam] - 5),
+          }));
+        } else {
+          setScoreSolo((prev) => Math.max(0, prev - 5));
+        }
+
         setTimeout(() => {
           setFlippedCardIds([]);
           if (isTeamMode) {

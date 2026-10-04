@@ -101,12 +101,16 @@ export const SusunAyatGame: React.FC<MiniGameProps> = ({
           handleNextQuestion();
         }, 2500);
       } else {
-        // Full but Incorrect
+        // Full but Incorrect -> Kurangi poin dan lanjut soal berikutnya
         sfx.playWrong();
-        if (isFirstTry) {
-          setWrongCount((prev) => prev + 1);
-          setIsFirstTry(false);
-        }
+        setWrongCount((prev) => prev + 1);
+        setScore((prev) => Math.max(0, prev - 5));
+
+        isAdvancing.current = true;
+        setTimeout(() => {
+          isAdvancing.current = false;
+          handleNextQuestion();
+        }, 1500);
       }
     }
   };

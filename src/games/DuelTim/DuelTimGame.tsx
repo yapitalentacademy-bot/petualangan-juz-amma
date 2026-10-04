@@ -147,10 +147,15 @@ export const DuelTimGame: React.FC<MiniGameProps> = ({
       setTimeout(() => {
         isHandlingAnswer.current = false;
         handleNextQuestion();
-      }, 2500);
     } else {
       sfx.playWrong();
       const currentTeam = activeBuzzerTeam;
+      if (currentTeam === 'A') {
+        setScoreA((prev) => Math.max(0, prev - 5));
+      } else {
+        setScoreB((prev) => Math.max(0, prev - 5));
+      }
+
       const otherTeam = currentTeam === 'A' ? 'B' : 'A';
       const newLocked = { ...lockedTeams, [currentTeam]: true };
       setLockedTeams(newLocked);
@@ -166,12 +171,16 @@ export const DuelTimGame: React.FC<MiniGameProps> = ({
         setTimeout(() => {
           isHandlingAnswer.current = false;
           handleNextQuestion();
-        }, 2500);
+        }, 1800);
       }
     }
   };
 
   const handleNextQuestion = () => {
+    setSelectedChoiceIdx(null);
+    setIsAnswerRevealed(false);
+    setActiveBuzzerTeam(null);
+    setLockedTeams({ A: false, B: false });
     if (currentIndex + 1 < questions.length) {
       if (isTurnBasedFallback) {
         setTurnTeam((prev) => (prev === 'A' ? 'B' : 'A'));

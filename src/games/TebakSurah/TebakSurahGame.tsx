@@ -60,28 +60,32 @@ export const TebakSurahGame: React.FC<MiniGameProps> = ({
     if (chosen.isCorrect) {
       sfx.playCorrect();
       setAnsweredState('correct');
-      const scoreDelta = isFirstTry ? 15 : 10;
+      const scoreDelta = 15;
       setScore((prev) => prev + scoreDelta);
-      if (isFirstTry) {
-        setCorrectCount((prev) => prev + 1);
-      }
+      setCorrectCount((prev) => prev + 1);
 
       isTransitioning.current = true;
       setTimeout(() => {
         isTransitioning.current = false;
         handleNextQuestion();
-      }, 2000);
+      }, 1800);
     } else {
       sfx.playWrong();
       setAnsweredState('wrong');
-      if (isFirstTry) {
-        setWrongCount((prev) => prev + 1);
-        setIsFirstTry(false);
-      }
+      setWrongCount((prev) => prev + 1);
+      setScore((prev) => Math.max(0, prev - 5));
+
+      isTransitioning.current = true;
+      setTimeout(() => {
+        isTransitioning.current = false;
+        handleNextQuestion();
+      }, 1500);
     }
   };
 
   const handleNextQuestion = () => {
+    setSelectedChoiceIdx(null);
+    setAnsweredState('none');
     if (currentIndex + 1 < questions.length) {
       setCurrentIndex((prev) => prev + 1);
     } else {

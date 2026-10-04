@@ -74,11 +74,9 @@ export const SambungAyatGame: React.FC<MiniGameProps> = ({
       sfx.playCorrect();
       setAnsweredState('correct');
       setNurMessage('Masya Allah, jawabanmu tepat sekali!');
-      const scoreDelta = isFirstTry ? 15 : 10;
+      const scoreDelta = 15;
       setScore((prev) => prev + scoreDelta);
-      if (isFirstTry) {
-        setCorrectCount((prev) => prev + 1);
-      }
+      setCorrectCount((prev) => prev + 1);
 
       quranAudio.playAyat(chosen.surahId, chosen.nomor);
 
@@ -86,19 +84,25 @@ export const SambungAyatGame: React.FC<MiniGameProps> = ({
       setTimeout(() => {
         isTransitioning.current = false;
         handleNextQuestion();
-      }, 2500);
+      }, 2000);
     } else {
       sfx.playWrong();
       setAnsweredState('wrong');
-      setNurMessage('Belum tepat, coba dengarkan dan perhatikan lagi ya!');
-      if (isFirstTry) {
-        setWrongCount((prev) => prev + 1);
-        setIsFirstTry(false);
-      }
+      setNurMessage('Kurang tepat! Perhatikan jawaban yang benar ya, lanjut ke soal berikutnya.');
+      setWrongCount((prev) => prev + 1);
+      setScore((prev) => Math.max(0, prev - 5));
+
+      isTransitioning.current = true;
+      setTimeout(() => {
+        isTransitioning.current = false;
+        handleNextQuestion();
+      }, 1600);
     }
   };
 
   const handleNextQuestion = () => {
+    setSelectedChoiceIdx(null);
+    setAnsweredState('none');
     if (currentIndex + 1 < questions.length) {
       setCurrentIndex((prev) => prev + 1);
     } else {
@@ -305,14 +309,21 @@ export const SambungAyatGame: React.FC<MiniGameProps> = ({
                 {isSelected && answeredState === 'correct' && (
                   <div className="flex items-center gap-1.5 text-[#F3D88A] font-black text-xs font-['Montserrat']">
                     <Check className="w-4 h-4 stroke-[3]" />
-                    <span>Benar! (+{isFirstTry ? '15' : '10'})</span>
+                    <span>Benar (+15)</span>
                   </div>
                 )}
 
                 {isSelected && answeredState === 'wrong' && (
                   <div className="flex items-center gap-1.5 text-[#C0603A] font-black text-xs font-['Montserrat']">
-                    <RotateCcw className="w-4 h-4 stroke-[3]" />
-                    <span>Perlu Diulang</span>
+                    <X className="w-4 h-4 stroke-[3]" />
+                    <span>Kurang Tepat (-5)</span>
+                  </div>
+                )}
+
+                {!isSelected && answeredState === 'wrong' && isCorrect && (
+                  <div className="flex items-center gap-1.5 text-[#F3D88A] font-black text-xs font-['Montserrat']">
+                    <Check className="w-4 h-4 stroke-[3]" />
+                    <span>Kunci Jawaban</span>
                   </div>
                 )}
               </div>
@@ -321,7 +332,7 @@ export const SambungAyatGame: React.FC<MiniGameProps> = ({
               <div
                 dir="rtl"
                 className={`font-ayat text-2xl md:text-3xl text-center leading-[2.35] py-3 px-2 flex-1 flex items-center justify-center ${
-                  isSolidActive ? 'text-[#FFFDF6]' : 'text-[#2B2A26]'
+                  isSolidActive ? '!text-[#FFFDF6]' : isSelected && answeredState === 'wrong' ? '!text-[#C0603A]' : '!text-[#2B2A26]'
                 }`}
               >
                 {choice.arab}

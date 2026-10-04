@@ -72,21 +72,50 @@ export const PemburuTajwidGame: React.FC<PemburuTajwidGameProps> = ({
     const isCorrect = activeTarget.correctWordIndices.includes(wordIdx);
 
     if (!isCorrect) {
-      // JAWABAN SALAH (Kata ini tidak mengandung hukum tajwid target)
+      // JAWABAN SALAH -> Kurangi skor dan lanjut ke target berikutnya
       sfx.playWrong();
       setStreak(0);
       setWrongIndices((prev) => [...prev, wordIdx]);
+      setScore((prev) => Math.max(0, prev - 5));
 
-      // Hapus efek salah setelah 1.2 detik agar siswa bisa mencoba lagi
-      setTimeout(() => {
-        setWrongIndices((prev) => prev.filter((i) => i !== wordIdx));
-      }, 1200);
+      const correctIdx = activeTarget.correctWordIndices[0] ?? 0;
+      const correctWord = activeTarget.kataAyat[correctIdx] || '';
 
       setFeedback({
         type: 'wrong',
-        message: `Kata "${word}" belum tepat!`,
-        ruleLabel: `Cari kata yang mengandung hukum ${activeTarget.label} (${activeTarget.ruleInfo.penjelasan})`,
+        message: `Kata "${word}" belum tepat! Jawaban benar: "${correctWord}".`,
+        ruleLabel: `Hukum ${activeTarget.label} (${activeTarget.ruleInfo.penjelasan})`,
       });
+
+      // Tampilkan kata kunci yang benar sesaat lalu lanjut ke target berikutnya
+      setFoundIndices([correctIdx]);
+
+      setTimeout(() => {
+        if (currentRound + 1 < targets.length) {
+          setCurrentRound((prev) => prev + 1);
+          setFoundIndices([]);
+          setWrongIndices([]);
+          setFeedback({ type: null, message: '' });
+        } else {
+          // Selesai seluruh target tajwid
+          setIsCompleted(true);
+          const finalScore = score;
+          let stars: 1 | 2 | 3 = 1;
+          if (finalScore >= targets.length * 20) stars = 3;
+          else if (finalScore >= targets.length * 10) stars = 2;
+
+          sfx.playStar();
+          onFinish({
+            skor: finalScore,
+            maxSkor: targets.length * 35,
+            stars,
+            akurasi: Math.min(100, Math.max(20, Math.round((finalScore / (targets.length * 25)) * 100))),
+            totalSoal: targets.length,
+            benar: Math.max(0, Math.floor(finalScore / 25)),
+            salah: targets.length - Math.max(0, Math.floor(finalScore / 25)),
+          });
+        }
+      }, 1600);
       return;
     }
 
@@ -116,15 +145,15 @@ export const PemburuTajwidGame: React.FC<PemburuTajwidGameProps> = ({
         setIsCompleted(true);
         const finalScore = score + addPts;
         let stars: 1 | 2 | 3 = 1;
-        if (finalScore >= targets.length * 25) stars = 3;
-        else if (finalScore >= targets.length * 15) stars = 2;
+        if (finalScore >= targets.length * 20) stars = 3;
+        else if (finalScore >= targets.length * 10) stars = 2;
 
         sfx.playStar();
         onFinish({
           skor: finalScore,
           maxSkor: targets.length * 35,
           stars,
-          akurasi: 100,
+          akurasi: Math.min(100, Math.max(50, Math.round((finalScore / (targets.length * 25)) * 100))),
           totalSoal: targets.length,
           benar: targets.length,
           salah: 0,
