@@ -136,38 +136,40 @@ export function generateSambungAyatQuestions(
       isCorrect: true,
     };
 
-    const distractors: typeof correctAnswer[] = [];
-    surah.ayat.forEach((a) => {
-      if (a.nomor !== nextAyatData.nomor && a.nomor !== promptAyatData.nomor) {
-        distractors.push({
-          surahId: surah.id,
-          nomor: a.nomor,
-          arab: a.arab,
-          latin: a.latin,
-          terjemah: a.terjemah,
-          audio: a.audio,
-          isCorrect: false,
-        });
-      }
-    });
+    // 1. Ambil ayat-ayat lain dari surah yang sama (selain ayat target & prompt) dan ACAK
+    const sameSurahDistractors = surah.ayat
+      .filter((a) => a.nomor !== nextAyatData.nomor && a.nomor !== promptAyatData.nomor)
+      .map((a) => ({
+        surahId: surah.id,
+        nomor: a.nomor,
+        arab: a.arab,
+        latin: a.latin,
+        terjemah: a.terjemah,
+        audio: a.audio,
+        isCorrect: false,
+      }))
+      .sort(() => 0.5 - Math.random());
 
-    if (distractors.length < numChoices - 1) {
-      const shuffledOthers = [...allOtherAyats]
-        .filter((a) => a.surahId !== surah.id || a.nomor !== nextAyatData.nomor)
-        .sort(() => 0.5 - Math.random());
+    // 2. Ambil ayat-ayat dari surah lain di Juz 30 dan ACAK
+    const otherSurahDistractors = allOtherAyats
+      .filter((a) => a.surahId !== surah.id)
+      .map((a) => ({
+        ...a,
+        isCorrect: false,
+      }))
+      .sort(() => 0.5 - Math.random());
 
-      for (const item of shuffledOthers) {
-        if (distractors.length >= numChoices - 1) break;
-        if (!distractors.some((d) => d.surahId === item.surahId && d.nomor === item.nomor)) {
-          distractors.push({
-            ...item,
-            isCorrect: false,
-          });
-        }
+    // 3. Gabungkan dan ACAK seluruh kandidat pengecoh agar bervariasi di tiap soal
+    const candidatePool = [...sameSurahDistractors, ...otherSurahDistractors].sort(() => 0.5 - Math.random());
+
+    const finalDistractors: typeof correctAnswer[] = [];
+    for (const d of candidatePool) {
+      if (finalDistractors.length >= numChoices - 1) break;
+      if (!finalDistractors.some((fd) => fd.surahId === d.surahId && fd.nomor === d.nomor)) {
+        finalDistractors.push(d);
       }
     }
 
-    const finalDistractors = distractors.slice(0, numChoices - 1);
     const pilihanAyat = [correctAnswer, ...finalDistractors].sort(() => 0.5 - Math.random());
 
     questions.push({

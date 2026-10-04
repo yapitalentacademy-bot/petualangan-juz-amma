@@ -147,6 +147,7 @@ export const DuelTimGame: React.FC<MiniGameProps> = ({
       setTimeout(() => {
         isHandlingAnswer.current = false;
         handleNextQuestion();
+      }, 2000);
     } else {
       sfx.playWrong();
       const currentTeam = activeBuzzerTeam;

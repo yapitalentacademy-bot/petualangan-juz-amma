@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { MiniGameProps, SambungAyatQuestion } from '../../types/game';
 import { generateSambungAyatQuestions, calculateStars } from '../../lib/gameLogic';
 import { quranAudio, sfx } from '../../lib/audioPlayer';
-import { Check, RotateCcw, ArrowRight, HelpCircle, ArrowLeft } from 'lucide-react';
+import { Check, RotateCcw, ArrowRight, HelpCircle, ArrowLeft, X } from 'lucide-react';
 import { TombolBesar } from '../../components/TombolBesar';
 import { JalurProgres } from '../../components/JalurProgres';
 import { GelembungNur } from '../../components/GelembungNur';
@@ -20,7 +20,6 @@ export const SambungAyatGame: React.FC<MiniGameProps> = ({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedChoiceIdx, setSelectedChoiceIdx] = useState<number | null>(null);
   const [answeredState, setAnsweredState] = useState<'idle' | 'correct' | 'wrong'>('idle');
-  const [isFirstTry, setIsFirstTry] = useState(true);
   const [score, setScore] = useState(0);
   const [correctCount, setCorrectCount] = useState(0);
   const [wrongCount, setWrongCount] = useState(0);
@@ -37,7 +36,6 @@ export const SambungAyatGame: React.FC<MiniGameProps> = ({
     setCorrectCount(0);
     setWrongCount(0);
     setAnsweredState('idle');
-    setIsFirstTry(true);
     setSelectedChoiceIdx(null);
     setNurMessage('Dengarkan lantunan ayat, lalu pilih sambungan berikutnya!');
   }, [surahId, level]);
@@ -48,7 +46,6 @@ export const SambungAyatGame: React.FC<MiniGameProps> = ({
     if (currentQ) {
       setSelectedChoiceIdx(null);
       setAnsweredState('idle');
-      setIsFirstTry(true);
       setShowHint(false);
       setNurMessage(`Mari dengarkan ayat ke-${currentQ.promptAyat.nomor}, lalu pilih sambungannya!`);
 

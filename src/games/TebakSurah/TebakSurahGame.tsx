@@ -15,7 +15,6 @@ export const TebakSurahGame: React.FC<MiniGameProps> = ({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedChoiceIdx, setSelectedChoiceIdx] = useState<number | null>(null);
   const [answeredState, setAnsweredState] = useState<'idle' | 'correct' | 'wrong'>('idle');
-  const [isFirstTry, setIsFirstTry] = useState(true);
   const [score, setScore] = useState(0);
   const [correctCount, setCorrectCount] = useState(0);
   const [wrongCount, setWrongCount] = useState(0);
@@ -35,7 +34,6 @@ export const TebakSurahGame: React.FC<MiniGameProps> = ({
     if (currentQ) {
       setSelectedChoiceIdx(null);
       setAnsweredState('idle');
-      setIsFirstTry(true);
 
       // If opening verse audio is present, play it
       if (currentQ.audioAyat) {

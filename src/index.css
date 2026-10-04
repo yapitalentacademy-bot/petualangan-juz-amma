@@ -49,7 +49,7 @@
   letter-spacing: 0.01em;
   font-feature-settings: "cv01", "cv02", "liga" 1;
   text-rendering: optimizeLegibility;
-  color: var(--teks);
+  color: inherit;
   font-weight: 500;
 }
 
