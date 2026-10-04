@@ -18,7 +18,7 @@ export const SusunAyatGame: React.FC<MiniGameProps> = ({
   const [slots, setSlots] = useState<(string | null)[]>([]);
   const [availableWords, setAvailableWords] = useState<{ id: string; teks: string; urutanBenar: number }[]>([]);
   const [isAnswerCorrect, setIsAnswerCorrect] = useState(false);
-  const [isFirstTry, setIsFirstTry] = useState(true);
+  const [isAnswerWrong, setIsAnswerWrong] = useState(false);
   const [score, setScore] = useState(0);
   const [correctCount, setCorrectCount] = useState(0);
   const [wrongCount, setWrongCount] = useState(0);
@@ -45,7 +45,7 @@ export const SusunAyatGame: React.FC<MiniGameProps> = ({
       const shuffled = [...currentQ.potonganKata].sort(() => 0.5 - Math.random());
       setAvailableWords(shuffled);
       setIsAnswerCorrect(false);
-      setIsFirstTry(true);
+      setIsAnswerWrong(false);
       setShowHint(false);
 
       // Play ayat audio at start as a friendly helper
@@ -103,6 +103,7 @@ export const SusunAyatGame: React.FC<MiniGameProps> = ({
       } else {
         // Full but Incorrect -> Kurangi poin dan lanjut soal berikutnya
         sfx.playWrong();
+        setIsAnswerWrong(true);
         setWrongCount((prev) => prev + 1);
         setScore((prev) => Math.max(0, prev - 5));
 
@@ -271,7 +272,13 @@ export const SusunAyatGame: React.FC<MiniGameProps> = ({
           {isAnswerCorrect && (
             <div className="flex items-center gap-2 text-emerald-300 font-black text-2xl animate-bounce">
               <CheckCircle2 className="w-8 h-8 fill-emerald-400 text-slate-950" />
-              <span>Susunan Ayat Sempurna! (+{isFirstTry ? '15' : '10'})</span>
+              <span>Susunan Ayat Sempurna! (+15)</span>
+            </div>
+          )}
+          {isAnswerWrong && (
+            <div className="flex items-center gap-2 text-rose-300 font-black text-2xl animate-shake">
+              <XCircle className="w-8 h-8 fill-rose-500 text-slate-950" />
+              <span>Susunan Kurang Tepat (-5)</span>
             </div>
           )}
         </div>
@@ -296,6 +303,8 @@ export const SusunAyatGame: React.FC<MiniGameProps> = ({
                     isFilled
                       ? isAnswerCorrect
                         ? 'bg-emerald-600/90 text-white border-emerald-300 shadow-md ring-2 ring-emerald-300'
+                        : isAnswerWrong
+                        ? 'bg-rose-950 text-rose-300 border-rose-500 shadow-md ring-2 ring-rose-500 animate-shake'
                         : 'bg-amber-950 text-amber-100 border-amber-500 shadow-lg hover:border-amber-300'
                       : 'bg-stone-950/80 border-dashed border-stone-700 text-stone-600'
                   }
