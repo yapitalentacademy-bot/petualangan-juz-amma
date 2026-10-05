@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "test": "vitest run"
+    "test": "vitest run",
+    "import:quran": "node scripts/import-quran-data.js",
+    "verify:quran": "node scripts/verify-quran-text.js"
   },
   "dependencies": {
     "canvas-confetti": "^1.9.4",
