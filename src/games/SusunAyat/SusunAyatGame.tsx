@@ -50,13 +50,8 @@ export const SusunAyatGame: React.FC<MiniGameProps> = ({
       setIsFirstTry(true);
       setShowHint(false);
 
-      // Play ayat audio at start as a friendly helper
-      const timer = setTimeout(() => {
-        quranAudio.playAyat(currentQ.surahId, currentQ.nomorAyat);
-      }, 300);
-
+      quranAudio.stop();
       return () => {
-        clearTimeout(timer);
         quranAudio.stop();
       };
     }

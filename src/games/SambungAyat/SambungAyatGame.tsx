@@ -49,12 +49,8 @@ export const SambungAyatGame: React.FC<MiniGameProps> = ({
       setShowHint(false);
       setNurMessage(`Mari dengarkan ayat ke-${currentQ.promptAyat.nomor}, lalu pilih sambungannya!`);
 
-      const timer = setTimeout(() => {
-        quranAudio.playAyat(currentQ.promptAyat.surahId, currentQ.promptAyat.nomor);
-      }, 300);
-
+      quranAudio.stop();
       return () => {
-        clearTimeout(timer);
         quranAudio.stop();
       };
     }

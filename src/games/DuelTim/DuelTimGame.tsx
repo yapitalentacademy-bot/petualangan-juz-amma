@@ -70,12 +70,8 @@ export const DuelTimGame: React.FC<MiniGameProps> = ({
         setIsTimerRunning(true);
       }
 
-      const timer = setTimeout(() => {
-        quranAudio.playAyat(currentQ.promptAyat.surahId, currentQ.promptAyat.nomor);
-      }, 300);
-
+      quranAudio.stop();
       return () => {
-        clearTimeout(timer);
         quranAudio.stop();
       };
     }

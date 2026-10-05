@@ -32,19 +32,10 @@ export const TebakSurahGame: React.FC<MiniGameProps> = ({
 
   useEffect(() => {
     if (currentQ) {
-      setSelectedChoiceIdx(null);
-      setAnsweredState('idle');
-
-      // If opening verse audio is present, play it
-      if (currentQ.audioAyat) {
-        const timer = setTimeout(() => {
-          quranAudio.playAyat(currentQ.audioAyat!.surahId, currentQ.audioAyat!.ayatNomor);
-        }, 300);
-        return () => {
-          clearTimeout(timer);
-          quranAudio.stop();
-        };
-      }
+      quranAudio.stop();
+      return () => {
+        quranAudio.stop();
+      };
     }
   }, [currentIndex, currentQ?.id]);
 
