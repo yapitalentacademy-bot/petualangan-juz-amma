@@ -162,13 +162,13 @@ export const TebakSurahGame: React.FC<MiniGameProps> = ({
       </div>
 
       {/* Clue Prompt Card */}
-      <div className="glass-panel p-8 md:p-12 rounded-3xl border-3 border-amber-500/60 shadow-xl text-center">
-        <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-amber-950 border border-amber-500/50 text-amber-300 font-bold text-lg mb-6">
-          <HelpCircle className="w-5 h-5" />
+      <div className="bg-stone-900/95 p-8 md:p-12 rounded-3xl border-3 border-amber-500/80 shadow-2xl text-center">
+        <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-amber-950 border border-amber-500/50 text-amber-300 font-bold text-lg mb-6 shadow-sm">
+          <HelpCircle className="w-5 h-5 text-amber-400" />
           <span>{variantLabels[currentQ.varian]}</span>
         </div>
 
-        <h3 className="text-3xl md:text-4xl font-extrabold text-white leading-relaxed mb-4">
+        <h3 className="text-3xl md:text-4xl font-extrabold text-amber-100 leading-relaxed mb-4 drop-shadow">
           {currentQ.petunjuk}
         </h3>
 
@@ -228,10 +228,7 @@ export const TebakSurahGame: React.FC<MiniGameProps> = ({
                   {String.fromCharCode(65 + idx)}
                 </span>
                 <div className="flex flex-col text-left">
-                  <span className="text-3xl font-black text-white font-display">
-                    Surah {choice.namaLatin}
-                  </span>
-                  <span className="text-lg text-emerald-300 font-bold">
+                  <span className="text-2xl md:text-3xl font-black text-amber-100 font-display">
                     "{choice.arti}"
                   </span>
                 </div>

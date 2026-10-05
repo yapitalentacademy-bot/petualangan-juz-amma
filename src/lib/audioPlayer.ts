@@ -195,6 +195,7 @@ class QuranAudioManager {
   private isPlayingState = false;
   private listeners: ((isPlaying: boolean, ayatKey: string | null) => void)[] = [];
   private qari = 'misyari'; // default qari
+  private surahSequence: { surahNumber: number; totalAyat: number; currentAyat: number } | null = null;
 
   public setQari(qariName: string) {
     this.qari = qariName;
@@ -202,6 +203,10 @@ class QuranAudioManager {
 
   public getQari() {
     return this.qari;
+  }
+
+  public getSurahSequence() {
+    return this.surahSequence;
   }
 
   public subscribe(callback: (isPlaying: boolean, ayatKey: string | null) => void) {
@@ -216,6 +221,7 @@ class QuranAudioManager {
   }
 
   public stop() {
+    this.surahSequence = null;
     if (this.currentHowl) {
       this.currentHowl.stop();
       this.currentHowl.unload();
@@ -226,24 +232,40 @@ class QuranAudioManager {
     this.notify();
   }
 
+  private getCdnUrlForQari(key: string): string {
+    switch (this.qari) {
+      case 'abdulbasit':
+        return `https://everyayah.com/data/Abdul_Basit_Murattal_192kbps/${key}.mp3`;
+      case 'sudais':
+        return `https://everyayah.com/data/Abdurrahmaan_As-Sudais_192kbps/${key}.mp3`;
+      case 'ghamadi':
+        return `https://everyayah.com/data/Ghamadi_40kbps/${key}.mp3`;
+      case 'misyari':
+      default:
+        return `https://everyayah.com/data/Alafasy_128kbps/${key}.mp3`;
+    }
+  }
+
   public playAyat(surahNumber: number, ayatNumber: number, onEnd?: () => void) {
-    this.stop();
+    if (this.currentHowl) {
+      this.currentHowl.stop();
+      this.currentHowl.unload();
+      this.currentHowl = null;
+    }
 
     const surahStr = String(surahNumber).padStart(3, '0');
     const ayatStr = String(ayatNumber).padStart(3, '0');
     const key = `${surahStr}${ayatStr}`;
     this.currentAyatKey = key;
 
-    // Fallback URL pattern: try local /audio/{qari}/{surahStr}{ayatStr}.mp3,
-    // fallback to online Quran audio CDN (EveryAyah Mishary Rashid Alafasy 128kbps) for reliable development & demo
+    const cdnUrl = this.getCdnUrlForQari(key);
     const localUrl = `/audio/${this.qari}/${key}.mp3`;
-    const cdnUrl = `https://everyayah.com/data/Alafasy_128kbps/${key}.mp3`;
 
     this.isPlayingState = true;
     this.notify();
 
     this.currentHowl = new Howl({
-      src: [localUrl, cdnUrl],
+      src: [cdnUrl, localUrl],
       html5: true,
       onend: () => {
         this.isPlayingState = false;
@@ -252,7 +274,6 @@ class QuranAudioManager {
         if (onEnd) onEnd();
       },
       onloaderror: () => {
-        // Fallback or finish gracefully
         this.isPlayingState = false;
         this.currentAyatKey = null;
         this.notify();
@@ -265,6 +286,39 @@ class QuranAudioManager {
     });
 
     this.currentHowl.play();
+  }
+
+  public playSurah(
+    surahNumber: number,
+    totalAyat: number,
+    startAyat = 1,
+    onAyatChange?: (currentAyat: number) => void,
+    onComplete?: () => void
+  ) {
+    this.stop();
+    let current = startAyat;
+
+    const playNext = () => {
+      if (current > totalAyat) {
+        this.stop();
+        if (onComplete) onComplete();
+        return;
+      }
+
+      this.surahSequence = { surahNumber, totalAyat, currentAyat: current };
+      if (onAyatChange) onAyatChange(current);
+
+      this.playAyat(surahNumber, current, () => {
+        current += 1;
+        playNext();
+      });
+    };
+
+    playNext();
+  }
+
+  public getCurrentAyatKey() {
+    return this.currentAyatKey;
   }
 
   public isPlaying(surahNumber?: number, ayatNumber?: number): boolean {

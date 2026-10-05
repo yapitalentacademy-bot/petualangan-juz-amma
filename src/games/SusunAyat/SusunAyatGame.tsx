@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { MiniGameProps, SusunAyatQuestion } from '../../types/game';
 import { generateSusunAyatQuestions, checkSusunAyatAnswer, calculateStars } from '../../lib/gameLogic';
 import { quranAudio, sfx } from '../../lib/audioPlayer';
-import { Volume2, Sparkles, CheckCircle2, ArrowRight, HelpCircle, Undo2 } from 'lucide-react';
+import { Volume2, Sparkles, CheckCircle2, XCircle, ArrowRight, HelpCircle, Undo2 } from 'lucide-react';
 import { TombolBesar } from '../../components/TombolBesar';
 
 export const SusunAyatGame: React.FC<MiniGameProps> = ({
@@ -19,6 +19,7 @@ export const SusunAyatGame: React.FC<MiniGameProps> = ({
   const [availableWords, setAvailableWords] = useState<{ id: string; teks: string; urutanBenar: number }[]>([]);
   const [isAnswerCorrect, setIsAnswerCorrect] = useState(false);
   const [isAnswerWrong, setIsAnswerWrong] = useState(false);
+  const [isFirstTry, setIsFirstTry] = useState(true);
   const [score, setScore] = useState(0);
   const [correctCount, setCorrectCount] = useState(0);
   const [wrongCount, setWrongCount] = useState(0);
@@ -46,6 +47,7 @@ export const SusunAyatGame: React.FC<MiniGameProps> = ({
       setAvailableWords(shuffled);
       setIsAnswerCorrect(false);
       setIsAnswerWrong(false);
+      setIsFirstTry(true);
       setShowHint(false);
 
       // Play ayat audio at start as a friendly helper
@@ -104,6 +106,7 @@ export const SusunAyatGame: React.FC<MiniGameProps> = ({
         // Full but Incorrect -> Kurangi poin dan lanjut soal berikutnya
         sfx.playWrong();
         setIsAnswerWrong(true);
+        setIsFirstTry(false);
         setWrongCount((prev) => prev + 1);
         setScore((prev) => Math.max(0, prev - 5));
 
@@ -306,14 +309,14 @@ export const SusunAyatGame: React.FC<MiniGameProps> = ({
                         : isAnswerWrong
                         ? 'bg-rose-950 text-rose-300 border-rose-500 shadow-md ring-2 ring-rose-500 animate-shake'
                         : 'bg-amber-950 text-amber-100 border-amber-500 shadow-lg hover:border-amber-300'
-                      : 'bg-stone-950/80 border-dashed border-stone-700 text-stone-600'
+                      : 'bg-stone-950/90 border-dashed border-amber-500/40 text-amber-300/80'
                   }
                 `}
               >
                 {isFilled ? (
                   wordObj.teks
                 ) : (
-                  <span className="text-xl font-sans font-bold text-stone-700">
+                  <span className="text-xl font-sans font-black text-amber-400/90">
                     Slot {slotIdx + 1}
                   </span>
                 )}
@@ -331,7 +334,7 @@ export const SusunAyatGame: React.FC<MiniGameProps> = ({
               </p>
             )}
             {shouldDisplayTerjemah && (
-              <p className="text-tv-sub text-stone-300">
+              <p className="text-tv-sub font-semibold text-amber-100">
                 "{currentQ.terjemah}"
               </p>
             )}
@@ -340,13 +343,13 @@ export const SusunAyatGame: React.FC<MiniGameProps> = ({
       </div>
 
       {/* Word Bank Container (Potongan Kata Acak) */}
-      <div className="glass-panel p-8 rounded-3xl border-2 border-stone-700">
+      <div className="bg-stone-900/95 p-8 rounded-3xl border-2 border-stone-700 shadow-xl">
         <h4 className="text-2xl font-black text-amber-300 font-display mb-4">
           Pilih Potongan Kata Di Bawah Ini:
         </h4>
 
         {availableWords.length === 0 && !isAnswerCorrect && (
-          <p className="text-xl text-stone-400 font-medium py-4 text-center">
+          <p className="text-xl text-stone-300 font-medium py-4 text-center">
             Semua kata telah dimasukkan ke slot. Jika susunan belum benar, sentuh kata di slot untuk mengeluarkannya.
           </p>
         )}
@@ -359,7 +362,7 @@ export const SusunAyatGame: React.FC<MiniGameProps> = ({
             <button
               key={wordItem.id}
               onClick={() => handleSelectWord(wordItem)}
-              className="touch-btn font-quran text-3xl md:text-5xl px-8 py-5 rounded-3xl bg-gradient-to-b from-slate-800 via-slate-900 to-slate-950 hover:from-amber-900/90 hover:to-amber-950 text-amber-100 border-2 border-amber-400/80 border-b-[8px] border-b-amber-950 shadow-btn-gold active:border-b-[2px] active:translate-y-1.5 cursor-pointer transition-all duration-75"
+              className="touch-btn font-quran text-3xl md:text-5xl px-8 py-5 rounded-3xl bg-gradient-to-b from-slate-800 via-slate-900 to-slate-950 hover:from-amber-900/90 hover:to-amber-950 !text-amber-100 border-2 border-amber-400/80 border-b-[8px] border-b-amber-950 shadow-btn-gold active:border-b-[2px] active:translate-y-1.5 cursor-pointer transition-all duration-75"
             >
               {wordItem.teks}
             </button>

@@ -30,6 +30,7 @@ import {
   Grid,
   Search,
   Sparkles,
+  Square,
 } from 'lucide-react';
 import { quranAudio, sfx } from '../../src/lib/audioPlayer';
 
@@ -93,9 +94,26 @@ export const PosSurah: React.FC<PosSurahProps> = ({
     );
   }
 
+  const [isPlayingFullMurottal, setIsPlayingFullMurottal] = useState(false);
+
+  React.useEffect(() => {
+    const unsub = quranAudio.subscribe((isPlaying) => {
+      if (!isPlaying) {
+        setIsPlayingFullMurottal(false);
+      }
+    });
+    return () => unsub();
+  }, []);
+
   const handlePlayAll = () => {
-    if (surah.ayat.length > 0) {
-      quranAudio.playAyat(surah.id, 1);
+    if (isPlayingFullMurottal) {
+      quranAudio.stop();
+      setIsPlayingFullMurottal(false);
+    } else if (surah.ayat.length > 0) {
+      setIsPlayingFullMurottal(true);
+      quranAudio.playSurah(surah.id, surah.ayat.length, 1, undefined, () => {
+        setIsPlayingFullMurottal(false);
+      });
     }
   };
 
@@ -355,12 +373,12 @@ export const PosSurah: React.FC<PosSurahProps> = ({
                       </div>
 
                       <TombolBesar
-                        variant="emas"
+                        variant={isPlayingFullMurottal ? 'terakota' : 'emas'}
                         size="small"
-                        icon={<PlayCircle className="w-5 h-5 text-[#0E4D34]" />}
+                        icon={isPlayingFullMurottal ? <Square className="w-5 h-5 fill-current text-white animate-pulse" /> : <PlayCircle className="w-5 h-5 text-[#0E4D34]" />}
                         onClick={handlePlayAll}
                       >
-                        Putar Murottal Lengkap
+                        {isPlayingFullMurottal ? 'Hentikan Murottal' : 'Putar Murottal Lengkap'}
                       </TombolBesar>
                     </div>
                   </div>
