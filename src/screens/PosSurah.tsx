@@ -95,6 +95,7 @@ export const PosSurah: React.FC<PosSurahProps> = ({
   }
 
   const [isPlayingFullMurottal, setIsPlayingFullMurottal] = useState(false);
+  const [playbackSpeed, setPlaybackSpeed] = useState(1.0);
 
   React.useEffect(() => {
     const unsub = quranAudio.subscribe((isPlaying) => {
@@ -372,14 +373,35 @@ export const PosSurah: React.FC<PosSurahProps> = ({
                         </button>
                       </div>
 
-                      <TombolBesar
-                        variant={isPlayingFullMurottal ? 'terakota' : 'emas'}
-                        size="small"
-                        icon={isPlayingFullMurottal ? <Square className="w-5 h-5 fill-current text-white animate-pulse" /> : <PlayCircle className="w-5 h-5 text-[#0E4D34]" />}
-                        onClick={handlePlayAll}
-                      >
-                        {isPlayingFullMurottal ? 'Hentikan Murottal' : 'Putar Murottal Lengkap'}
-                      </TombolBesar>
+                      <div className="flex items-center gap-2">
+                        <TombolBesar
+                          variant={isPlayingFullMurottal ? 'terakota' : 'emas'}
+                          size="small"
+                          icon={isPlayingFullMurottal ? <Square className="w-5 h-5 fill-current text-white animate-pulse" /> : <PlayCircle className="w-5 h-5 text-[#0E4D34]" />}
+                          onClick={handlePlayAll}
+                        >
+                          {isPlayingFullMurottal ? 'Hentikan Murottal' : 'Putar Murottal Lengkap'}
+                        </TombolBesar>
+
+                        <div className="flex items-center gap-1 bg-[#F8F4EA] p-1.5 rounded-2xl border border-[#D9CBB0]">
+                          {[0.75, 1.0, 1.25].map((speed) => (
+                            <button
+                              key={speed}
+                              onClick={() => {
+                                setPlaybackSpeed(speed);
+                                quranAudio.setPlaybackRate(speed);
+                              }}
+                              className={`px-3 py-1 rounded-xl text-xs font-black transition-all cursor-pointer ${
+                                playbackSpeed === speed
+                                  ? 'bg-[#0E4D34] text-[#FFFDF6] shadow-sm'
+                                  : 'text-[#0E4D34] hover:bg-[#E9E1D0]'
+                              }`}
+                            >
+                              {speed}x
+                            </button>
+                          ))}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>

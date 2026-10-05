@@ -197,12 +197,25 @@ class QuranAudioManager {
   private qari = 'misyari'; // default qari
   private surahSequence: { surahNumber: number; totalAyat: number; currentAyat: number } | null = null;
 
+  private playbackRate = 1.0;
+
   public setQari(qariName: string) {
     this.qari = qariName;
   }
 
   public getQari() {
     return this.qari;
+  }
+
+  public setPlaybackRate(rate: number) {
+    this.playbackRate = rate;
+    if (this.currentHowl) {
+      this.currentHowl.rate(rate);
+    }
+  }
+
+  public getPlaybackRate() {
+    return this.playbackRate;
   }
 
   public getSurahSequence() {
@@ -267,6 +280,7 @@ class QuranAudioManager {
     this.currentHowl = new Howl({
       src: [cdnUrl, localUrl],
       html5: true,
+      rate: this.playbackRate,
       onend: () => {
         this.isPlayingState = false;
         this.currentAyatKey = null;
