@@ -32,7 +32,9 @@ import {
   Sparkles,
   Square,
 } from 'lucide-react';
+import { ModalPilihQari } from '../components/ModalPilihQari';
 import { quranAudio, sfx } from '../../src/lib/audioPlayer';
+import { UserCheck } from 'lucide-react';
 
 interface PosSurahProps {
   surahId: number;
@@ -77,6 +79,7 @@ export const PosSurah: React.FC<PosSurahProps> = ({
   const [activeGame, setActiveGame] = useState<ActiveGameType>('none');
   const [kartuKembarMode, setKartuKembarMode] = useState<'solo' | 'tim'>('solo');
   const [gameResult, setGameResult] = useState<GameResult | null>(null);
+  const [showQariModal, setShowQariModal] = useState(false);
 
   if (!surah) {
     return (
@@ -95,13 +98,16 @@ export const PosSurah: React.FC<PosSurahProps> = ({
   }
 
   const [isPlayingFullMurottal, setIsPlayingFullMurottal] = useState(false);
-  const [playbackSpeed, setPlaybackSpeed] = useState(1.0);
+  const [playbackSpeed, setPlaybackSpeed] = useState(quranAudio.getPlaybackRate());
+  const [qariInfo, setQariInfo] = useState(quranAudio.getQariInfo());
 
   React.useEffect(() => {
     const unsub = quranAudio.subscribe((isPlaying) => {
       if (!isPlaying) {
         setIsPlayingFullMurottal(false);
       }
+      setPlaybackSpeed(quranAudio.getPlaybackRate());
+      setQariInfo(quranAudio.getQariInfo());
     });
     return () => unsub();
   }, []);
@@ -373,7 +379,7 @@ export const PosSurah: React.FC<PosSurahProps> = ({
                         </button>
                       </div>
 
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 flex-wrap">
                         <TombolBesar
                           variant={isPlayingFullMurottal ? 'terakota' : 'emas'}
                           size="small"
@@ -382,6 +388,17 @@ export const PosSurah: React.FC<PosSurahProps> = ({
                         >
                           {isPlayingFullMurottal ? 'Hentikan Murottal' : 'Putar Murottal Lengkap'}
                         </TombolBesar>
+
+                        <button
+                          onClick={() => {
+                            sfx.playClick();
+                            setShowQariModal(true);
+                          }}
+                          className="flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-[#F8F4EA] border border-[#D9CBB0] hover:border-[#0E4D34] text-[#0E4D34] font-bold text-xs cursor-pointer shadow-sm transition-all"
+                        >
+                          <UserCheck className="w-4 h-4 text-[#C9A04A]" />
+                          <span>Qari: {qariInfo.nama.split(' ')[1] || qariInfo.nama}</span>
+                        </button>
 
                         <div className="flex items-center gap-1 bg-[#F8F4EA] p-1.5 rounded-2xl border border-[#D9CBB0]">
                           {[0.75, 1.0, 1.25].map((speed) => (
@@ -644,6 +661,11 @@ export const PosSurah: React.FC<PosSurahProps> = ({
             </>
           )}
         </main>
+
+        <ModalPilihQari
+          isOpen={showQariModal}
+          onClose={() => setShowQariModal(false)}
+        />
       </div>
     </LatarParallax>
   );

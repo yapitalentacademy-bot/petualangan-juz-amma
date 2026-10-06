@@ -20,7 +20,7 @@ import {
   FileSpreadsheet,
   Plus,
 } from 'lucide-react';
-import { sfx } from '../lib/audioPlayer';
+import { sfx, quranAudio, LIST_QARI } from '../lib/audioPlayer';
 
 import { BintangDelapan } from '../components/ornaments/BintangDelapan';
 import { LenteraFanus } from '../components/ornaments/LenteraFanus';
@@ -55,6 +55,16 @@ export const ModeGuru: React.FC<ModeGuruProps> = ({
   onResetProgress,
 }) => {
   const [activeTab, setActiveTab] = useState<TabType>('pengaturan');
+  const [activeQariId, setActiveQariId] = useState(quranAudio.getQari());
+  const [activeSpeed, setActiveSpeed] = useState(quranAudio.getPlaybackRate());
+
+  React.useEffect(() => {
+    const unsub = quranAudio.subscribe(() => {
+      setActiveQariId(quranAudio.getQari());
+      setActiveSpeed(quranAudio.getPlaybackRate());
+    });
+    return () => unsub();
+  }, []);
   const [showConfirmReset, setShowConfirmReset] = useState(false);
   const [newClassName, setNewClassName] = useState('');
   const [showAddClassInput, setShowAddClassInput] = useState(false);
@@ -254,7 +264,61 @@ export const ModeGuru: React.FC<ModeGuruProps> = ({
               <div className="bg-[#FFFDF6] p-6 md:p-8 rounded-[28px] border-2 border-[#0E4D34]/30 shadow-md flex flex-col gap-4">
                 <div className="flex items-center gap-3 text-[#0E4D34]">
                   <Settings className="w-6 h-6 text-[#0E4D34]" />
-                  <h2 className="text-2xl font-bold font-['Marcellus']">Tampilan & Audio</h2>
+                  <h2 className="text-2xl font-bold font-['Marcellus']">Tampilan & Audio Murottal</h2>
+                </div>
+
+                {/* Qari Selection Card */}
+                <div className="p-4 bg-[#F8F4EA] rounded-2xl border border-[#D9CBB0]">
+                  <span className="text-xs font-bold text-[#0E4D34] uppercase tracking-wider block mb-2 font-['Montserrat']">
+                    🎙️ Pilihan Qari Utama Kelas:
+                  </span>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    {LIST_QARI.map((q) => {
+                      const isSelected = activeQariId === q.id;
+                      return (
+                        <button
+                          key={q.id}
+                          onClick={() => {
+                            sfx.playClick();
+                            quranAudio.setQari(q.id);
+                          }}
+                          className={`p-2.5 rounded-xl border text-left cursor-pointer transition-all flex items-center justify-between ${
+                            isSelected
+                              ? 'bg-[#0E4D34] text-[#FFFDF6] border-[#0E4D34] font-bold shadow-sm'
+                              : 'bg-[#FFFDF6] text-[#2B2A26] border-[#D9CBB0] hover:border-[#0E4D34]'
+                          }`}
+                        >
+                          <div>
+                            <span className="text-[11px] block font-medium opacity-80">{q.gelar}</span>
+                            <span className="text-xs font-black font-['Marcellus']">{q.nama}</span>
+                          </div>
+                          {isSelected && <span className="text-xs font-black text-[#F3D88A]">AKTIF ✓</span>}
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  <div className="flex items-center justify-between mt-3 pt-3 border-t border-[#D9CBB0]">
+                    <span className="text-xs font-bold text-[#0E4D34]">Kecepatan Tilawah:</span>
+                    <div className="flex items-center gap-1.5">
+                      {[0.75, 1.0, 1.25].map((speed) => (
+                        <button
+                          key={speed}
+                          onClick={() => {
+                            sfx.playClick();
+                            quranAudio.setPlaybackRate(speed);
+                          }}
+                          className={`px-3 py-1 rounded-lg text-xs font-black cursor-pointer transition-all ${
+                            activeSpeed === speed
+                              ? 'bg-[#0E4D34] text-[#FFFDF6]'
+                              : 'bg-[#FFFDF6] text-[#0E4D34] border border-[#D9CBB0]'
+                          }`}
+                        >
+                          {speed}x
+                        </button>
+                      ))}
+                    </div>
+                  </div>
                 </div>
 
                 {/* Switch: Teks Latin */}

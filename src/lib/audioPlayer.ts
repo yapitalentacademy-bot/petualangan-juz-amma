@@ -189,29 +189,79 @@ class SoundEffectsManager {
 
 export const sfx = new SoundEffectsManager();
 
+export interface QariInfo {
+  id: string;
+  nama: string;
+  gelar: string;
+  cdnPath: string;
+  keterangan: string;
+}
+
+export const LIST_QARI: QariInfo[] = [
+  {
+    id: 'misyari',
+    nama: 'Syaikh Misyari Rasyid Al-\'Afasy',
+    gelar: 'Imam & Qari Internasional',
+    cdnPath: 'Alafasy_128kbps',
+    keterangan: 'Lantunan merdu, tajwid jernih, dan fasih (Default)',
+  },
+  {
+    id: 'abdulbasit',
+    nama: 'Syaikh Abdul Basit Abdul Samad',
+    gelar: 'Maestro Mujawwad Mesir',
+    cdnPath: 'Abdul_Basit_Murattal_192kbps',
+    keterangan: 'Lantunan murattal klasik dengan makhraj sangat tegas',
+  },
+  {
+    id: 'sudais',
+    nama: 'Syaikh Abdul Rahman As-Sudais',
+    gelar: 'Imam Masjidil Haram Makkah',
+    cdnPath: 'Abdurrahmaan_As-Sudais_192kbps',
+    keterangan: 'Lantunan khusyuk, cepat, dan penuh wibawa',
+  },
+  {
+    id: 'ghamadi',
+    nama: 'Syaikh Saad Al-Ghamadi',
+    gelar: 'Qari & Tokoh Tilawah Arab Saudi',
+    cdnPath: 'Ghamadi_40kbps',
+    keterangan: 'Lantunan lembut, tenang, dan mudah ditirukan',
+  },
+];
+
 class QuranAudioManager {
   private currentHowl: Howl | null = null;
   private currentAyatKey: string | null = null;
   private isPlayingState = false;
   private listeners: ((isPlaying: boolean, ayatKey: string | null) => void)[] = [];
-  private qari = 'misyari'; // default qari
+  private qari = typeof window !== 'undefined' ? localStorage.getItem('quran_app_qari') || 'misyari' : 'misyari';
+  private playbackRate = typeof window !== 'undefined' ? parseFloat(localStorage.getItem('quran_app_speed') || '1.0') : 1.0;
   private surahSequence: { surahNumber: number; totalAyat: number; currentAyat: number } | null = null;
 
-  private playbackRate = 1.0;
-
-  public setQari(qariName: string) {
-    this.qari = qariName;
+  public setQari(qariId: string) {
+    this.qari = qariId;
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('quran_app_qari', qariId);
+    }
+    this.notify();
   }
 
   public getQari() {
     return this.qari;
   }
 
+  public getQariInfo(): QariInfo {
+    return LIST_QARI.find(q => q.id === this.qari) || LIST_QARI[0];
+  }
+
   public setPlaybackRate(rate: number) {
     this.playbackRate = rate;
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('quran_app_speed', String(rate));
+    }
     if (this.currentHowl) {
       this.currentHowl.rate(rate);
     }
+    this.notify();
   }
 
   public getPlaybackRate() {
@@ -246,17 +296,8 @@ class QuranAudioManager {
   }
 
   private getCdnUrlForQari(key: string): string {
-    switch (this.qari) {
-      case 'abdulbasit':
-        return `https://everyayah.com/data/Abdul_Basit_Murattal_192kbps/${key}.mp3`;
-      case 'sudais':
-        return `https://everyayah.com/data/Abdurrahmaan_As-Sudais_192kbps/${key}.mp3`;
-      case 'ghamadi':
-        return `https://everyayah.com/data/Ghamadi_40kbps/${key}.mp3`;
-      case 'misyari':
-      default:
-        return `https://everyayah.com/data/Alafasy_128kbps/${key}.mp3`;
-    }
+    const qariObj = this.getQariInfo();
+    return `https://everyayah.com/data/${qariObj.cdnPath}/${key}.mp3`;
   }
 
   public playAyat(surahNumber: number, ayatNumber: number, onEnd?: () => void) {
